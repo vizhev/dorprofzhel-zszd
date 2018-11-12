@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/first_drawer_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_drawer_news"
+            android:title="@string/drawer_news" />
+
+        <item
+            android:id="@+id/item_drawer_documentation"
+            android:title="@string/drawer_documentation" />
+
+        <item
+            android:id="@+id/item_drawer_note"
+            android:title="@string/drawer_note" />
+
+    </group>
+
+    <group
+        android:id="@+id/second_drawer_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_drawer_staff"
+            android:title="@string/drawer_staff" />
+
+        <item
+            android:id="@+id/item_drawer_about_org"
+            android:title="@string/drawer_about_org" />
+
+    </group>
+
+    <group
+        android:id="@+id/third_drawer_group">
+
+        <item android:id="@+id/item_drawer_about_app"
+            android:title="@string/drawer_about_app"/>
+
+    </group>
+
+</menu>

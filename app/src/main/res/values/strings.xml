@@ -1,0 +1,42 @@
+<resources>
+
+    <!--DO NOT TRANSLATE-->
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <!--General-->
+    <string name="app_name">Дорпрофжел ЗСЖД</string>
+
+    <!--MainActivity-->
+    <string name="main_action_close">Закрыть</string>
+
+    <!--Drawer-->
+    <string name="drawer_news">Новости</string>
+    <string name="drawer_documentation">Документация</string>
+    <string name="drawer_note">Заметки</string>
+    <string name="drawer_staff">Аппарат Дорпрофжела</string>
+    <string name="drawer_about_org">Об организации</string>
+    <string name="drawer_about_app">О приложении</string>
+
+    <!--PdfActivity-->
+    <string name="pdf_action_print">Распечатать</string>
+
+    <!--About App-->
+    <string name="about_app">
+        <b>Дорпрофжел ЗСЖД</b>\
+        Версия 1.0\
+        \
+        Неофициальный клиент для <a href="http://dprof.pro">сайта</a>
+        Дорожной территориальной организация РОСПРОФЖЕЛ на Западно-Сибирской железной дороге.\
+    </string>
+    <string name="about_app_author">Автор</string>
+    <string name="about_app_author_name">Evgenii Vizhev</string>
+    <string name="about_app_author_email">vizhev@gmail.com</string>
+    <string name="about_app_license">Лицензия</string>
+    <string name="about_app_license_name">Apache License 2.0</string>
+    <string name="about_app_license_link">https://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="about_app_source">Исходный код</string>
+    <string name="about_app_source_name">https://github.com/vizhev/dorprofzhel-zszd</string>
+    <string name="about_app_source_link">https://github.com/vizhev/dorprofzhel-zszd</string>
+
+</resources>

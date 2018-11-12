@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="card_view_margin">8dp</dimen>
+    <dimen name="progress_bar_margin">20dp</dimen>
+
+</resources>
