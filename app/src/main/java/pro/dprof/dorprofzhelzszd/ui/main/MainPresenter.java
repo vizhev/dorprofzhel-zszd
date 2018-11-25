@@ -52,8 +52,8 @@ public class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
     public void onRemoveFragment(String fragmentTag) {
         mBackStackMap.remove(fragmentTag);
         Object[] keyArray = mBackStackMap.keySet().toArray();
-        int index = keyArray.length -1;
-        String tag = (String)keyArray[index];
+        int index = keyArray.length - 1;
+        String tag = (String) keyArray[index];
         BaseFragment fragment = mBackStackMap.get(tag);
         getMvpView().startFragmentTransaction(fragment, tag, REMOVE_FRAGMENT);
         getMvpView().selectDrawerItemAndSetTitle(tag);
