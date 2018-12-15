@@ -34,7 +34,7 @@ import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class AboutOrgFragment extends BaseFragment implements AboutOrgMvpView {
+public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpView {
 
     public final static String TAG = "AboutOrgFragment";
 

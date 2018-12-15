@@ -8,7 +8,7 @@ import android.print.PrintManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class HtmlPrint {
+public final class HtmlPrint {
 
     private Context mContext;
     private WebView mWebView;

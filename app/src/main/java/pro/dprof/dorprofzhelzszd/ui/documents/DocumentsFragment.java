@@ -28,10 +28,9 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.adapters.DocumentsAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 
-public class DocumentsFragment extends BaseFragment implements DocumentsMvpView {
+public final class DocumentsFragment extends BaseFragment implements DocumentsMvpView {
 
     public final static String TAG = "DocumentsFragment";
 

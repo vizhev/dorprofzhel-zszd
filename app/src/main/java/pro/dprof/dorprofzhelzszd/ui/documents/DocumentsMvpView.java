@@ -16,7 +16,6 @@
 
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.DocumentsAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 
 public interface DocumentsMvpView extends MvpView {

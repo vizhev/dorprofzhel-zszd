@@ -1,6 +1,6 @@
 package pro.dprof.dorprofzhelzszd.utils;
 
-public class Constants {
+public final class Constants {
 
     public final static String INTENT_TAG_ASSET_NAME = "asset_name";
     public final static String INTENT_TAG_ACTIVITY_TITLE = "activity_title";
@@ -20,7 +20,7 @@ public class Constants {
     public final static String SECTION_SOCIAL = "Отдел социальной сферы";
     public final static String SECTION_LEGAL = "Правовая инспекция труда";
     public final static String SECTION_TECHNICAL = "Техническая инспекция труда";
-    //TODO ActivityTitles and more documents
+
     public final static String[] SECTIONS = {
             SECTION_PLENARY,
             SECTION_ORGANIZATIONAL,

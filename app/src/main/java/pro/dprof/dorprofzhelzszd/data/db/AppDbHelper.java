@@ -27,12 +27,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class AppDbHelper implements DbHelper {
+public final class AppDbHelper implements DbHelper {
 
     private OpenDbHelper mOpenDbHelper;
     private SQLiteDatabase mDatabase;
@@ -52,19 +53,26 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public List<AppData> getDocuments() {
+    public List<AppContent> getDocuments() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(queryTask());
         Future future = executorService.submit(queryTask());
-        List<AppData> data = new ArrayList<>();
+        List<AppContent> data = new ArrayList<>();
         try {
-            data = (List<AppData>) future.get();
+            data = (List<AppContent>) future.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } finally {
-            executorService.shutdown();
+            if (!executorService.isShutdown()) {
+                try {
+                    executorService.awaitTermination(3, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                executorService.shutdown();
+            }
         }
         return data;
     }
@@ -72,8 +80,8 @@ public class AppDbHelper implements DbHelper {
     private Callable queryTask() {
         return new Callable() {
             @Override
-            public Object call() throws Exception {
-                ArrayList<AppData> data = new ArrayList<>();
+            public List<AppContent> call() throws Exception {
+                ArrayList<AppContent> data = new ArrayList<>();
                 openDb();
                 String[] columns = {
                         "item_title",
@@ -83,8 +91,8 @@ public class AppDbHelper implements DbHelper {
                 for (int i = 0; i < Constants.SECTIONS.length; i++) {
                     String section = Constants.SECTIONS[i];
                     //set title of DocumentsAdapter item
-                    AppData appData = new AppData();
-                    appData.setTitle(section);
+                    AppContent appContent = new AppContent();
+                    appContent.setTitle(section);
                     //load DocumentsAdapter item content from database
                     List<String> itemTitles = new ArrayList<>();
                     List<String> activityTitles = new ArrayList<>();
@@ -106,10 +114,10 @@ public class AppDbHelper implements DbHelper {
                             assetsNames.add(cursor.getString(cursor.getColumnIndex("asset_name")));
                         } while (cursor.moveToNext());
                     }
-                    appData.setItemTitles(itemTitles);
-                    appData.setActivityTitles(activityTitles);
-                    appData.setAssetsNames(assetsNames);
-                    data.add(appData);
+                    appContent.setItemTitles(itemTitles);
+                    appContent.setActivityTitles(activityTitles);
+                    appContent.setAssetsNames(assetsNames);
+                    data.add(appContent);
                     cursor.close();
                 }
                 closeDb();

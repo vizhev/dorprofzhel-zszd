@@ -21,32 +21,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.NewsFeedAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
-
-    private ExecutorService mExecutorService;
+public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExecutorService != null && !mExecutorService.isShutdown()) {
-            mExecutorService.shutdownNow();
-        }
-    }
-
-    @Override
-    public void onSetAdapter() {
-        NewsFeedAdapter adapter = new NewsFeedAdapter();
-        getMvpView().setAdapter(adapter);
+    public void onCreateAdapter() {
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter();
+        getMvpView().setAdapter(newsFeedAdapter);
     }
 
     @Override
     public void onSetContent(final boolean isRefresh) {
-        mExecutorService = Executors.newSingleThreadExecutor();
-        mExecutorService.submit(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -54,7 +43,7 @@ public class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                List<AppData> contentList = getDataProvider().getNewsFeedContent(isRefresh);
+                List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
                 try {
                     getMvpView().setContent(contentList);
                 } catch (NullPointerException e) {
@@ -62,6 +51,6 @@ public class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<
                 }
             }
         });
-        mExecutorService.shutdown();
+        executorService.shutdown();
     }
 }

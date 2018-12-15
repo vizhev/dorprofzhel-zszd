@@ -16,7 +16,6 @@
 
 package pro.dprof.dorprofzhelzszd.ui.staff;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.StaffAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 
 public interface StaffMvpView extends MvpView {

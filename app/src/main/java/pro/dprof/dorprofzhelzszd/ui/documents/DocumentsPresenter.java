@@ -20,34 +20,23 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.DocumentsAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
+public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
         implements DocumentsMvpPresenter<V> {
-
-    private ExecutorService mExecutorService;
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExecutorService != null && !mExecutorService.isShutdown()) {
-            mExecutorService.shutdownNow();
-        }
-    }
 
     @Override
     public void onSetAdapter() {
-        mExecutorService = Executors.newSingleThreadExecutor();
-        mExecutorService.submit(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
-                List<AppData> documents = getDataProvider().getDocuments();
+                List<AppContent> documents = getDataProvider().getDocuments();
                 DocumentsAdapter documentsAdapter = new DocumentsAdapter(documents);
                 getMvpView().setAdapter(documentsAdapter);
             }
         });
-        mExecutorService.shutdown();
+        executorService.shutdown();
     }
 }

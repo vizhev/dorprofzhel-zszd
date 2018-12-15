@@ -21,7 +21,7 @@ import android.content.SharedPreferences;
 
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class AppPreferencesHelper implements PreferencesHelper {
+public final class AppPreferencesHelper implements PreferencesHelper {
 
     private SharedPreferences mSharedPreferences;
 

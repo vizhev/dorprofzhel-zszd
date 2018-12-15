@@ -29,11 +29,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.adapters.StaffAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class StaffFragment extends BaseFragment implements StaffMvpView {
+public final class StaffFragment extends BaseFragment implements StaffMvpView {
 
     public final static String TAG = "StaffFragment";
 

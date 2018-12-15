@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.adapters;
+package pro.dprof.dorprofzhelzszd.ui.news_feed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,14 +35,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.news_post.NewsPostActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
+final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private static List<AppData> mContentList;
+    private static List<AppContent> mContentList;
     private Context mContext;
 
-    public void setContentList(List<AppData> contentList) {
+    void setContentList(List<AppContent> contentList) {
         if (mContentList == null) {
             mContentList = contentList;
             notifyDataSetChanged();
@@ -74,7 +74,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final AppData appData = mContentList.get(position);
+        final AppContent appData = mContentList.get(position);
         holder.mTvTitle.setText(appData.getTitle());
         holder.mTvText.setText(appData.getText());
         holder.mTvTDate.setText(appData.getDate());
@@ -107,7 +107,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         return 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_item_news_title)
         TextView mTvTitle;

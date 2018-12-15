@@ -18,7 +18,7 @@ package pro.dprof.dorprofzhelzszd.ui.note;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
-public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V> implements NoteMvpPresenter<V> {
+public final class NotePresenter<V extends NoteMvpView> extends BasePresenter<V> implements NoteMvpPresenter<V> {
 
     @Override
     public void onLoadNote() {

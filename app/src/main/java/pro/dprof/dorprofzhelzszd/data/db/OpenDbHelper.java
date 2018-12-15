@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-class OpenDbHelper extends SQLiteOpenHelper {
+final class OpenDbHelper extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "app_database";
@@ -47,7 +47,7 @@ class OpenDbHelper extends SQLiteOpenHelper {
                 "activity_title text not null, " +
                 "asset_name text not null" + ");"
         );
-        for (AppData appData : getInsertList()) {
+        for (AppContent appData : getInsertList()) {
             List<String> itemTitles = appData.getItemsTitles();
             List<String> activityTitles = appData.getActivitysTitles();
             List<String> assetsNames = appData.getAssetsNames();
@@ -68,8 +68,8 @@ class OpenDbHelper extends SQLiteOpenHelper {
 
     }
 
-    private List<AppData> getInsertList() {
-        List<AppData> insertList = new ArrayList<>();
+    private List<AppContent> getInsertList() {
+        List<AppContent> insertList = new ArrayList<>();
         for (int i = 0; i < Constants.SECTIONS.length; i++) {
             String title = Constants.SECTIONS[i];
             List<String> itemTitles = new ArrayList<>();
@@ -108,7 +108,7 @@ class OpenDbHelper extends SQLiteOpenHelper {
                     break;
 
             }
-            AppData appData = new AppData();
+            AppContent appData = new AppContent();
             appData.setTitle(title);
             appData.setItemTitles(itemTitles);
             appData.setActivityTitles(activityTitles);

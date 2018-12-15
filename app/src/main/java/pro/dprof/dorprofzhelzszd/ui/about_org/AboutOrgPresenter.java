@@ -21,22 +21,12 @@ import java.util.concurrent.Executors;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
-public class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<V> implements AboutOrgMvpPresenter<V> {
-
-    private ExecutorService mExecutorService;
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExecutorService != null && !mExecutorService.isShutdown()) {
-            mExecutorService.shutdownNow();
-        }
-    }
+public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<V> implements AboutOrgMvpPresenter<V> {
 
     @Override
     public void onLoadAboutText() {
-        mExecutorService = Executors.newSingleThreadExecutor();
-        mExecutorService.submit(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
                 String text = getDataProvider().getAboutOrganizationText();
@@ -47,6 +37,6 @@ public class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<
                 }
             }
         });
-        mExecutorService.shutdown();
+        executorService.shutdown();
     }
 }

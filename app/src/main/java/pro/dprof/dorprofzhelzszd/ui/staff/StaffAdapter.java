@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.adapters;
+package pro.dprof.dorprofzhelzszd.ui.staff;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -32,13 +32,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
+final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 
-    private List<AppData> mContentList;
+    private List<AppContent> mContentList;
 
-    public StaffAdapter(List<AppData> contentList) {
+    StaffAdapter(List<AppContent> contentList) {
         mContentList = contentList;
     }
 
@@ -52,7 +52,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        AppData appData = mContentList.get(position);
+        AppContent appData = mContentList.get(position);
         holder.tvPersonsText.setText(Html.fromHtml(appData.getText()));
         try {
             Picasso.get()
@@ -73,7 +73,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         return 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_item_persons)
         ImageView ivPersonsPicture;

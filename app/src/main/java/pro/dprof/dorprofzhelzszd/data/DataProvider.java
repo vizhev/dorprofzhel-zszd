@@ -21,9 +21,9 @@ import java.util.List;
 import pro.dprof.dorprofzhelzszd.data.db.DbHelper;
 import pro.dprof.dorprofzhelzszd.data.network.NetworkClient;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class DataProvider {
+public final class DataProvider {
 
     PreferencesHelper preferences;
     DbHelper dbHelper;
@@ -36,15 +36,15 @@ public class DataProvider {
 
     }
 
-    public List<AppData> getNewsFeedContent(boolean isRefresh) {
+    public List<AppContent> getNewsFeedContent(boolean isRefresh) {
         return networkClient.loadNewsFeed(isRefresh);
     }
 
-    public AppData getNewsPostText(String postLink) {
+    public AppContent getNewsPostText(String postLink) {
         return networkClient.loadNewsPost(postLink);
     }
 
-    public List<AppData> getDocuments() {
+    public List<AppContent> getDocuments() {
         return dbHelper.getDocuments();
     }
 
@@ -60,7 +60,7 @@ public class DataProvider {
         return networkClient.loadAboutOrganizationText();
     }
 
-    public List<AppData> getStaffList() {
+    public List<AppContent> getStaffList() {
         return networkClient.loadStaff();
     }
 

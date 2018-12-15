@@ -23,7 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import pro.dprof.dorprofzhelzszd.ui.main.MainActivity;
 
-public class SplashActivity extends AppCompatActivity {
+public final class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

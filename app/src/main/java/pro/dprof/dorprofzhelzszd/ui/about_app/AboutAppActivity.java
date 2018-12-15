@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 
-public class AboutAppActivity extends BaseActivity {
+public final class AboutAppActivity extends BaseActivity {
 
     @BindView(R.id.lv_about_app)
     ListView listView;

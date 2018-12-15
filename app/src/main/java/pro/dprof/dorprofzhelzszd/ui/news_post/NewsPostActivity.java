@@ -36,9 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
+public final class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
 
     @BindView(R.id.cv_news_post) CardView cardView;
     @BindView(R.id.tv_news_post_title) TextView tvPostTitle;
@@ -101,7 +101,7 @@ public class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
     }
 
     @Override
-    public void setPostContent(final AppData postContent) {
+    public void setPostContent(final AppContent postContent) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

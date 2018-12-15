@@ -18,7 +18,7 @@ package pro.dprof.dorprofzhelzszd.ui.document_viewer;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
-public class DocumentViewerPresenter<V extends DocumentViewerMvpView> extends BasePresenter<V>
+public final class DocumentViewerPresenter<V extends DocumentViewerMvpView> extends BasePresenter<V>
         implements DocumentViewerMvpPresenter<V> {
 
     private String mAssetName;

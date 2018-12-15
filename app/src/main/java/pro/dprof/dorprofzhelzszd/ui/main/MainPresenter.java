@@ -22,19 +22,15 @@ import java.util.Map;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
-public class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
+public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
         implements MainMvpPresenter<V> {
 
-    public static final String ADD_FRAGMENT = "add_fragment";
-    public static final String REPLACE_FRAGMENT = "replace_fragment";
-    public static final String REMOVE_FRAGMENT = "remove_fragment";
+    static final String ADD_FRAGMENT = "add_fragment";
+    static final String REPLACE_FRAGMENT = "replace_fragment";
+    static final String REMOVE_FRAGMENT = "remove_fragment";
 
     private String mCurrentFragmentTag;
-    private Map<String, BaseFragment> mBackStackMap;
-
-    public MainPresenter() {
-        mBackStackMap = new LinkedHashMap<>();
-    }
+    private final Map<String, BaseFragment> mBackStackMap = new LinkedHashMap<>();
 
     @Override
     public void onStartFragmentTransaction(BaseFragment fragment, String fragmentTag, String action) {

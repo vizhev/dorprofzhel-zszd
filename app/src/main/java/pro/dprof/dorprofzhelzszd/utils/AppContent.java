@@ -2,7 +2,7 @@ package pro.dprof.dorprofzhelzszd.utils;
 
 import java.util.List;
 
-public class AppData {
+public final class AppContent {
 
     private String mTitle;
     private String mText;

@@ -20,30 +20,19 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.StaffAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
+public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
         implements StaffMvpPresenter<V> {
-
-    private ExecutorService mExecutorService;
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExecutorService != null && !mExecutorService.isShutdown()) {
-            mExecutorService.shutdownNow();
-        }
-    }
 
     @Override
     public void onSetAdapter() {
-        mExecutorService = Executors.newSingleThreadExecutor();
-        mExecutorService.submit(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
-                List<AppData> contentList = getDataProvider().getStaffList();
+                List<AppContent> contentList = getDataProvider().getStaffList();
                 StaffAdapter adapter = new StaffAdapter(contentList);
                 try {
                     getMvpView().setAdapter(adapter);
@@ -52,6 +41,6 @@ public class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
                 }
             }
         });
-        mExecutorService.shutdown();
+        executorService.shutdown();
     }
 }

@@ -20,7 +20,7 @@ import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 
 public interface NewsFeedMvpPresenter<V extends NewsFeedMvpView> extends MvpPresenter<V> {
 
-    void onSetAdapter();
+    void onCreateAdapter();
 
     void onSetContent(boolean isRefresh);
 }

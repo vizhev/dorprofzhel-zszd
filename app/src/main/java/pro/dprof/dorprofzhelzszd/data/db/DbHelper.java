@@ -19,9 +19,9 @@ package pro.dprof.dorprofzhelzszd.data.db;
 
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 public interface DbHelper {
 
-    List<AppData> getDocuments();
+    List<AppContent> getDocuments();
 }

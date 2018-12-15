@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 
-public class NoteFragment extends BaseFragment implements NoteMvpView {
+public final class NoteFragment extends BaseFragment implements NoteMvpView {
 
     public final static String TAG = "NoteFragment";
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.adapters;
+package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,22 +34,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.document_viewer.DocumentViewActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewHolder> {
+final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewHolder> {
 
     private Context mContext;
     private LinearLayoutManager mLayoutManager;
-    private static List<AppData> mContentList;
+    private static List<AppContent> mContentList;
     private int mExpandedPosition = -1;
     private int mPreviousExpandedPosition = -1;
 
-    public DocumentsAdapter(List<AppData> contentList) {
+    DocumentsAdapter(List<AppContent> contentList) {
         mContentList = contentList;
     }
 
-    public void setLayoutManager(LinearLayoutManager layoutManager) {
+    void setLayoutManager(LinearLayoutManager layoutManager) {
         mLayoutManager = layoutManager;
     }
 
@@ -69,7 +69,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
         if (isExpanded) {
             mPreviousExpandedPosition = position;
         }
-        final AppData appData = mContentList.get(position);
+        final AppContent appData = mContentList.get(position);
         holder.llContent.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.tvTitle.setText(appData.getTitle());
         holder.tvTitle.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.View
         return 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_item_documents_title)
         TextView tvTitle;

@@ -39,7 +39,7 @@ import pro.dprof.dorprofzhelzszd.ui.news_feed.NewsFeedFragment;
 import pro.dprof.dorprofzhelzszd.ui.note.NoteFragment;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffFragment;
 
-public class MainActivity extends BaseActivity implements MainMvpView {
+public final class MainActivity extends BaseActivity implements MainMvpView {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
@@ -165,8 +165,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
                         mPresenter.onStartFragmentTransaction(oopsFragment, NewsFeedFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
                         return true;
                     case R.id.item_drawer_documentation:
-                        BaseFragment drivingSafetyFragment = new DocumentsFragment();
-                        mPresenter.onStartFragmentTransaction(drivingSafetyFragment, DocumentsFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
+                        BaseFragment documentsFragment = new DocumentsFragment();
+                        mPresenter.onStartFragmentTransaction(documentsFragment, DocumentsFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
                         return true;
                     case R.id.item_drawer_note:
                         BaseFragment noteFragment = new NoteFragment();

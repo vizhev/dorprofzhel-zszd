@@ -34,7 +34,7 @@ import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 import pro.dprof.dorprofzhelzszd.utils.HtmlPrint;
 
-public class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView {
+public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView {
 
     @BindView(R.id.toolbar_pdf) Toolbar toolbar;
     @BindView(R.id.pdf_document_viewer) PDFView pdfView;
@@ -101,6 +101,7 @@ public class DocumentViewActivity extends BaseActivity implements DocumentViewer
                 finish();
                 return true;
             case R.id.item_pdf_action_print:
+                //this document is not for public use
                 new HtmlPrint(this).doWebViewPrint();
                 return true;
         }

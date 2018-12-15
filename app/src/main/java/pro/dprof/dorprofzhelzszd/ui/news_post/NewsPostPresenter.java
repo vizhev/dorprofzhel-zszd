@@ -20,41 +20,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
+public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
         implements NewsPostMvpPresenter<V> {
 
-    private ExecutorService mExecutorService;
-    private AppData appData;
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mExecutorService != null && !mExecutorService.isShutdown()) {
-            mExecutorService.shutdownNow();
-        }
-    }
+    private AppContent appContent;
 
     @Override
     public void onSetPostContent(final String postTitle, final String postLink, final String imageLink) {
-        mExecutorService = Executors.newSingleThreadExecutor();
-        mExecutorService.submit(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
-                if (appData == null) {
-                    appData = getDataProvider().getNewsPostText(postLink);
-                    appData.setTitle(postTitle);
-                    appData.setImageLink(imageLink);
+                if (appContent == null) {
+                    appContent = getDataProvider().getNewsPostText(postLink);
+                    appContent.setTitle(postTitle);
+                    appContent.setImageLink(imageLink);
                 }
                 try {
-                    getMvpView().setPostContent(appData);
+                    getMvpView().setPostContent(appContent);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
             }
         });
-        mExecutorService.shutdown();
+        executorService.shutdown();
     }
 }

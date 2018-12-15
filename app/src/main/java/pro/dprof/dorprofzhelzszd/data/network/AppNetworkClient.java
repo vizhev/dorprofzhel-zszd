@@ -37,10 +37,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class AppNetworkClient implements NetworkClient {
+public final class AppNetworkClient implements NetworkClient {
 
     private static final String URL_NEWS = "http://dprof.pro/news";
     private static final String URL_ABOUT_ORGANIZATION = "http://dprof.pro/razdel/ob-organizatsii/";
@@ -59,8 +59,8 @@ public class AppNetworkClient implements NetworkClient {
     }
 
     @Override
-    public List<AppData> loadNewsFeed(boolean isRefresh) {
-        List<AppData> contentList = new ArrayList<>();
+    public List<AppContent> loadNewsFeed(boolean isRefresh) {
+        List<AppContent> contentList = new ArrayList<>();
         if (isRefresh) {
             page = 0;
         }
@@ -69,7 +69,7 @@ public class AppNetworkClient implements NetworkClient {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Future future = executorService.submit(newsFeedTask(pageUrl));
             try {
-                contentList = (List<AppData>) future.get();
+                contentList = (List<AppContent>) future.get();
                 executorService.shutdown();
                 page++;
             } catch (InterruptedException e) {
@@ -78,6 +78,11 @@ public class AppNetworkClient implements NetworkClient {
                 e.printStackTrace();
             } finally {
                 if (!executorService.isShutdown()) {
+                    try {
+                        executorService.awaitTermination(3, TimeUnit.SECONDS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     executorService.shutdownNow();
                 }
             }
@@ -89,7 +94,7 @@ public class AppNetworkClient implements NetworkClient {
         return new Callable() {
             @Override
             public Object call() throws Exception {
-                List<AppData> contentList = new ArrayList<>();
+                List<AppContent> contentList = new ArrayList<>();
                 Log.d("Feed", "Start load feed task. Page = " + page + " pageSet = " + pageSet.size());
                 try {
                     Document document = Jsoup.connect(pageUrl).get();
@@ -100,18 +105,18 @@ public class AppNetworkClient implements NetworkClient {
                     Elements imageLinks = feed.getElementsByClass("newsslider_img");
                     Log.d("Feed", "URL = " + pageUrl);
                     for (int i = 0; i < titles.size(); i++) {
-                        AppData appData = new AppData();
+                        AppContent appContent = new AppContent();
                         String title = titles.get(i).select("a").first().text();
                         String text = texts.get(i).text();
                         String date = titles.get(i).select("span").text();
                         String postLink = "http://dprof.pro" + contentLinks.get(i).select("a").attr("href");
                         String imageLink = "http://dprof.pro" + imageLinks.get(i).select("img").attr("src");
-                        appData.setTitle(title);
-                        appData.setText(text);
-                        appData.setDate(date);
-                        appData.setPostLink(postLink);
-                        appData.setImageLink(imageLink);
-                        contentList.add(appData);
+                        appContent.setTitle(title);
+                        appContent.setText(text);
+                        appContent.setDate(date);
+                        appContent.setPostLink(postLink);
+                        appContent.setImageLink(imageLink);
+                        contentList.add(appContent);
                     }
                     if (page == 0) {
                         Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
@@ -133,12 +138,12 @@ public class AppNetworkClient implements NetworkClient {
     }
 
     @Override
-    public AppData loadNewsPost(final String postLink) {
+    public AppContent loadNewsPost(final String postLink) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future future = executorService.submit(newsPostTask(postLink));
-        AppData appData = new AppData();
+        AppContent appData = new AppContent();
         try {
-            appData = (AppData) future.get();
+            appData = (AppContent) future.get();
             executorService.shutdown();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -146,6 +151,11 @@ public class AppNetworkClient implements NetworkClient {
             e.printStackTrace();
         } finally {
             if (!executorService.isShutdown()) {
+                try {
+                    executorService.awaitTermination(3, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 executorService.shutdownNow();
             }
         }
@@ -156,7 +166,7 @@ public class AppNetworkClient implements NetworkClient {
         return new Callable() {
             @Override
             public Object call() throws Exception {
-                AppData appData = new AppData();
+                AppContent appData = new AppContent();
                 try {
                     Document document = Jsoup.connect(postLink).get();
                     try {
@@ -178,12 +188,12 @@ public class AppNetworkClient implements NetworkClient {
     }
 
     @Override
-    public List<AppData> loadStaff() {
+    public List<AppContent> loadStaff() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future future = executorService.submit(staffTask());
-        List<AppData> contentList = new ArrayList<>();
+        List<AppContent> contentList = new ArrayList<>();
         try {
-            contentList = (List<AppData>) future.get();
+            contentList = (List<AppContent>) future.get();
             executorService.shutdown();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -191,6 +201,11 @@ public class AppNetworkClient implements NetworkClient {
             e.printStackTrace();
         } finally {
             if (!executorService.isShutdown()) {
+                try {
+                    executorService.awaitTermination(3, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 executorService.shutdownNow();
             }
         }
@@ -201,7 +216,7 @@ public class AppNetworkClient implements NetworkClient {
         return new Callable() {
             @Override
             public Object call() throws Exception {
-                List<AppData> contentList = new ArrayList<>();
+                List<AppContent> contentList = new ArrayList<>();
                 Document document;
                 try {
                     document = Jsoup.connect(URL_PERSONS).get();
@@ -216,7 +231,7 @@ public class AppNetworkClient implements NetworkClient {
                 Elements images = persons.select("img");
                 Elements texts = persons.select("tr").select("td").next();
                 for (int i = 0; i < images.size(); i++) {
-                    AppData appData = new AppData();
+                    AppContent appData = new AppContent();
                     String imageLink = "http://dprof.pro" + images.get(i).attr("src");
                     String text = texts.get(i).html();
                     appData.setImageLink(imageLink);
@@ -236,13 +251,17 @@ public class AppNetworkClient implements NetworkClient {
         try {
             text = (String) future.get();
             executorService.shutdown();
-            executorService.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } finally {
             if (!executorService.isShutdown()) {
+                try {
+                    executorService.awaitTermination(3, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 executorService.shutdownNow();
             }
         }

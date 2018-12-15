@@ -33,12 +33,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.adapters.NewsFeedAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
-public class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
+public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
 
     public final static String TAG = "NewsFeedFragment";
 
@@ -47,6 +46,11 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
 
     private NewsFeedMvpPresenter<NewsFeedMvpView> mPresenter;
     private boolean isNeedLoadContent = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -62,7 +66,7 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (recyclerView.getAdapter() == null) {
-            mPresenter.onSetAdapter();
+            mPresenter.onCreateAdapter();
         }
         if (recyclerView.getAdapter().getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(true);
@@ -88,8 +92,8 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
     }
 
     @Override
-    public void setContent(final List<AppData> content) {
-        try {
+    public void setContent(final List<AppContent> content) {
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -100,8 +104,6 @@ public class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
                     }
                 }
             });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 

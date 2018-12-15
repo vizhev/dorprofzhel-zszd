@@ -18,13 +18,12 @@ package pro.dprof.dorprofzhelzszd.ui.news_feed;
 
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.ui.adapters.NewsFeedAdapter;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
-import pro.dprof.dorprofzhelzszd.utils.AppData;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 public interface NewsFeedMvpView extends MvpView {
 
     void setAdapter(NewsFeedAdapter adapter);
 
-    void setContent(List<AppData> content);
+    void setContent(List<AppContent> content);
 }
