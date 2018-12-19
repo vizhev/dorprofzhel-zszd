@@ -18,6 +18,7 @@ package pro.dprof.dorprofzhelzszd.ui.news_post;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
@@ -38,11 +39,22 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
                     appContent.setTitle(postTitle);
                     appContent.setImageLink(imageLink);
                 }
-                try {
-                    getMvpView().setPostContent(appContent);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                int retry = 0;
+                do {
+                    try {
+                        getMvpView().setPostContent(appContent);
+                        retry = 2;
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    } finally {
+                        retry++;
+                    }
+                } while (retry < 2);
 
             }
         });

@@ -19,6 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.staff;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
@@ -34,11 +35,22 @@ public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<
             public void run() {
                 List<AppContent> contentList = getDataProvider().getStaffList();
                 StaffAdapter adapter = new StaffAdapter(contentList);
-                try {
-                    getMvpView().setAdapter(adapter);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                int retry = 0;
+                do {
+                    try {
+                        getMvpView().setAdapter(adapter);
+                        retry = 2;
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    } finally {
+                        retry++;
+                    }
+                } while (retry < 2);
             }
         });
         executorService.shutdown();

@@ -44,11 +44,22 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
                     e.printStackTrace();
                 }
                 List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
-                try {
-                    getMvpView().setContent(contentList);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                int retry = 0;
+                do {
+                    try {
+                        getMvpView().setContent(contentList);
+                        retry = 2;
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    } finally {
+                        retry++;
+                    }
+                } while (retry < 2);
             }
         });
         executorService.shutdown();

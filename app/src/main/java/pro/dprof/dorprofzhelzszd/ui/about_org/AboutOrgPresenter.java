@@ -18,6 +18,7 @@ package pro.dprof.dorprofzhelzszd.ui.about_org;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
@@ -30,11 +31,22 @@ public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePres
             @Override
             public void run() {
                 String text = getDataProvider().getAboutOrganizationText();
-                try {
-                    getMvpView().setAboutText(text);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                int retry = 0;
+                do {
+                    try {
+                        getMvpView().setAboutText(text);
+                        retry = 2;
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    } finally {
+                        retry++;
+                    }
+                } while (retry < 2);
             }
         });
         executorService.shutdown();
