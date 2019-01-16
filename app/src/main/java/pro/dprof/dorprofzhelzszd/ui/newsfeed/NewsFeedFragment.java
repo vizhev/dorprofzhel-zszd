@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_feed;
+package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

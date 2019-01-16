@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_feed;
+package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.news_post.NewsPostActivity;
+import pro.dprof.dorprofzhelzszd.ui.newspost.NewsPostActivity;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {

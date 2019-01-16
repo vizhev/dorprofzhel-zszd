@@ -14,27 +14,40 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.about_org;
+package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<V> implements AboutOrgMvpPresenter<V> {
+public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
     @Override
-    public void onLoadAboutText() {
+    public void onCreateAdapter() {
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter();
+        getMvpView().setAdapter(newsFeedAdapter);
+    }
+
+    @Override
+    public void onSetContent(final boolean isRefresh) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                String text = getDataProvider().getAboutOrganizationText();
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
                 int retry = 0;
                 do {
                     try {
-                        getMvpView().setAboutText(text);
+                        getMvpView().setContent(contentList);
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();

@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_feed;
+package pro.dprof.dorprofzhelzszd.ui.aboutorg;
 
-import java.util.List;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+public interface AboutOrgMvpPresenter<V extends AboutOrgMvpView> extends MvpPresenter<V> {
 
-public interface NewsFeedMvpView extends MvpView {
-
-    void setAdapter(NewsFeedAdapter adapter);
-
-    void setContent(List<AppContent> content);
+    void onLoadAboutText();
 }

@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.about_org;
+package pro.dprof.dorprofzhelzszd.ui.documentviewer;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 
-public interface AboutOrgMvpView extends MvpView {
+public interface DocumentViewerMvpPresenter<V extends DocumentViewerMvpView> extends MvpPresenter<V> {
 
-    void setAboutText(String text);
+    void onSetDocument(String assetName, String activityTitle);
+
+    String getDocumentTag();
+
+    void onSaveCurrentPage(int currentPage);
 }

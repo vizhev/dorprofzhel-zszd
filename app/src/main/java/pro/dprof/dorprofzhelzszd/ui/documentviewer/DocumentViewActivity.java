@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.document_viewer;
+package pro.dprof.dorprofzhelzszd.ui.documentviewer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

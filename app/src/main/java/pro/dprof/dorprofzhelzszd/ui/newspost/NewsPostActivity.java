@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_post;
+package pro.dprof.dorprofzhelzszd.ui.newspost;
 
 import android.content.Intent;
 import android.os.Bundle;

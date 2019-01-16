@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.document_viewer;
+package pro.dprof.dorprofzhelzszd.ui.newspost;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 
-public interface DocumentViewerMvpView extends MvpView {
+public interface NewsPostMvpPresenter<V extends NewsPostMvpView> extends MvpPresenter<V> {
 
-    void setDocument(String title, String assetName, int page);
+    void onSetPostContent(String postTitle, String postLink, String imageLink);
 }

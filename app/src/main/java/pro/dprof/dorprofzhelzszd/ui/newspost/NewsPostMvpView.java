@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.about_org;
+package pro.dprof.dorprofzhelzszd.ui.newspost;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
+import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
-public interface AboutOrgMvpPresenter<V extends AboutOrgMvpView> extends MvpPresenter<V> {
+public interface NewsPostMvpView extends MvpView {
 
-    void onLoadAboutText();
+    void setPostContent(AppContent postContent);
 }

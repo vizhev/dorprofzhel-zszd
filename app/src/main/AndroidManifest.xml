@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.document_viewer.DocumentViewActivity">
+        <activity android:name=".ui.documentviewer.DocumentViewActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -40,12 +40,12 @@
                 android:value=".ui.main.MainActivity" />
         </activity>
 
-        <activity android:name=".ui.news_post.NewsPostActivity">
+        <activity android:name=".ui.newspost.NewsPostActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
-        <activity android:name=".ui.about_app.AboutAppActivity" />
+        <activity android:name=".ui.aboutapp.AboutAppActivity" />
 
     </application>
 

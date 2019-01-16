@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_feed;
+package pro.dprof.dorprofzhelzszd.ui.documentviewer;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 
-public interface NewsFeedMvpPresenter<V extends NewsFeedMvpView> extends MvpPresenter<V> {
+public interface DocumentViewerMvpView extends MvpView {
 
-    void onCreateAdapter();
-
-    void onSetContent(boolean isRefresh);
+    void setDocument(String title, String assetName, int page);
 }

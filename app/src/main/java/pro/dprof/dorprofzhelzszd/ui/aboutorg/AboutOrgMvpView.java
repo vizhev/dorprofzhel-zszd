@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.news_post;
+package pro.dprof.dorprofzhelzszd.ui.aboutorg;
 
-import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
+import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 
-public interface NewsPostMvpPresenter<V extends NewsPostMvpView> extends MvpPresenter<V> {
+public interface AboutOrgMvpView extends MvpView {
 
-    void onSetPostContent(String postTitle, String postLink, String imageLink);
+    void setAboutText(String text);
 }

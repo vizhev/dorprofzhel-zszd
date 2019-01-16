@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.about_org;
+package pro.dprof.dorprofzhelzszd.ui.aboutorg;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

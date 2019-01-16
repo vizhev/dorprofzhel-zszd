@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pro.dprof.dorprofzhelzszd.ui.about_app;
+package pro.dprof.dorprofzhelzszd.ui.aboutapp;
 
 import android.content.Intent;
 import android.net.Uri;

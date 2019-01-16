@@ -43,7 +43,7 @@ public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(300);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }

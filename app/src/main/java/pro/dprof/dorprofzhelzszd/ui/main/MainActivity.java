@@ -30,12 +30,12 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.about_app.AboutAppActivity;
-import pro.dprof.dorprofzhelzszd.ui.about_org.AboutOrgFragment;
+import pro.dprof.dorprofzhelzszd.ui.aboutapp.AboutAppActivity;
+import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.documents.DocumentsFragment;
-import pro.dprof.dorprofzhelzszd.ui.news_feed.NewsFeedFragment;
+import pro.dprof.dorprofzhelzszd.ui.newsfeed.NewsFeedFragment;
 import pro.dprof.dorprofzhelzszd.ui.note.NoteFragment;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffFragment;
 
