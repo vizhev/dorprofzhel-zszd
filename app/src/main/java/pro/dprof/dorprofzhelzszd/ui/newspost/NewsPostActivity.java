@@ -61,17 +61,15 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         System.out.println(savedInstanceState == null);
+        mPresenter = getActivityComponent().getNewsPostPresenter();
+        mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            final String postTitle = intent.getStringExtra("PostTitle");
-            final String postLink = intent.getStringExtra("PostLink");
-            final String imageLink = intent.getStringExtra("ImageLink");
-            mPresenter = getActivityComponent().getNewsPostPresenter();
-            mPresenter.onAttach(this);
+            String postTitle = intent.getStringExtra("PostTitle");
+            String postLink = intent.getStringExtra("PostLink");
+            String imageLink = intent.getStringExtra("ImageLink");
             mPresenter.onSetPostContent(postTitle, postLink, imageLink);
         } else {
-            mPresenter = (NewsPostMvpPresenter<NewsPostMvpView>) getLastCustomNonConfigurationInstance();
-            mPresenter.onAttach(this);
             mPresenter.onSetPostContent("Title", "postLink", "imageLink");
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -82,11 +80,6 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return mPresenter;
     }
 
     @Override

@@ -59,14 +59,11 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         mDrawerLayout.addDrawerListener(toggle);
         toggle.setDrawerSlideAnimationEnabled(false);
         toggle.syncState();
+        mPresenter = getActivityComponent().getMainPresenter();
+        mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             BaseFragment newsFragment = new NewsFeedFragment();
-            mPresenter = getActivityComponent().getMainPresenter();
-            mPresenter.onAttach(this);
             mPresenter.onStartFragmentTransaction(newsFragment, NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
-        } else {
-            mPresenter = (MainMvpPresenter<MainMvpView>) getLastCustomNonConfigurationInstance();
-            mPresenter.onAttach(this);
         }
     }
 
@@ -81,11 +78,6 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return mPresenter;
     }
 
     @Override

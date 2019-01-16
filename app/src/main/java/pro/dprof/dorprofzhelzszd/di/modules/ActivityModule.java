@@ -22,6 +22,7 @@ import dagger.Module;
 import dagger.Provides;
 import pro.dprof.dorprofzhelzszd.data.DataProvider;
 import pro.dprof.dorprofzhelzszd.di.ActivityContext;
+import pro.dprof.dorprofzhelzszd.di.ActivityScope;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgMvpPresenter;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgMvpView;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgPresenter;
@@ -58,11 +59,13 @@ public class ActivityModule {
 
     @Provides
     @ActivityContext
+    @ActivityScope
     Context provideActivityContext() {
         return mContext;
     }
 
     @Provides
+    @ActivityScope
     MainMvpPresenter<MainMvpView> provideMainPresenter(DataProvider dataProvider) {
         MainPresenter<MainMvpView> mainPresenter = new MainPresenter<>();
         mainPresenter.setDataProvider(dataProvider);
@@ -70,6 +73,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     NewsFeedMvpPresenter<NewsFeedMvpView> provideNewsPresenter(DataProvider dataProvider) {
         NewsFeedPresenter<NewsFeedMvpView> newsFeedPresenter = new NewsFeedPresenter<>();
         newsFeedPresenter.setDataProvider(dataProvider);
@@ -77,6 +81,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     NewsPostMvpPresenter<NewsPostMvpView> provideNewsPostPresenter(DataProvider dataProvider) {
         NewsPostPresenter<NewsPostMvpView> newsPostPresenter = new NewsPostPresenter<>();
         newsPostPresenter.setDataProvider(dataProvider);
@@ -84,6 +89,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     DocumentsMvpPresenter<DocumentsMvpView> provideDocumentsPresenter(DataProvider dataProvider) {
         DocumentsPresenter<DocumentsMvpView> documentsPresenter = new DocumentsPresenter<>();
         documentsPresenter.setDataProvider(dataProvider);
@@ -91,6 +97,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     NoteMvpPresenter<NoteMvpView> provideNotePresenter(DataProvider dataProvider) {
         NotePresenter<NoteMvpView> notePresenter = new NotePresenter<>();
         notePresenter.setDataProvider(dataProvider);
@@ -98,6 +105,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     AboutOrgMvpPresenter<AboutOrgMvpView> provideAboutOrgPresenter(DataProvider dataProvider) {
         AboutOrgPresenter<AboutOrgMvpView> aboutOrgPresenter = new AboutOrgPresenter<>();
         aboutOrgPresenter.setDataProvider(dataProvider);
@@ -105,6 +113,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @ActivityScope
     StaffMvpPresenter<StaffMvpView> providePersonsPresenter(DataProvider dataProvider) {
         StaffPresenter<StaffMvpView> staffPresenter = new StaffPresenter<>();
         staffPresenter.setDataProvider(dataProvider);
@@ -113,6 +122,7 @@ public class ActivityModule {
 
 
     @Provides
+    @ActivityScope
     DocumentViewerMvpPresenter<DocumentViewerMvpView> providePdfViewerPresenter() {
         return new DocumentViewerPresenter<>();
     }

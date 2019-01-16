@@ -34,14 +34,23 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppThemeLight);
-        mActivityComponent = DaggerActivityComponent.builder()
-                .activityModule(new ActivityModule(this))
-                .applicationComponent(((App) getApplication()).getApplicationComponent())
-                .build();
-        mActivityComponent.injectActivityContext(this);
+        if (savedInstanceState == null) {
+            mActivityComponent = DaggerActivityComponent.builder()
+                    .activityModule(new ActivityModule(this))
+                    .applicationComponent(((App) getApplication()).getApplicationComponent())
+                    .build();
+            mActivityComponent.injectActivityContext(this);
+        } else {
+            mActivityComponent = (ActivityComponent) getLastCustomNonConfigurationInstance();
+        }
     }
 
     public ActivityComponent getActivityComponent() {
+        return mActivityComponent;
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
         return mActivityComponent;
     }
 }

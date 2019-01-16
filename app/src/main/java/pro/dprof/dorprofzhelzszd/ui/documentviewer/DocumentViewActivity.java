@@ -54,15 +54,13 @@ public final class DocumentViewActivity extends BaseActivity implements Document
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        mPresenter = getActivityComponent().getPdfViewerPresenter();
+        mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             String assetName = getIntent().getStringExtra(Constants.INTENT_TAG_ASSET_NAME);
             String activityTitle = getIntent().getStringExtra(Constants.INTENT_TAG_ACTIVITY_TITLE);
-            mPresenter = getActivityComponent().getPdfViewerPresenter();
-            mPresenter.onAttach(this);
             mPresenter.onSetDocument(assetName, activityTitle);
         } else {
-            mPresenter = (DocumentViewerMvpPresenter<DocumentViewerMvpView>) getLastCustomNonConfigurationInstance();
-            mPresenter.onAttach(this);
             mPresenter.onSetDocument(null, "Title");
         }
     }
@@ -73,11 +71,6 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         int currentPage = pdfView.getCurrentPage();
         mPresenter.onSaveCurrentPage(currentPage);
         mPresenter.onDetach();
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return mPresenter;
     }
 
 
