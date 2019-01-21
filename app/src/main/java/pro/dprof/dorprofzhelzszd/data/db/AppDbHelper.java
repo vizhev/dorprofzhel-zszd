@@ -22,12 +22,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
@@ -54,77 +48,46 @@ public final class AppDbHelper implements DbHelper {
 
     @Override
     public List<AppContent> getDocuments() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(queryTask());
-        Future future = executorService.submit(queryTask());
-        List<AppContent> data = new ArrayList<>();
-        try {
-            data = (List<AppContent>) future.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } finally {
-            if (!executorService.isShutdown()) {
-                try {
-                    executorService.awaitTermination(3, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                executorService.shutdown();
+        ArrayList<AppContent> data = new ArrayList<>();
+        openDb();
+        String[] columns = {
+                "item_title",
+                "activity_title",
+                "asset_name"
+        };
+        for (int i = 0; i < Constants.SECTIONS.length; i++) {
+            String section = Constants.SECTIONS[i];
+            //set title of DocumentsAdapter item
+            AppContent appContent = new AppContent();
+            appContent.setTitle(section);
+            //load DocumentsAdapter item content from database
+            List<String> itemTitles = new ArrayList<>();
+            List<String> activityTitles = new ArrayList<>();
+            List<String> assetsNames = new ArrayList<>();
+            String selection = "section = ?";
+            Cursor cursor = mDatabase.query(
+                    OpenDbHelper.DB_TABLE_NAME_DOCUMENTS,
+                    columns,
+                    selection,
+                    new String[]{section},
+                    null,
+                    null,
+                    null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    itemTitles.add(cursor.getString(cursor.getColumnIndex("item_title")));
+                    activityTitles.add(cursor.getString(cursor.getColumnIndex("activity_title")));
+                    assetsNames.add(cursor.getString(cursor.getColumnIndex("asset_name")));
+                } while (cursor.moveToNext());
             }
+            appContent.setItemTitles(itemTitles);
+            appContent.setActivityTitles(activityTitles);
+            appContent.setAssetsNames(assetsNames);
+            data.add(appContent);
+            cursor.close();
         }
+        closeDb();
         return data;
     }
-
-    private Callable queryTask() {
-        return new Callable() {
-            @Override
-            public List<AppContent> call() throws Exception {
-                ArrayList<AppContent> data = new ArrayList<>();
-                openDb();
-                String[] columns = {
-                        "item_title",
-                        "activity_title",
-                        "asset_name"
-                };
-                for (int i = 0; i < Constants.SECTIONS.length; i++) {
-                    String section = Constants.SECTIONS[i];
-                    //set title of DocumentsAdapter item
-                    AppContent appContent = new AppContent();
-                    appContent.setTitle(section);
-                    //load DocumentsAdapter item content from database
-                    List<String> itemTitles = new ArrayList<>();
-                    List<String> activityTitles = new ArrayList<>();
-                    List<String> assetsNames = new ArrayList<>();
-                    String selection = "section = ?";
-                    Cursor cursor = mDatabase.query(
-                            OpenDbHelper.DB_TABLE_NAME_DOCUMENTS,
-                            columns,
-                            selection,
-                            new String[]{section},
-                            null,
-                            null,
-                            null
-                    );
-                    if (cursor.moveToFirst()) {
-                        do {
-                            itemTitles.add(cursor.getString(cursor.getColumnIndex("item_title")));
-                            activityTitles.add(cursor.getString(cursor.getColumnIndex("activity_title")));
-                            assetsNames.add(cursor.getString(cursor.getColumnIndex("asset_name")));
-                        } while (cursor.moveToNext());
-                    }
-                    appContent.setItemTitles(itemTitles);
-                    appContent.setActivityTitles(activityTitles);
-                    appContent.setAssetsNames(assetsNames);
-                    data.add(appContent);
-                    cursor.close();
-                }
-                closeDb();
-                return data;
-            }
-        };
-    }
-
-
 }

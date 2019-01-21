@@ -17,12 +17,11 @@
 package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
@@ -34,8 +33,7 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
 
     @Override
     public void onSetContent(final boolean isRefresh) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
+        AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -62,6 +60,5 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
                 } while (retry < 2);
             }
         });
-        executorService.shutdown();
     }
 }

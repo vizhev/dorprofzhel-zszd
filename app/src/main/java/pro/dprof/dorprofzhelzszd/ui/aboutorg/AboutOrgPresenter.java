@@ -16,18 +16,16 @@
 
 package pro.dprof.dorprofzhelzszd.ui.aboutorg;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
+import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<V> implements AboutOrgMvpPresenter<V> {
 
     @Override
     public void onLoadAboutText() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
+        AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 String text = getDataProvider().getAboutOrganizationText();
@@ -49,6 +47,5 @@ public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePres
                 } while (retry < 2);
             }
         });
-        executorService.shutdown();
     }
 }

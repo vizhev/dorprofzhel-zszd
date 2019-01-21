@@ -16,12 +16,11 @@
 
 package pro.dprof.dorprofzhelzszd.ui.newspost;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
         implements NewsPostMvpPresenter<V> {
@@ -30,8 +29,7 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
 
     @Override
     public void onSetPostContent(final String postTitle, final String postLink, final String imageLink) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
+        AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 if (appContent == null) {
@@ -58,6 +56,5 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
 
             }
         });
-        executorService.shutdown();
     }
 }

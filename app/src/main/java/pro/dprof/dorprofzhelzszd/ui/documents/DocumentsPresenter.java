@@ -17,19 +17,17 @@
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
         implements DocumentsMvpPresenter<V> {
 
     @Override
     public void onSetAdapter() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
+        AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 List<AppContent> documents = getDataProvider().getDocuments();
@@ -37,6 +35,5 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
                 getMvpView().setAdapter(documentsAdapter);
             }
         });
-        executorService.shutdown();
     }
 }

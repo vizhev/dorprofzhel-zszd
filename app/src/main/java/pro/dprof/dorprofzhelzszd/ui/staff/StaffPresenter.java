@@ -17,20 +17,18 @@
 package pro.dprof.dorprofzhelzszd.ui.staff;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
         implements StaffMvpPresenter<V> {
 
     @Override
     public void onSetAdapter() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable() {
+        AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 List<AppContent> contentList = getDataProvider().getStaffList();
@@ -53,6 +51,5 @@ public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<
                 } while (retry < 2);
             }
         });
-        executorService.shutdown();
     }
 }
