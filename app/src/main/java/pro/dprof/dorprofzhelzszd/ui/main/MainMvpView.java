@@ -18,13 +18,12 @@ package pro.dprof.dorprofzhelzszd.ui.main;
 
 import android.support.annotation.NonNull;
 
-import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 
 public interface MainMvpView extends MvpView {
 
     void selectDrawerItemAndSetTitle(String fragmentTag);
 
-    void startFragmentTransaction(@NonNull BaseFragment fragment, @NonNull String fragmentTag, @NonNull String action);
+    void startFragmentTransaction(@NonNull String fragmentTag, @NonNull int action);
 
 }

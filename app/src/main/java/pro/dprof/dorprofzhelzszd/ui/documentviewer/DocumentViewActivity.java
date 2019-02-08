@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -31,10 +32,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
+import pro.dprof.dorprofzhelzszd.ui.dialogs.DocumentPagesDialog;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
-import pro.dprof.dorprofzhelzszd.utils.HtmlPrint;
 
-public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView {
+public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView, DocumentPagesDialog.OnDocumentPagesDialogListener {
 
     @BindView(R.id.toolbar_pdf) Toolbar toolbar;
     @BindView(R.id.pdf_document_viewer) PDFView pdfView;
@@ -73,19 +74,18 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         mPresenter.onDetach();
     }
 
-
-    /*removed because this document is not for public use*/
-
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        boolean isNewApi = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        // removed because this document is not for public use
+       /* boolean isNewApi = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
         String documentTag = mPresenter.getDocumentTag();
         if (documentTag.equals("Act") && isNewApi) {
             getMenuInflater().inflate(R.menu.menu_pdf_action, menu);
             return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }*/
+        }*/
+       getMenuInflater().inflate(R.menu.menu_document_viewer, menu);
+       return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,10 +93,15 @@ public final class DocumentViewActivity extends BaseActivity implements Document
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.item_pdf_action_print:
+            case R.id.item_document_viewer_action_pages:
+                new DocumentPagesDialog()
+                        .setPages(pdfView.getPageCount(), pdfView.getCurrentPage() + 1)
+                        .show(getSupportFragmentManager(), DocumentPagesDialog.TAG);
+                return true;
+            /*case R.id.item_pdf_action_print:
                 //this document is not for public use
                 new HtmlPrint(this).doWebViewPrint();
-                return true;
+                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -109,5 +114,10 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         }
         cardView.setVisibility(View.GONE);
         pdfView.fromAsset(assetName).defaultPage(page).load();
+    }
+
+    @Override
+    public void onSetPage(int page) {
+        pdfView.jumpTo(page - 1, true);
     }
 }

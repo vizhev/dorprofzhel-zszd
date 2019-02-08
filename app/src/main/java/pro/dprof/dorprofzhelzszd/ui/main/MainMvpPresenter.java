@@ -16,12 +16,11 @@
 
 package pro.dprof.dorprofzhelzszd.ui.main;
 
-import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 
 public interface MainMvpPresenter<V extends MainMvpView> extends MvpPresenter<V> {
 
-    void onStartFragmentTransaction(BaseFragment fragment, String fragmentTag, String action);
+    void onStartFragmentTransaction(String fragmentTag, int action);
 
     void onRemoveFragment(String fragmentTag);
 

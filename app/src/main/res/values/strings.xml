@@ -18,8 +18,15 @@
     <string name="drawer_about_org">Об организации</string>
     <string name="drawer_about_app">О приложении</string>
 
-    <!--PdfActivity-->
-    <string name="pdf_action_print">Распечатать</string>
+    <!--DocumentViewerActivity-->
+    <string name="document_viewer_action_print">Распечатать</string>
+    <string name="document_viewer_action_pages">Перейти на страницу</string>
+
+    <!--DocumentPagesDialog-->
+    <string name="document_viewer_dialog_page_of_pages">из</string>
+    <string name="document_viewer_dialog_btn_positive">ок</string>
+    <string name="document_viewer_dialog_btn_negative">отмена</string>
+
 
     <!--About App-->
     <string name="about_app">

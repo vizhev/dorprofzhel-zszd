@@ -62,8 +62,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         mPresenter = getActivityComponent().getMainPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
-            BaseFragment newsFragment = new NewsFeedFragment();
-            mPresenter.onStartFragmentTransaction(newsFragment, NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
+            mPresenter.onStartFragmentTransaction(NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
         }
     }
 
@@ -87,17 +86,15 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
             return;
         }
         if (mPresenter.getBackStackCount() > 1) {
-            String tag = getSupportFragmentManager().getFragments().get(0).getTag();
-            mPresenter.onRemoveFragment(tag);
+            mPresenter.onRemoveFragment(mPresenter.getCurrentFragmentTag());
             return;
         }
         super.onBackPressed();
     }
 
     @Override
-    public void startFragmentTransaction(@NonNull BaseFragment fragment,
-                                         @NonNull String fragmentTag,
-                                         @NonNull String action) {
+    public void startFragmentTransaction(@NonNull String fragmentTag, @NonNull int action) {
+        BaseFragment fragment = getFragmentByTag(fragmentTag);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (action) {
             case MainPresenter.ADD_FRAGMENT:
@@ -151,34 +148,51 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawer(Gravity.START);
+                String fragmentTag = null;
                 switch (item.getItemId()) {
                     case R.id.item_drawer_news:
-                        BaseFragment oopsFragment = new NewsFeedFragment();
-                        mPresenter.onStartFragmentTransaction(oopsFragment, NewsFeedFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
-                        return true;
+                        fragmentTag = NewsFeedFragment.TAG;
+                        break;
                     case R.id.item_drawer_documentation:
-                        BaseFragment documentsFragment = new DocumentsFragment();
-                        mPresenter.onStartFragmentTransaction(documentsFragment, DocumentsFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
-                        return true;
+                        fragmentTag = DocumentsFragment.TAG;
+                        break;
                     case R.id.item_drawer_note:
-                        BaseFragment noteFragment = new NoteFragment();
-                        mPresenter.onStartFragmentTransaction(noteFragment, NoteFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
-                        return true;
+                        fragmentTag = NoteFragment.TAG;
+                        break;
                     case R.id.item_drawer_staff:
-                        BaseFragment personsFragment = new StaffFragment();
-                        mPresenter.onStartFragmentTransaction(personsFragment, StaffFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
-                        return true;
+                        fragmentTag = StaffFragment.TAG;
+                        break;
                     case R.id.item_drawer_about_org:
-                        BaseFragment aboutOrgFragment = new AboutOrgFragment();
-                        mPresenter.onStartFragmentTransaction(aboutOrgFragment, AboutOrgFragment.TAG, MainPresenter.REPLACE_FRAGMENT);
-                        return true;
+                        fragmentTag = AboutOrgFragment.TAG;
+                        break;
                     case R.id.item_drawer_about_app:
                         Intent intent = new Intent(MainActivity.this, AboutAppActivity.class);
                         startActivity(intent);
                         return true;
                 }
+                if (fragmentTag != null) {
+                    mPresenter.onStartFragmentTransaction(fragmentTag, MainPresenter.REPLACE_FRAGMENT);
+                    return true;
+                }
                 return false;
             }
         };
+    }
+
+    private BaseFragment getFragmentByTag(String fragmentTag) {
+        switch (fragmentTag) {
+            case NewsFeedFragment.TAG:
+                return new NewsFeedFragment();
+            case DocumentsFragment.TAG:
+                return new DocumentsFragment();
+            case NoteFragment.TAG:
+                return new NoteFragment();
+            case StaffFragment.TAG:
+                return new StaffFragment();
+            case AboutOrgFragment.TAG:
+                return new AboutOrgFragment();
+            default:
+                return new NewsFeedFragment();
+        }
     }
 }

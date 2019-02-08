@@ -1,8 +1,13 @@
 # Dorprofzhel ZSZD
-#### version 1.0.1
 
 Unofficial client for the [site](http://dprof.pro) of the Road territorial 
 organization ROSPROFZHEL on the West-Siberian railway. Currently supports only RU locale.
+
+## Changelog
+    
+   ### 1.1
+   - add dialog of movement on pages in Documents
+   - bugfix
 
 ## License
 ```
