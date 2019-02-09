@@ -16,6 +16,7 @@
 
 package pro.dprof.dorprofzhelzszd.ui.aboutapp;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,7 +98,11 @@ public final class AboutAppActivity extends BaseActivity {
                         authorIntent.setData(Uri.parse(
                                 "mailto:" + getResources().getString(R.string.about_app_author_email))
                         );
-                        startActivity(authorIntent);
+                        try {
+                            startActivity(authorIntent);
+                        } catch (ActivityNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case 2:
                         Intent licenseIntent = new Intent(Intent.ACTION_VIEW);
