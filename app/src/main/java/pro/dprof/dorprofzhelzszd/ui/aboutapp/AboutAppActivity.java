@@ -40,17 +40,17 @@ import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 
 public final class AboutAppActivity extends BaseActivity {
 
-    @BindView(R.id.lv_about_app)
-    ListView listView;
+    @BindView(R.id.lv_about_app) ListView listView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
         ButterKnife.bind(this);
-        View view = getLayoutInflater().inflate
-                (R.layout.element_header_about_app, listView, false);
-        TextView tvMessage = view.findViewById(R.id.tv_about_app_message);
+        final View view = getLayoutInflater().inflate(
+                R.layout.element_header_about_app, listView, false
+        );
+        final TextView tvMessage = view.findViewById(R.id.tv_about_app_message);
         tvMessage.setMovementMethod(LinkMovementMethod.getInstance());
         listView.setAdapter(createAdapter());
         listView.addHeaderView(view, "Header", false);
@@ -59,19 +59,19 @@ public final class AboutAppActivity extends BaseActivity {
     }
 
     private SimpleAdapter createAdapter() {
-        List<Map<String, String>> dataList = new ArrayList<>();
+        final List<Map<String, String>> dataList = new ArrayList<>();
 
-        Map<String, String> author = new HashMap<>(2);
+        final Map<String, String> author = new HashMap<>(2);
         author.put("First Line", getResources().getString(R.string.about_app_author));
         author.put("Second Line", getResources().getString(R.string.about_app_author_name) +
                 " | " + getResources().getString(R.string.about_app_author_email)
         );
 
-        Map<String, String> license = new HashMap<>(2);
+        final Map<String, String> license = new HashMap<>(2);
         license.put("First Line", getResources().getString(R.string.about_app_license));
         license.put("Second Line", getResources().getString(R.string.about_app_license_name));
 
-        Map<String, String> source = new HashMap<>(2);
+        final Map<String, String> source = new HashMap<>(2);
         source.put("First Line", getResources().getString(R.string.about_app_source));
         source.put("Second Line", getResources().getString(R.string.about_app_source_name));
 
@@ -89,31 +89,27 @@ public final class AboutAppActivity extends BaseActivity {
 
     private AdapterView.OnItemClickListener createItemListener() {
         return new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Intent intent = new Intent();
                 switch (position) {
                     case 1:
-                        Intent authorIntent = new Intent(Intent.ACTION_SENDTO);
-                        authorIntent.setData(Uri.parse(
-                                "mailto:" + getResources().getString(R.string.about_app_author_email))
-                        );
-                        try {
-                            startActivity(authorIntent);
-                        } catch (ActivityNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        intent.setAction(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:" + getResources().getString(R.string.about_app_author_email)));
                         break;
                     case 2:
-                        Intent licenseIntent = new Intent(Intent.ACTION_VIEW);
-                        licenseIntent.setData(Uri.parse(getResources().getString(R.string.about_app_license_link)));
-                        startActivity(licenseIntent);
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_license_link)));
                         break;
                     case 3:
-                        Intent sourceIntent = new Intent(Intent.ACTION_VIEW);
-                        sourceIntent.setData(Uri.parse(getResources().getString(R.string.about_app_source_link)));
-                        startActivity(sourceIntent);
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_source_link)));
                         break;
+                }
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         };

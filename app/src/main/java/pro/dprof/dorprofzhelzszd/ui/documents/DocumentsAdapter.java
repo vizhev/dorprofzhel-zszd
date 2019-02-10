@@ -57,7 +57,7 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(
+        final View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_documents, parent, false
         );
         return new ViewHolder(view);
@@ -83,9 +83,9 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
         });
         if (holder.llContent.getVisibility() == View.VISIBLE) {
             holder.llContent.removeAllViewsInLayout();
-            List<String> buttonsText = appData.getItemsTitles();
-            List<String> assetNames = appData.getAssetsNames();
-            List<String> activityTitles = appData.getActivitysTitles();
+            final List<String> buttonsText = appData.getItemsTitles();
+            final List<String> assetNames = appData.getAssetsNames();
+            final List<String> activityTitles = appData.getActivitysTitles();
             for (int i = 0; i < buttonsText.size(); i++) {
                 final String buttonText = buttonsText.get(i);
                 final String assetName = assetNames.get(i);
@@ -115,14 +115,11 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
         return 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_item_documents_title)
-        TextView tvTitle;
-        @BindView(R.id.ll_item_documents_main)
-        LinearLayout llMain;
-        @BindView(R.id.ll_item_documents_list)
-        LinearLayout llContent;
+        @BindView(R.id.tv_item_documents_title) TextView tvTitle;
+        @BindView(R.id.ll_item_documents_main) LinearLayout llMain;
+        @BindView(R.id.ll_item_documents_list) LinearLayout llContent;
 
         ViewHolder(View itemView) {
             super(itemView);

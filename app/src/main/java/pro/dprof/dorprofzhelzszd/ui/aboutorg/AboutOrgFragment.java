@@ -43,10 +43,9 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
 
     private AboutOrgMvpPresenter<AboutOrgMvpView> mPresenter;
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about_org, container, false);
+        final View view = inflater.inflate(R.layout.fragment_about_org, container, false);
         ButterKnife.bind(this, view);
         mPresenter = getActivityComponent().getAboutOrgPresenter();
         mPresenter.onAttach(this);

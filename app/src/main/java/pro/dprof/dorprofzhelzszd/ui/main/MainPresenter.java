@@ -43,7 +43,7 @@ public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
     @Override
     public void onRemoveFragment(String fragmentTag) {
         mBackStackSet.remove(fragmentTag);
-        int index = mBackStackSet.size() - 1;
+        final int index = mBackStackSet.size() - 1;
         mCurrentFragmentTag = (String) mBackStackSet.toArray()[index];
         getMvpView().startFragmentTransaction(mCurrentFragmentTag, REMOVE_FRAGMENT);
         getMvpView().selectDrawerItemAndSetTitle(mCurrentFragmentTag);

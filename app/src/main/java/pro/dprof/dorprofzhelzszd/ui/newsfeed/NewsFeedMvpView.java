@@ -25,5 +25,5 @@ public interface NewsFeedMvpView extends MvpView {
 
     void setAdapter(NewsFeedAdapter adapter);
 
-    void setContent(List<AppContent> content);
+    void stopRefreshing();
 }

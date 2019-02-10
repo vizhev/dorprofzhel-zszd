@@ -50,7 +50,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         setContentView(R.layout.activity_document_viewer);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -58,8 +58,8 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         mPresenter = getActivityComponent().getPdfViewerPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
-            String assetName = getIntent().getStringExtra(Constants.INTENT_TAG_ASSET_NAME);
-            String activityTitle = getIntent().getStringExtra(Constants.INTENT_TAG_ACTIVITY_TITLE);
+            final String assetName = getIntent().getStringExtra(Constants.INTENT_TAG_ASSET_NAME);
+            final String activityTitle = getIntent().getStringExtra(Constants.INTENT_TAG_ACTIVITY_TITLE);
             mPresenter.onSetDocument(assetName, activityTitle);
         } else {
             mPresenter.onSetDocument(null, "Title");
@@ -69,7 +69,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        int currentPage = pdfView.getCurrentPage();
+        final int currentPage = pdfView.getCurrentPage();
         mPresenter.onSaveCurrentPage(currentPage);
         mPresenter.onDetach();
     }
@@ -108,7 +108,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
 
     @Override
     public void setDocument(String title, String assetName, int page) {
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);
         }

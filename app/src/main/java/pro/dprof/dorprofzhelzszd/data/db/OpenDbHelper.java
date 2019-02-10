@@ -31,7 +31,7 @@ import pro.dprof.dorprofzhelzszd.utils.Constants;
 final class OpenDbHelper extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "app_database";
+    private static final String DB_NAME = "database";
     static final String DB_TABLE_NAME_DOCUMENTS = "documents";
 
     OpenDbHelper(Context context) {
@@ -48,10 +48,10 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                 "asset_name text not null" + ");"
         );
         for (AppContent appData : getInsertList()) {
-            List<String> itemTitles = appData.getItemsTitles();
-            List<String> activityTitles = appData.getActivitysTitles();
-            List<String> assetsNames = appData.getAssetsNames();
-            ContentValues contentValues = new ContentValues();
+            final List<String> itemTitles = appData.getItemsTitles();
+            final List<String> activityTitles = appData.getActivitysTitles();
+            final List<String> assetsNames = appData.getAssetsNames();
+            final ContentValues contentValues = new ContentValues();
             for (int i = 0; i < itemTitles.size(); i++) {
                 contentValues.put("section", appData.getTitle());
                 contentValues.put("item_title", itemTitles.get(i));
@@ -69,12 +69,12 @@ final class OpenDbHelper extends SQLiteOpenHelper {
     }
 
     private List<AppContent> getInsertList() {
-        List<AppContent> insertList = new ArrayList<>();
+        final List<AppContent> insertList = new ArrayList<>();
         for (int i = 0; i < Constants.SECTIONS.length; i++) {
-            String title = Constants.SECTIONS[i];
-            List<String> itemTitles = new ArrayList<>();
-            List<String> activityTitles = new ArrayList<>();
-            List<String> assetsNames = new ArrayList<>();
+            final String title = Constants.SECTIONS[i];
+            final List<String> itemTitles = new ArrayList<>();
+            final List<String> activityTitles = new ArrayList<>();
+            final List<String> assetsNames = new ArrayList<>();
             switch (title) {
                 case Constants.SECTION_PLENARY:
                     Collections.addAll(itemTitles, Constants.DOC_SECTION_PLENARY_ITEM_TITLES);
@@ -108,7 +108,7 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                     break;
 
             }
-            AppContent appData = new AppContent();
+            final AppContent appData = new AppContent();
             appData.setTitle(title);
             appData.setItemTitles(itemTitles);
             appData.setActivityTitles(activityTitles);

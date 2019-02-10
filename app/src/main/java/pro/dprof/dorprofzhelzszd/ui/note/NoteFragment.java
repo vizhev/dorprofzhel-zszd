@@ -40,12 +40,12 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_note, container, false);
-        ButterKnife.bind(this, fragmentView);
+        final View view = inflater.inflate(R.layout.fragment_note, container, false);
+        ButterKnife.bind(this, view);
         mPresenter = getActivityComponent().getNotePresenter();
         mPresenter.onAttach(this);
         mPresenter.onLoadNote();
-        return fragmentView;
+        return view;
     }
 
     @Override

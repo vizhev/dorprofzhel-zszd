@@ -54,7 +54,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         mNavigationView.setNavigationItemSelectedListener(createNavigationListener());
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.setDrawerSlideAnimationEnabled(false);
@@ -69,8 +69,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     @Override
     protected void onResume() {
         super.onResume();
-        String currentFragmentTag = mPresenter.getCurrentFragmentTag();
-        selectDrawerItemAndSetTitle(currentFragmentTag);
+        selectDrawerItemAndSetTitle(mPresenter.getCurrentFragmentTag());
     }
 
     @Override
@@ -94,14 +93,14 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
 
     @Override
     public void startFragmentTransaction(@NonNull String fragmentTag, @NonNull int action) {
-        BaseFragment fragment = getFragmentByTag(fragmentTag);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final BaseFragment fragment = getFragmentByTag(fragmentTag);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (action) {
             case MainPresenter.ADD_FRAGMENT:
                 transaction.add(R.id.fl_main, fragment, fragmentTag);
                 break;
             case MainPresenter.REPLACE_FRAGMENT:
-                String resumedFragmentTag = getSupportFragmentManager().getFragments().get(0).getTag();
+                final String resumedFragmentTag = getSupportFragmentManager().getFragments().get(0).getTag();
                 boolean isFragmentResumed = resumedFragmentTag != null && resumedFragmentTag.equals(fragmentTag);
                 if (isFragmentResumed) {
                     return;
@@ -181,8 +180,6 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
 
     private BaseFragment getFragmentByTag(String fragmentTag) {
         switch (fragmentTag) {
-            case NewsFeedFragment.TAG:
-                return new NewsFeedFragment();
             case DocumentsFragment.TAG:
                 return new DocumentsFragment();
             case NoteFragment.TAG:

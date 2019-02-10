@@ -36,12 +36,12 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
 
     @BindView(R.id.rv_documents) RecyclerView recyclerView;
 
-    DocumentsMvpPresenter<DocumentsMvpView> mPresenter;
+    private DocumentsMvpPresenter<DocumentsMvpView> mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_documents, container, false);
+        final View view = inflater.inflate(R.layout.fragment_documents, container, false);
         ButterKnife.bind(this, view);
         mPresenter = getActivityComponent().getDocumentsPresenter();
         mPresenter.onAttach(this);
