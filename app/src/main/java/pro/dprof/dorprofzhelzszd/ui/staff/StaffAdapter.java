@@ -45,14 +45,15 @@ final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        final View view = LayoutInflater
+                .from(parent.getContext())
                 .inflate(R.layout.item_staff, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        AppContent appData = mContentList.get(position);
+        final AppContent appData = mContentList.get(position);
         holder.tvPersonsText.setText(Html.fromHtml(appData.getText()));
         try {
             Picasso.get()
@@ -73,12 +74,10 @@ final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
         return 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_item_persons)
-        ImageView ivPersonsPicture;
-        @BindView(R.id.tv_item_persons)
-        TextView tvPersonsText;
+        @BindView(R.id.iv_item_persons) ImageView ivPersonsPicture;
+        @BindView(R.id.tv_item_persons) TextView tvPersonsText;
 
         ViewHolder(View itemView) {
             super(itemView);

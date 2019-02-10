@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,35 +40,22 @@ import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private static List<AppContent> mContentList;
+    private final List<AppContent> mContentList = new ArrayList<>();
     private Context mContext;
 
-    void setContentList(List<AppContent> contentList) {
-        if (mContentList == null) {
-            mContentList = contentList;
-            notifyDataSetChanged();
-            return;
+    void setContentList(List<AppContent> contentList, boolean isRefresh) {
+        if (isRefresh) {
+            mContentList.clear();
         }
-        if (mContentList.size() != 0 && contentList.size() != 0) {
-            String titleCurrent = mContentList.get(0).getTitle();
-            String titleNew = contentList.get(0).getTitle();
-            if (titleCurrent.equals(titleNew)) {
-                return;
-            }
-        }
-        try {
-            mContentList.addAll(contentList);
-            notifyDataSetChanged();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        mContentList.addAll(contentList);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext())
+        final View view = LayoutInflater
+                .from(parent.getContext())
                 .inflate(R.layout.item_news, parent, false);
         return new ViewHolder(view);
     }
@@ -81,7 +69,7 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, NewsPostActivity.class);
+                final Intent intent = new Intent(mContext, NewsPostActivity.class);
                 intent.putExtra("PostTitle", appData.getTitle());
                 intent.putExtra("PostLink", appData.getPostLink());
                 intent.putExtra("ImageLink", appData.getImageLink());
@@ -101,24 +89,16 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
 
     @Override
     public int getItemCount() {
-        if (mContentList != null) {
-            return mContentList.size();
-        }
-        return 0;
+        return mContentList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_item_news_title)
-        TextView mTvTitle;
-        @BindView(R.id.tv_item_news_text)
-        TextView mTvText;
-        @BindView(R.id.tv_item_news_date)
-        TextView mTvTDate;
-        @BindView(R.id.iv_item_news_picture)
-        ImageView mIvPicture;
-        @BindView(R.id.cv_news_item)
-        CardView mCardView;
+        @BindView(R.id.tv_item_news_title) TextView mTvTitle;
+        @BindView(R.id.tv_item_news_text) TextView mTvText;
+        @BindView(R.id.tv_item_news_date) TextView mTvTDate;
+        @BindView(R.id.iv_item_news_picture) ImageView mIvPicture;
+        @BindView(R.id.cv_news_item) CardView mCardView;
 
         ViewHolder(View itemView) {
             super(itemView);

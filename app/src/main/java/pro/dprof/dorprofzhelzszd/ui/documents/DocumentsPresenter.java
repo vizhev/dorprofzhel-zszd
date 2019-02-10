@@ -30,8 +30,8 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                List<AppContent> documents = getDataProvider().getDocuments();
-                DocumentsAdapter documentsAdapter = new DocumentsAdapter(documents);
+                final List<AppContent> documents = getDataProvider().getDocuments();
+                final DocumentsAdapter documentsAdapter = new DocumentsAdapter(documents);
                 getMvpView().setAdapter(documentsAdapter);
             }
         });

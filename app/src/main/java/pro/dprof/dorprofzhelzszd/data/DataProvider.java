@@ -25,9 +25,9 @@ import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 public final class DataProvider {
 
-    PreferencesHelper preferences;
-    DbHelper dbHelper;
-    NetworkClient networkClient;
+    private PreferencesHelper preferences;
+    private DbHelper dbHelper;
+    private NetworkClient networkClient;
 
     public DataProvider(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
         this.preferences = preferences;
@@ -36,31 +36,31 @@ public final class DataProvider {
 
     }
 
-    public List<AppContent> getNewsFeedContent(boolean isRefresh) {
+    public synchronized List<AppContent> getNewsFeedContent(boolean isRefresh) {
         return networkClient.loadNewsFeed(isRefresh);
     }
 
-    public AppContent getNewsPostText(String postLink) {
+    public synchronized AppContent getNewsPostText(String postLink) {
         return networkClient.loadNewsPost(postLink);
     }
 
-    public List<AppContent> getDocuments() {
+    public synchronized List<AppContent> getDocuments() {
         return dbHelper.getDocuments();
     }
 
-    public void setNoteState(String noteState) {
+    public synchronized void setNoteState(String noteState) {
         preferences.setNoteState(noteState);
     }
 
-    public String getNoteState() {
+    public synchronized String getNoteState() {
         return preferences.getNoteState();
     }
 
-    public String getAboutOrganizationText() {
+    public synchronized String getAboutOrganizationText() {
         return networkClient.loadAboutOrganizationText();
     }
 
-    public List<AppContent> getStaffList() {
+    public synchronized List<AppContent> getStaffList() {
         return networkClient.loadStaff();
     }
 

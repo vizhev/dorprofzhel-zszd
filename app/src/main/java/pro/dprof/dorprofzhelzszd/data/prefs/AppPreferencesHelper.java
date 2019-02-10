@@ -33,9 +33,9 @@ public final class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void setNoteState(String noteState) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.PREF_NOTE, noteState);
-        editor.apply();
+        mSharedPreferences.edit()
+                .putString(Constants.PREF_NOTE, noteState)
+                .apply();
     }
 
     @Override
@@ -45,9 +45,9 @@ public final class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void setAboutOrgDocument(String document) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.PREF_ABOUT_ORG, document);
-        editor.apply();
+        mSharedPreferences.edit()
+                .putString(Constants.PREF_ABOUT_ORG, document)
+                .apply();
     }
 
     @Override
@@ -57,9 +57,9 @@ public final class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void setStaffDocument(String document) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(Constants.PREF_STAFF, document);
-        editor.apply();
+        mSharedPreferences.edit()
+                .putString(Constants.PREF_STAFF, document)
+                .apply();
     }
 
     @Override

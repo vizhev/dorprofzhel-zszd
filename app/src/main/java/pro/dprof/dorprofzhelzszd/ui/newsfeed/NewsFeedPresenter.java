@@ -25,10 +25,11 @@ import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
+    private final NewsFeedAdapter mAdapter = new NewsFeedAdapter();
+
     @Override
     public void onCreateAdapter() {
-        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter();
-        getMvpView().setAdapter(newsFeedAdapter);
+        getMvpView().setAdapter(mAdapter);
     }
 
     @Override
@@ -36,16 +37,19 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                final List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
+                synchronized (mAdapter) {
+                    mAdapter.setContentList(contentList, isRefresh);
                 }
-                List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
                 int retry = 0;
                 do {
                     try {
-                        getMvpView().setContent(contentList);
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        getMvpView().stopRefreshing();
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();

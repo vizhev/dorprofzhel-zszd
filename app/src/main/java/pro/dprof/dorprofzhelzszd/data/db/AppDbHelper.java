@@ -48,24 +48,24 @@ public final class AppDbHelper implements DbHelper {
 
     @Override
     public List<AppContent> getDocuments() {
-        ArrayList<AppContent> data = new ArrayList<>();
-        openDb();
-        String[] columns = {
+        final ArrayList<AppContent> data = new ArrayList<>();
+        final String[] columns = {
                 "item_title",
                 "activity_title",
                 "asset_name"
         };
+        openDb();
         for (int i = 0; i < Constants.SECTIONS.length; i++) {
-            String section = Constants.SECTIONS[i];
+            final String section = Constants.SECTIONS[i];
             //set title of DocumentsAdapter item
-            AppContent appContent = new AppContent();
+            final AppContent appContent = new AppContent();
             appContent.setTitle(section);
-            //load DocumentsAdapter item content from database
-            List<String> itemTitles = new ArrayList<>();
-            List<String> activityTitles = new ArrayList<>();
-            List<String> assetsNames = new ArrayList<>();
-            String selection = "section = ?";
-            Cursor cursor = mDatabase.query(
+            //set content of DocumentsAdapter item
+            final List<String> itemTitles = new ArrayList<>();
+            final List<String> activityTitles = new ArrayList<>();
+            final List<String> assetsNames = new ArrayList<>();
+            final String selection = "section = ?";
+            final Cursor cursor = mDatabase.query(
                     OpenDbHelper.DB_TABLE_NAME_DOCUMENTS,
                     columns,
                     selection,

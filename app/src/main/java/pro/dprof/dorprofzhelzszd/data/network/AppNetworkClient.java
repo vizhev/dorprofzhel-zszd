@@ -39,14 +39,13 @@ public final class AppNetworkClient implements NetworkClient {
     private static final String URL_NEWS = "http://dprof.pro/news";
     private static final String URL_ABOUT_ORGANIZATION = "http://dprof.pro/razdel/ob-organizatsii/";
     private static final String URL_PERSONS = "http://dprof.pro/razdel/apparat-dorprofzhela/";
-    private static Set<String> pageSet;
+    private static final Set<String> pageSet = new LinkedHashSet<>();
     private static int page = 0;
 
     private PreferencesHelper mPreferences;
 
     public AppNetworkClient(PreferencesHelper preferencesHelper) {
-        if (pageSet == null) {
-            pageSet = new LinkedHashSet<>();
+        if (pageSet.isEmpty()) {
             pageSet.add(URL_NEWS);
         }
         mPreferences = preferencesHelper;
@@ -54,28 +53,28 @@ public final class AppNetworkClient implements NetworkClient {
 
     @Override
     public List<AppContent> loadNewsFeed(boolean isRefresh) {
-        List<AppContent> contentList = new ArrayList<>();
+        final List<AppContent> contentList = new ArrayList<>();
         if (isRefresh) {
             page = 0;
         }
         if (page < pageSet.size()) {
-            String pageUrl = (String) pageSet.toArray()[page];
+            final String pageUrl = (String) pageSet.toArray()[page];
             Log.d("Feed", "Start load feed task. Page = " + page + " pageSet = " + pageSet.size());
             try {
-                Document document = Jsoup.connect(pageUrl).get();
-                Element feed = document.getElementsByClass("newsslider3").first();
-                Elements titles = feed.getElementsByClass("newsslider_title");
-                Elements texts = feed.getElementsByClass("newsslider_anons");
-                Elements contentLinks = feed.getElementsByClass("newsslider_link");
-                Elements imageLinks = feed.getElementsByClass("newsslider_img");
+                final Document document = Jsoup.connect(pageUrl).get();
+                final Element feed = document.getElementsByClass("newsslider3").first();
+                final Elements titles = feed.getElementsByClass("newsslider_title");
+                final Elements texts = feed.getElementsByClass("newsslider_anons");
+                final Elements contentLinks = feed.getElementsByClass("newsslider_link");
+                final Elements imageLinks = feed.getElementsByClass("newsslider_img");
                 Log.d("Feed", "URL = " + pageUrl);
                 for (int i = 0; i < titles.size(); i++) {
-                    AppContent appContent = new AppContent();
-                    String title = titles.get(i).select("a").first().text();
-                    String text = texts.get(i).text();
-                    String date = titles.get(i).select("span").text();
-                    String postLink = "http://dprof.pro" + contentLinks.get(i).select("a").attr("href");
-                    String imageLink = "http://dprof.pro" + imageLinks.get(i).select("img").attr("src");
+                    final AppContent appContent = new AppContent();
+                    final String title = titles.get(i).select("a").first().text();
+                    final String text = texts.get(i).text();
+                    final String date = titles.get(i).select("span").text();
+                    final String postLink = "http://dprof.pro" + contentLinks.get(i).select("a").attr("href");
+                    final String imageLink = "http://dprof.pro" + imageLinks.get(i).select("img").attr("src");
                     appContent.setTitle(title);
                     appContent.setText(text);
                     appContent.setDate(date);
@@ -84,8 +83,8 @@ public final class AppNetworkClient implements NetworkClient {
                     contentList.add(appContent);
                 }
                 if (page == 0) {
-                    Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
-                    Elements pages = pageNavigator.select("a");
+                    final Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
+                    final Elements pages = pageNavigator.select("a");
                     for (int i = 0; i < pages.size(); i++) {
                         String nextPage = "http://dprof.pro" + pages.get(i).attr("href");
                         pageSet.add(nextPage);
@@ -104,12 +103,12 @@ public final class AppNetworkClient implements NetworkClient {
 
     @Override
     public AppContent loadNewsPost(final String postLink) {
-        AppContent appData = new AppContent();
+        final AppContent appData = new AppContent();
         try {
-            Document document = Jsoup.connect(postLink).get();
+            final Document document = Jsoup.connect(postLink).get();
             try {
-                Element text = document.getElementsByClass("news-detail").first();
-                Element date = document.getElementsByClass("news-date-time").first();
+                final Element text = document.getElementsByClass("news-detail").first();
+                final Element date = document.getElementsByClass("news-date-time").first();
                 appData.setText(text.html());
                 appData.setDate(date.text());
             } catch (NullPointerException e) {
@@ -125,7 +124,7 @@ public final class AppNetworkClient implements NetworkClient {
 
     @Override
     public List<AppContent> loadStaff() {
-        List<AppContent> contentList = new ArrayList<>();
+        final List<AppContent> contentList = new ArrayList<>();
         Document document;
         try {
             document = Jsoup.connect(URL_PERSONS).get();
@@ -136,13 +135,13 @@ public final class AppNetworkClient implements NetworkClient {
             e.printStackTrace();
             document = Jsoup.parse(mPreferences.getStaffDocument());
         }
-        Element persons = document.getElementsByClass("razle_podtext").first();
-        Elements images = persons.select("img");
-        Elements texts = persons.select("tr").select("td").next();
+        final Element persons = document.getElementsByClass("razle_podtext").first();
+        final Elements images = persons.select("img");
+        final Elements texts = persons.select("tr").select("td").next();
         for (int i = 0; i < images.size(); i++) {
-            AppContent appData = new AppContent();
-            String imageLink = "http://dprof.pro" + images.get(i).attr("src");
-            String text = texts.get(i).html();
+            final AppContent appData = new AppContent();
+            final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
+            final String text = texts.get(i).html();
             appData.setImageLink(imageLink);
             appData.setText(text);
             contentList.add(appData);

@@ -28,7 +28,7 @@ public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePres
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                String text = getDataProvider().getAboutOrganizationText();
+                final String text = getDataProvider().getAboutOrganizationText();
                 int retry = 0;
                 do {
                     try {

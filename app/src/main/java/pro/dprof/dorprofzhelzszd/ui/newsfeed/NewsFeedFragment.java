@@ -28,13 +28,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
@@ -55,24 +52,22 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        final View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
-        mPresenter = getActivityComponent().getNewsFeedPresenter();
-        mPresenter.onAttach(this);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (recyclerView.getAdapter() == null) {
-            mPresenter.onCreateAdapter();
-        }
+        mPresenter = getActivityComponent().getNewsFeedPresenter();
+        mPresenter.onAttach(this);
+        mPresenter.onCreateAdapter();
         if (recyclerView.getAdapter().getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(true);
             mPresenter.onSetContent(true);
         }
-        swipeRefreshLayout.setOnRefreshListener(getRefreshListener());
+        swipeRefreshLayout.setOnRefreshListener(createRefreshListener());
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
     }
 
@@ -84,20 +79,20 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
 
     @Override
     public void setAdapter(NewsFeedAdapter adapter) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        RecyclerView.OnScrollListener scrollListener = getScrollListener(layoutManager);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final RecyclerView.OnScrollListener scrollListener = createScrollListener(layoutManager);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
-    public void setContent(final List<AppContent> content) {
+    public void stopRefreshing() {
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((NewsFeedAdapter)recyclerView.getAdapter()).setContentList(content);
+                    recyclerView.getAdapter().notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
                     if (recyclerView.getAdapter().getItemCount() == 0) {
                         Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
@@ -107,7 +102,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
         }
     }
 
-    private RecyclerView.OnScrollListener getScrollListener(final LinearLayoutManager linearLayoutManager) {
+    private RecyclerView.OnScrollListener createScrollListener(final LinearLayoutManager linearLayoutManager) {
         return new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -134,7 +129,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
         };
     }
 
-    private SwipeRefreshLayout.OnRefreshListener getRefreshListener() {
+    private SwipeRefreshLayout.OnRefreshListener createRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -55,19 +55,18 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
         setContentView(R.layout.activity_news_post);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        System.out.println(savedInstanceState == null);
         mPresenter = getActivityComponent().getNewsPostPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
-            Intent intent = getIntent();
-            String postTitle = intent.getStringExtra("PostTitle");
-            String postLink = intent.getStringExtra("PostLink");
-            String imageLink = intent.getStringExtra("ImageLink");
+            final Intent intent = getIntent();
+            final String postTitle = intent.getStringExtra("PostTitle");
+            final String postLink = intent.getStringExtra("PostLink");
+            final String imageLink = intent.getStringExtra("ImageLink");
             mPresenter.onSetPostContent(postTitle, postLink, imageLink);
         } else {
             mPresenter.onSetPostContent("Title", "postLink", "imageLink");
@@ -99,10 +98,10 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
             @Override
             public void run() {
                 try {
-                    String postDate = postContent.getDate();
-                    String postTitle = postContent.getTitle();
-                    String postTextHtml = postContent.getText();
-                    String imageLink = postContent.getImageLink();
+                    final String postDate = postContent.getDate();
+                    final String postTitle = postContent.getTitle();
+                    final String postTextHtml = postContent.getText();
+                    final String imageLink = postContent.getImageLink();
                     tvPostTitle.setText(postTitle);
                     tvPostText.setText(Html.fromHtml(postTextHtml));
                     tvPostText.setMovementMethod(LinkMovementMethod.getInstance());
@@ -114,7 +113,7 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
-                    ActionBar actionBar = getSupportActionBar();
+                    final ActionBar actionBar = getSupportActionBar();
                     if (actionBar != null) {
                         actionBar.setTitle(postDate);
                     }

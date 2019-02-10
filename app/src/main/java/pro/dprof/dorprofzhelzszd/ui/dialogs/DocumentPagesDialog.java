@@ -43,7 +43,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        DialogInterface.OnClickListener onClickListener = createDialogClickListener();
+        final DialogInterface.OnClickListener onClickListener = createDialogClickListener();
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.document_viewer_action_pages)
                 .setView(R.layout.element_document_pages)
