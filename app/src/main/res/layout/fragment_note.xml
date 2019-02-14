@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:gravity="start"
-            android:inputType="none"
+            android:inputType="text"
             android:padding="16dp" />
 
     </android.support.v7.widget.CardView>

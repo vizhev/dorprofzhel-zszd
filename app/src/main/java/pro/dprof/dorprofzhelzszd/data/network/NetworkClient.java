@@ -19,15 +19,16 @@ package pro.dprof.dorprofzhelzszd.data.network;
 
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 
 public interface NetworkClient {
 
-    List<AppContent> loadNewsFeed(boolean isRefresh);
+    List<News> loadNewsFeed(boolean isRefresh);
 
-    AppContent loadNewsPost(final String postLink);
+    News loadNewsPost(final String postLink);
 
-    List<AppContent> loadStaff();
+    List<Staff> loadStaff();
 
     String loadAboutOrganizationText();
 

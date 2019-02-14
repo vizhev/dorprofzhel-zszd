@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
@@ -38,10 +39,12 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
 
     public final static String TAG = "NewsFeedFragment";
 
-    @BindView(R.id.rv_news) RecyclerView recyclerView;
-    @BindView(R.id.sr_news_feed) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rv_news) RecyclerView mRecyclerView;
+    @BindView(R.id.sr_news_feed) SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private Unbinder mUnbinder;
     private NewsFeedMvpPresenter<NewsFeedMvpView> mPresenter;
+
     private boolean isNeedLoadContent = false;
 
     @Override
@@ -49,11 +52,11 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_news, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -62,28 +65,35 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
         super.onViewCreated(view, savedInstanceState);
         mPresenter = getActivityComponent().getNewsFeedPresenter();
         mPresenter.onAttach(this);
-        mPresenter.onCreateAdapter();
-        if (recyclerView.getAdapter().getItemCount() == 0) {
-            swipeRefreshLayout.setRefreshing(true);
+        mPresenter.onSetAdapter();
+        if (mRecyclerView.getAdapter().getItemCount() == 0) {
+            mSwipeRefreshLayout.setRefreshing(true);
             mPresenter.onSetContent(true);
         }
-        swipeRefreshLayout.setOnRefreshListener(createRefreshListener());
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(createRefreshListener());
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
+        mPresenter = null;
     }
 
     @Override
     public void setAdapter(NewsFeedAdapter adapter) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         final RecyclerView.OnScrollListener scrollListener = createScrollListener(layoutManager);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(scrollListener);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -92,9 +102,9 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                    if (recyclerView.getAdapter().getItemCount() == 0) {
+                    mRecyclerView.getAdapter().notifyDataSetChanged();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    if (mRecyclerView.getAdapter().getItemCount() == 0) {
                         Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -121,7 +131,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
                     }
                     if (isNeedLoadContent && isLastPost) {
                         isNeedLoadContent = false;
-                        swipeRefreshLayout.setRefreshing(true);
+                        mSwipeRefreshLayout.setRefreshing(true);
                         mPresenter.onSetContent(false);
                     }
                 }

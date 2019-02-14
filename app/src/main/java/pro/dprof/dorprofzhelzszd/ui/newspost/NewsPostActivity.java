@@ -36,16 +36,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
 
 public final class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
 
-    @BindView(R.id.cv_news_post) CardView cardView;
-    @BindView(R.id.tv_news_post_title) TextView tvPostTitle;
-    @BindView(R.id.tv_news_post_text) TextView tvPostText;
-    @BindView(R.id.tb_news_post) Toolbar toolbar;
-    @BindView(R.id.iv_news_post_picture) ImageView ivPicture;
-    @BindView(R.id.pb_news_post) ProgressBar progressBar;
+    @BindView(R.id.cv_news_post) CardView mCardView;
+    @BindView(R.id.tv_news_post_title) TextView mTvPostTitle;
+    @BindView(R.id.tv_news_post_text) TextView mTvPostText;
+    @BindView(R.id.tb_news_post) Toolbar mToolbar;
+    @BindView(R.id.iv_news_post_picture) ImageView mIvPicture;
+    @BindView(R.id.pb_news_post) ProgressBar mProgressBar;
 
     private NewsPostMvpPresenter<NewsPostMvpView> mPresenter;
 
@@ -54,7 +54,7 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_post);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -71,8 +71,8 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
         } else {
             mPresenter.onSetPostContent("Title", "postLink", "imageLink");
         }
-        progressBar.setVisibility(View.VISIBLE);
-        cardView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mCardView.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
     }
 
     @Override
-    public void setPostContent(final AppContent postContent) {
+    public void setPostContent(final News postContent) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -102,14 +102,14 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
                     final String postTitle = postContent.getTitle();
                     final String postTextHtml = postContent.getText();
                     final String imageLink = postContent.getImageLink();
-                    tvPostTitle.setText(postTitle);
-                    tvPostText.setText(Html.fromHtml(postTextHtml));
-                    tvPostText.setMovementMethod(LinkMovementMethod.getInstance());
+                    mTvPostTitle.setText(postTitle);
+                    mTvPostText.setText(Html.fromHtml(postTextHtml));
+                    mTvPostText.setMovementMethod(LinkMovementMethod.getInstance());
                     try {
                         Picasso.get()
                                 .load(imageLink)
                                 .resize(420, 290)
-                                .into(ivPicture);
+                                .into(mIvPicture);
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
@@ -117,8 +117,8 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
                     if (actionBar != null) {
                         actionBar.setTitle(postDate);
                     }
-                    progressBar.setVisibility(View.GONE);
-                    cardView.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                    mCardView.setVisibility(View.VISIBLE);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

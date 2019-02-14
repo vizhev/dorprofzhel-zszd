@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
@@ -28,7 +28,7 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
     private final NewsFeedAdapter mAdapter = new NewsFeedAdapter();
 
     @Override
-    public void onCreateAdapter() {
+    public void onSetAdapter() {
         getMvpView().setAdapter(mAdapter);
     }
 
@@ -37,7 +37,7 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                final List<AppContent> contentList = getDataProvider().getNewsFeedContent(isRefresh);
+                final List<News> contentList = getDataProvider().getNewsFeedContent(isRefresh);
                 synchronized (mAdapter) {
                     mAdapter.setContentList(contentList, isRefresh);
                 }

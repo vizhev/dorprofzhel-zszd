@@ -26,6 +26,7 @@ import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 
@@ -33,15 +34,16 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
 
     public final static String TAG = "NoteFragment";
 
-    @BindView(R.id.et_note) EditText etNote;
+    @BindView(R.id.et_note) EditText mEtNote;
 
+    private Unbinder mUnbinder;
     private NoteMvpPresenter<NoteMvpView> mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mPresenter = getActivityComponent().getNotePresenter();
         mPresenter.onAttach(this);
         mPresenter.onLoadNote();
@@ -55,6 +57,12 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
@@ -62,12 +70,12 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
 
     @Override
     public void setNoteState(String note) {
-        etNote.setText(note);
-        etNote.setSelection(note.length());
+        mEtNote.setText(note);
+        mEtNote.setSelection(note.length());
     }
 
     @Override
     public String getNoteState() {
-        return etNote.getText().toString();
+        return mEtNote.getText().toString();
     }
 }

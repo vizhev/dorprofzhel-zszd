@@ -22,4 +22,6 @@ import pro.dprof.dorprofzhelzszd.ui.base.MvpPresenter;
 public interface StaffMvpPresenter<V extends StaffMvpView> extends MvpPresenter<V> {
 
     void onSetAdapter();
+
+    void onSetContent();
 }

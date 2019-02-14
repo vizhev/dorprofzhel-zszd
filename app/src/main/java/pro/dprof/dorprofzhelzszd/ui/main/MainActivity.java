@@ -62,7 +62,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         mPresenter = getActivityComponent().getMainPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
-            mPresenter.onStartFragmentTransaction(NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
+            mPresenter.onStartFragmentTransaction(new NewsFeedFragment(), NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
         }
     }
 
@@ -92,24 +92,23 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    public void startFragmentTransaction(@NonNull String fragmentTag, @NonNull int action) {
-        final BaseFragment fragment = getFragmentByTag(fragmentTag);
+    public void startFragmentTransaction(@NonNull BaseFragment fragment, int action) {
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (action) {
             case MainPresenter.ADD_FRAGMENT:
-                transaction.add(R.id.fl_main, fragment, fragmentTag);
+                transaction.add(R.id.fl_main, fragment, fragment.getTag());
                 break;
             case MainPresenter.REPLACE_FRAGMENT:
                 final String resumedFragmentTag = getSupportFragmentManager().getFragments().get(0).getTag();
-                boolean isFragmentResumed = resumedFragmentTag != null && resumedFragmentTag.equals(fragmentTag);
+                boolean isFragmentResumed = resumedFragmentTag != null && resumedFragmentTag.equals(fragment.getTag());
                 if (isFragmentResumed) {
                     return;
                 }
-                transaction.replace(R.id.fl_main, fragment, fragmentTag);
+                transaction.replace(R.id.fl_main, fragment, fragment.getTag());
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 break;
             case MainPresenter.REMOVE_FRAGMENT:
-                transaction.replace(R.id.fl_main, fragment, fragmentTag);
+                transaction.replace(R.id.fl_main, fragment, fragment.getTag());
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                 break;
         }
@@ -147,21 +146,27 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawer(Gravity.START);
+                BaseFragment fragment = null;
                 String fragmentTag = null;
                 switch (item.getItemId()) {
                     case R.id.item_drawer_news:
+                        fragment = new NewsFeedFragment();
                         fragmentTag = NewsFeedFragment.TAG;
                         break;
                     case R.id.item_drawer_documentation:
+                        fragment = new DocumentsFragment();
                         fragmentTag = DocumentsFragment.TAG;
                         break;
                     case R.id.item_drawer_note:
+                        fragment = new NoteFragment();
                         fragmentTag = NoteFragment.TAG;
                         break;
                     case R.id.item_drawer_staff:
+                        fragment = new StaffFragment();
                         fragmentTag = StaffFragment.TAG;
                         break;
                     case R.id.item_drawer_about_org:
+                        fragment = new AboutOrgFragment();
                         fragmentTag = AboutOrgFragment.TAG;
                         break;
                     case R.id.item_drawer_about_app:
@@ -169,27 +174,12 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                         startActivity(intent);
                         return true;
                 }
-                if (fragmentTag != null) {
-                    mPresenter.onStartFragmentTransaction(fragmentTag, MainPresenter.REPLACE_FRAGMENT);
+                if (fragment != null) {
+                    mPresenter.onStartFragmentTransaction(fragment, fragmentTag, MainPresenter.REPLACE_FRAGMENT);
                     return true;
                 }
                 return false;
             }
         };
-    }
-
-    private BaseFragment getFragmentByTag(String fragmentTag) {
-        switch (fragmentTag) {
-            case DocumentsFragment.TAG:
-                return new DocumentsFragment();
-            case NoteFragment.TAG:
-                return new NoteFragment();
-            case StaffFragment.TAG:
-                return new StaffFragment();
-            case AboutOrgFragment.TAG:
-                return new AboutOrgFragment();
-            default:
-                return new NewsFeedFragment();
-        }
     }
 }

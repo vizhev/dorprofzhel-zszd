@@ -9,7 +9,6 @@
     android:animateLayoutChanges="true">
 
     <LinearLayout
-        android:id="@+id/ll_item_documents_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -32,13 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-
-        <!--<ListView
-            android:id="@+id/lv_item_documents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:horizontalSpacing="5dp"
-            android:numColumns="1" />-->
 
     </LinearLayout>
 

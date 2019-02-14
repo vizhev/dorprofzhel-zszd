@@ -20,8 +20,8 @@
 
     <ProgressBar
         android:id="@+id/pb_news_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/progress_bar_width"
+        android:layout_height="@dimen/progress_bar_height"
         android:layout_gravity="center"
         android:layout_margin="@dimen/progress_bar_margin" />
 
