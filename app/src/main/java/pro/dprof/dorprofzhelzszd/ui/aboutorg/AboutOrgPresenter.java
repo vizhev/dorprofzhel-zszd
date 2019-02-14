@@ -23,16 +23,20 @@ import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePresenter<V> implements AboutOrgMvpPresenter<V> {
 
+    private String mAboutOrgText;
+
     @Override
     public void onLoadAboutText() {
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                final String text = getDataProvider().getAboutOrganizationText();
+                if (mAboutOrgText == null) {
+                    mAboutOrgText = getDataProvider().getAboutOrganizationText();
+                }
                 int retry = 0;
                 do {
                     try {
-                        getMvpView().setAboutText(text);
+                        getMvpView().setAboutText(mAboutOrgText);
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();

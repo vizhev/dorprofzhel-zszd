@@ -16,10 +16,7 @@
 
 package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
-import java.util.List;
-
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
 
 public interface NewsFeedMvpView extends MvpView {
 

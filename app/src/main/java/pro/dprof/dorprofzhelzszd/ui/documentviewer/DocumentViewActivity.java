@@ -37,10 +37,10 @@ import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView, DocumentPagesDialog.OnDocumentPagesDialogListener {
 
-    @BindView(R.id.toolbar_pdf) Toolbar toolbar;
-    @BindView(R.id.pdf_document_viewer) PDFView pdfView;
-    @BindView(R.id.cv_document_viewer_html) CardView cardView;
-    @BindView(R.id.tv_document_viewer) TextView textView;
+    @BindView(R.id.toolbar_pdf) Toolbar mToolbar;
+    @BindView(R.id.pdf_document_viewer) PDFView mPdfView;
+    @BindView(R.id.cv_document_viewer_html) CardView mCardView;
+    @BindView(R.id.tv_document_viewer) TextView mTextView;
 
     private DocumentViewerMvpPresenter<DocumentViewerMvpView> mPresenter;
 
@@ -49,7 +49,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_viewer);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -69,7 +69,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        final int currentPage = pdfView.getCurrentPage();
+        final int currentPage = mPdfView.getCurrentPage();
         mPresenter.onSaveCurrentPage(currentPage);
         mPresenter.onDetach();
     }
@@ -95,7 +95,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
                 return true;
             case R.id.item_document_viewer_action_pages:
                 new DocumentPagesDialog()
-                        .setPages(pdfView.getPageCount(), pdfView.getCurrentPage() + 1)
+                        .setPages(mPdfView.getPageCount(), mPdfView.getCurrentPage() + 1)
                         .show(getSupportFragmentManager(), DocumentPagesDialog.TAG);
                 return true;
             /*case R.id.item_pdf_action_print:
@@ -112,12 +112,12 @@ public final class DocumentViewActivity extends BaseActivity implements Document
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
-        cardView.setVisibility(View.GONE);
-        pdfView.fromAsset(assetName).defaultPage(page).load();
+        mCardView.setVisibility(View.GONE);
+        mPdfView.fromAsset(assetName).defaultPage(page).load();
     }
 
     @Override
     public void onSetPage(int page) {
-        pdfView.jumpTo(page - 1, true);
+        mPdfView.jumpTo(page - 1, true);
     }
 }

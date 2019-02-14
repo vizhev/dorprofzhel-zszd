@@ -16,9 +16,12 @@
 
 package pro.dprof.dorprofzhelzszd.ui.main;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import android.support.annotation.NonNull;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
 public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
@@ -29,23 +32,27 @@ public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
     static final int REMOVE_FRAGMENT = 0;
 
     private String mCurrentFragmentTag;
-    private final Set<String> mBackStackSet = new LinkedHashSet<>();
+    private final Map<String, BaseFragment> mBackStackMap = new LinkedHashMap<>();
 
     @Override
-    public void onStartFragmentTransaction(String fragmentTag, int action) {
+    public void onStartFragmentTransaction(@NonNull BaseFragment fragment, String fragmentTag, int action) {
         mCurrentFragmentTag = fragmentTag;
-        mBackStackSet.remove(fragmentTag);
-        mBackStackSet.add(fragmentTag);
-        getMvpView().startFragmentTransaction(fragmentTag, action);
+        if (mBackStackMap.containsKey(fragmentTag)) {
+            fragment = mBackStackMap.get(fragmentTag);
+            mBackStackMap.remove(fragmentTag);
+        }
+        mBackStackMap.put(fragmentTag, fragment);
+        getMvpView().startFragmentTransaction(fragment, action);
         getMvpView().selectDrawerItemAndSetTitle(fragmentTag);
     }
 
     @Override
     public void onRemoveFragment(String fragmentTag) {
-        mBackStackSet.remove(fragmentTag);
-        final int index = mBackStackSet.size() - 1;
-        mCurrentFragmentTag = (String) mBackStackSet.toArray()[index];
-        getMvpView().startFragmentTransaction(mCurrentFragmentTag, REMOVE_FRAGMENT);
+        mBackStackMap.remove(fragmentTag);
+        final int index = mBackStackMap.size() - 1;
+        mCurrentFragmentTag = (String) mBackStackMap.keySet().toArray()[index];
+        final BaseFragment fragment = mBackStackMap.get(mCurrentFragmentTag);
+        getMvpView().startFragmentTransaction(fragment, REMOVE_FRAGMENT);
         getMvpView().selectDrawerItemAndSetTitle(mCurrentFragmentTag);
     }
 
@@ -56,6 +63,6 @@ public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
 
     @Override
     public int getBackStackCount() {
-        return mBackStackSet.size();
+        return mBackStackMap.size();
     }
 }

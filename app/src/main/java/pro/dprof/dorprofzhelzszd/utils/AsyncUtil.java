@@ -10,7 +10,7 @@ public final class AsyncUtil {
             new ThreadFactory() {
                 @Override
                 public Thread newThread(Runnable runnable) {
-                    Thread thread = new Thread(runnable);
+                    final Thread thread = new Thread(runnable);
                     thread.setDaemon(true);
                     return thread;
                 }

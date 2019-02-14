@@ -21,4 +21,6 @@ import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 public interface DocumentsMvpView extends MvpView {
 
     void setAdapter(DocumentsAdapter documentsAdapter);
+
+    void showContent();
 }

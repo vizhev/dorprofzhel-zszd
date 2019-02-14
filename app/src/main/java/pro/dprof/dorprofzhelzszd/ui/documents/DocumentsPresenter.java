@@ -17,22 +17,47 @@
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
         implements DocumentsMvpPresenter<V> {
 
+    private final DocumentsAdapter mAdapter = new DocumentsAdapter();
+
     @Override
     public void onSetAdapter() {
+        getMvpView().setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onSetContent() {
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                final List<AppContent> documents = getDataProvider().getDocuments();
-                final DocumentsAdapter documentsAdapter = new DocumentsAdapter(documents);
-                getMvpView().setAdapter(documentsAdapter);
+                final List<Documents> contentList = getDataProvider().getDocuments();
+                synchronized (mAdapter) {
+                    mAdapter.setContentList(contentList);
+                }
+                int retry = 0;
+                do {
+                    try {
+                        getMvpView().showContent();
+                        retry = 2;
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(300);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    } finally {
+                        retry++;
+                    }
+                } while (retry < 2);
             }
         });
     }

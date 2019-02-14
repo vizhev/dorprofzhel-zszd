@@ -36,14 +36,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.newspost.NewsPostActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
 
 final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private final List<AppContent> mContentList = new ArrayList<>();
     private Context mContext;
+    private final List<News> mContentList = new ArrayList<>();
 
-    void setContentList(List<AppContent> contentList, boolean isRefresh) {
+    void setContentList(List<News> contentList, boolean isRefresh) {
         if (isRefresh) {
             mContentList.clear();
         }
@@ -62,7 +62,7 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final AppContent appData = mContentList.get(position);
+        final News appData = mContentList.get(position);
         holder.mTvTitle.setText(appData.getTitle());
         holder.mTvText.setText(appData.getText());
         holder.mTvTDate.setText(appData.getDate());

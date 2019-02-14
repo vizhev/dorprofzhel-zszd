@@ -21,4 +21,6 @@ import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
 public interface StaffMvpView extends MvpView {
 
     void setAdapter(StaffAdapter adapter);
+
+    void showContent();
 }

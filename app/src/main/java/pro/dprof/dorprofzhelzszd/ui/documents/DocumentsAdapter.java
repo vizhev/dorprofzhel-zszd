@@ -28,25 +28,28 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
+import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
 import pro.dprof.dorprofzhelzszd.ui.documentviewer.DocumentViewActivity;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewHolder> {
 
     private Context mContext;
     private LinearLayoutManager mLayoutManager;
-    private static List<AppContent> mContentList;
+    private final List<Documents> mContentList = new ArrayList<>();
     private int mExpandedPosition = -1;
     private int mPreviousExpandedPosition = -1;
 
-    DocumentsAdapter(List<AppContent> contentList) {
-        mContentList = contentList;
+    void setContentList(List<Documents> contentList) {
+        if (mContentList.isEmpty()) {
+            mContentList.addAll(contentList);
+        }
     }
 
     void setLayoutManager(LinearLayoutManager layoutManager) {
@@ -57,9 +60,9 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        final View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_documents, parent, false
-        );
+        final View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.item_documents, parent, false);
         return new ViewHolder(view);
     }
 
@@ -69,10 +72,10 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
         if (isExpanded) {
             mPreviousExpandedPosition = position;
         }
-        final AppContent appData = mContentList.get(position);
-        holder.llContent.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        holder.tvTitle.setText(appData.getTitle());
-        holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+        final Documents documents = mContentList.get(position);
+        holder.mLlContent.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.mTvTitle.setText(documents.getSectionTitle());
+        holder.mTvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mExpandedPosition = isExpanded ? -1 : position;
@@ -81,45 +84,42 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
                 mLayoutManager.scrollToPositionWithOffset(position, 0);
             }
         });
-        if (holder.llContent.getVisibility() == View.VISIBLE) {
-            holder.llContent.removeAllViewsInLayout();
-            final List<String> buttonsText = appData.getItemsTitles();
-            final List<String> assetNames = appData.getAssetsNames();
-            final List<String> activityTitles = appData.getActivitysTitles();
+        if (holder.mLlContent.getVisibility() == View.VISIBLE) {
+            holder.mLlContent.removeAllViewsInLayout();
+            final List<String> buttonsText = documents.getItemTitles();
+            final List<String> assetNames = documents.getAssetsNames();
+            final List<String> activityTitles = documents.getActivityTitles();
             for (int i = 0; i < buttonsText.size(); i++) {
                 final String buttonText = buttonsText.get(i);
                 final String assetName = assetNames.get(i);
                 final String activityTitle = activityTitles.get(i);
-                final Button button = (Button) LayoutInflater.from(mContext)
+                final Button button = (Button) LayoutInflater
+                        .from(mContext)
                         .inflate(R.layout.item_documents_button, null);
                 button.setText(buttonText);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, DocumentViewActivity.class);
+                        final Intent intent = new Intent(mContext, DocumentViewActivity.class);
                         intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, assetName);
                         intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, activityTitle);
                         mContext.startActivity(intent);
                     }
                 });
-                holder.llContent.addView(button, i);
+                holder.mLlContent.addView(button, i);
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mContentList != null) {
-            return mContentList.size();
-        }
-        return 0;
+        return mContentList.size();
     }
 
     final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_item_documents_title) TextView tvTitle;
-        @BindView(R.id.ll_item_documents_main) LinearLayout llMain;
-        @BindView(R.id.ll_item_documents_list) LinearLayout llContent;
+        @BindView(R.id.tv_item_documents_title) TextView mTvTitle;
+        @BindView(R.id.ll_item_documents_list) LinearLayout mLlContent;
 
         ViewHolder(View itemView) {
             super(itemView);

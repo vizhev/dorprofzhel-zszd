@@ -23,8 +23,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
 import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppDbHelper implements DbHelper {
@@ -47,8 +47,8 @@ public final class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public List<AppContent> getDocuments() {
-        final ArrayList<AppContent> data = new ArrayList<>();
+    public List<Documents> getDocuments() {
+        final ArrayList<Documents> documentsList = new ArrayList<>();
         final String[] columns = {
                 "item_title",
                 "activity_title",
@@ -58,8 +58,8 @@ public final class AppDbHelper implements DbHelper {
         for (int i = 0; i < Constants.SECTIONS.length; i++) {
             final String section = Constants.SECTIONS[i];
             //set title of DocumentsAdapter item
-            final AppContent appContent = new AppContent();
-            appContent.setTitle(section);
+            final Documents documents = new Documents();
+            documents.setSectionTitle(section);
             //set content of DocumentsAdapter item
             final List<String> itemTitles = new ArrayList<>();
             final List<String> activityTitles = new ArrayList<>();
@@ -81,13 +81,13 @@ public final class AppDbHelper implements DbHelper {
                     assetsNames.add(cursor.getString(cursor.getColumnIndex("asset_name")));
                 } while (cursor.moveToNext());
             }
-            appContent.setItemTitles(itemTitles);
-            appContent.setActivityTitles(activityTitles);
-            appContent.setAssetsNames(assetsNames);
-            data.add(appContent);
+            documents.setItemTitles(itemTitles);
+            documents.setActivityTitles(activityTitles);
+            documents.setAssetsNames(assetsNames);
+            documentsList.add(documents);
             cursor.close();
         }
         closeDb();
-        return data;
+        return documentsList;
     }
 }

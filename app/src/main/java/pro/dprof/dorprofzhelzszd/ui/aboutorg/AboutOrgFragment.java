@@ -25,11 +25,13 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
@@ -38,26 +40,38 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
 
     public final static String TAG = "AboutOrgFragment";
 
-    @BindView(R.id.tv_about_org) TextView tvAbout;
-    @BindView(R.id.cv_about_org) CardView cardView;
+    @BindView(R.id.tv_about_org) TextView mTvAbout;
+    @BindView(R.id.pb_about_org) ProgressBar mProgressBar;
+    @BindView(R.id.cv_about_org) CardView mCardView;
 
+    private Unbinder mUnbinder;
     private AboutOrgMvpPresenter<AboutOrgMvpView> mPresenter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_about_org, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
+        if (savedInstanceState == null) {
+            mCardView.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
         mPresenter = getActivityComponent().getAboutOrgPresenter();
         mPresenter.onAttach(this);
         mPresenter.onLoadAboutText();
-        cardView.setVisibility(View.GONE);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
+        mPresenter = null;
     }
 
     @Override
@@ -69,9 +83,10 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
                     if (text.equals(Constants.MESSAGE_CONNECT_ERROR)) {
                         Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
                     } else {
-                        tvAbout.setText(Html.fromHtml(text));
-                        tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
-                        cardView.setVisibility(View.VISIBLE);
+                        mTvAbout.setText(Html.fromHtml(text));
+                        mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+                        mCardView.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 }
             });

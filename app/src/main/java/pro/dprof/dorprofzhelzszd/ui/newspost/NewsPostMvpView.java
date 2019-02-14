@@ -17,9 +17,9 @@
 package pro.dprof.dorprofzhelzszd.ui.newspost;
 
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
 
 public interface NewsPostMvpView extends MvpView {
 
-    void setPostContent(AppContent postContent);
+    void setPostContent(News postContent);
 }

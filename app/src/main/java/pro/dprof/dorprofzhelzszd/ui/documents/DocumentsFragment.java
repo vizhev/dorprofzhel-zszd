@@ -24,9 +24,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 
@@ -34,37 +36,54 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
 
     public final static String TAG = "DocumentsFragment";
 
-    @BindView(R.id.rv_documents) RecyclerView recyclerView;
+    @BindView(R.id.pb_documents) ProgressBar mProgressBar;
+    @BindView(R.id.rv_documents) RecyclerView mRecyclerView;
 
+    private Unbinder mUnbinder;
     private DocumentsMvpPresenter<DocumentsMvpView> mPresenter;
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_documents, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
+        mRecyclerView.setVisibility(savedInstanceState == null ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(savedInstanceState == null ? View.VISIBLE : View.GONE);
         mPresenter = getActivityComponent().getDocumentsPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
+        mPresenter.onSetContent();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
+        mPresenter = null;
     }
 
     @Override
     public void setAdapter(final DocumentsAdapter documentsAdapter) {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(documentsAdapter);
+        ((DocumentsAdapter) mRecyclerView.getAdapter()).setLayoutManager(layoutManager);
+    }
+
+    public void showContent() {
         try {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(documentsAdapter);
-                    ((DocumentsAdapter) recyclerView.getAdapter()).setLayoutManager(layoutManager);
+                    mProgressBar.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
                 }
             });
         } catch (NullPointerException e) {

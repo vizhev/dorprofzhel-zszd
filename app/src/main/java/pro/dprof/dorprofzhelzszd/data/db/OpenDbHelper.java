@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 final class OpenDbHelper extends SQLiteOpenHelper {
@@ -47,13 +47,13 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                 "activity_title text not null, " +
                 "asset_name text not null" + ");"
         );
-        for (AppContent appData : getInsertList()) {
-            final List<String> itemTitles = appData.getItemsTitles();
-            final List<String> activityTitles = appData.getActivitysTitles();
-            final List<String> assetsNames = appData.getAssetsNames();
+        for (Documents documents : getInsertList()) {
+            final List<String> itemTitles = documents.getItemTitles();
+            final List<String> activityTitles = documents.getActivityTitles();
+            final List<String> assetsNames = documents.getAssetsNames();
             final ContentValues contentValues = new ContentValues();
             for (int i = 0; i < itemTitles.size(); i++) {
-                contentValues.put("section", appData.getTitle());
+                contentValues.put("section", documents.getSectionTitle());
                 contentValues.put("item_title", itemTitles.get(i));
                 contentValues.put("activity_title", activityTitles.get(i));
                 contentValues.put("asset_name", assetsNames.get(i));
@@ -68,14 +68,14 @@ final class OpenDbHelper extends SQLiteOpenHelper {
 
     }
 
-    private List<AppContent> getInsertList() {
-        final List<AppContent> insertList = new ArrayList<>();
+    private List<Documents> getInsertList() {
+        final List<Documents> insertList = new ArrayList<>();
         for (int i = 0; i < Constants.SECTIONS.length; i++) {
-            final String title = Constants.SECTIONS[i];
+            final String sectionTitle = Constants.SECTIONS[i];
             final List<String> itemTitles = new ArrayList<>();
             final List<String> activityTitles = new ArrayList<>();
             final List<String> assetsNames = new ArrayList<>();
-            switch (title) {
+            switch (sectionTitle) {
                 case Constants.SECTION_PLENARY:
                     Collections.addAll(itemTitles, Constants.DOC_SECTION_PLENARY_ITEM_TITLES);
                     Collections.addAll(activityTitles, Constants.DOC_SECTION_PLENARY_ACTIVITY_TITLES);
@@ -108,12 +108,12 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                     break;
 
             }
-            final AppContent appData = new AppContent();
-            appData.setTitle(title);
-            appData.setItemTitles(itemTitles);
-            appData.setActivityTitles(activityTitles);
-            appData.setAssetsNames(assetsNames);
-            insertList.add(appData);
+            final Documents documents = new Documents();
+            documents.setSectionTitle(sectionTitle);
+            documents.setItemTitles(itemTitles);
+            documents.setActivityTitles(activityTitles);
+            documents.setAssetsNames(assetsNames);
+            insertList.add(documents);
         }
         return insertList;
     }

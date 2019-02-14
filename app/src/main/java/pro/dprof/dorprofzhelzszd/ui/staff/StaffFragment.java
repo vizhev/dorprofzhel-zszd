@@ -24,10 +24,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
@@ -36,40 +38,55 @@ public final class StaffFragment extends BaseFragment implements StaffMvpView {
 
     public final static String TAG = "StaffFragment";
 
-    @BindView(R.id.rv_staff) RecyclerView recyclerView;
+    @BindView(R.id.pb_staff) ProgressBar mProgressBar;
+    @BindView(R.id.rv_staff) RecyclerView mRecyclerView;
 
+    private Unbinder mUnbinder;
     private StaffMvpPresenter<StaffMvpView> mPresenter;
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_staff, container, false);
-        ButterKnife.bind(this, view);
+        final View view = inflater.inflate(R.layout.fragment_staff, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
+        mRecyclerView.setVisibility(savedInstanceState == null ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(savedInstanceState == null ? View.VISIBLE : View.GONE);
         mPresenter = getActivityComponent().getPersonsPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
+        mPresenter.onSetContent();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDetach();
+        mPresenter = null;
     }
 
 
     @Override
     public void setAdapter(final StaffAdapter adapter) {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showContent() {
         try {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-                    if (recyclerView.getAdapter().getItemCount() == 0) {
-                        Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
-                    }
+                    mProgressBar.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
                 }
             });
         } catch (NullPointerException e) {

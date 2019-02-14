@@ -35,12 +35,13 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 
 public final class AboutAppActivity extends BaseActivity {
 
-    @BindView(R.id.lv_about_app) ListView listView;
+    @BindView(R.id.lv_about_app) ListView mListView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,14 +49,14 @@ public final class AboutAppActivity extends BaseActivity {
         setContentView(R.layout.activity_about_app);
         ButterKnife.bind(this);
         final View view = getLayoutInflater().inflate(
-                R.layout.element_header_about_app, listView, false
+                R.layout.element_header_about_app, mListView, false
         );
         final TextView tvMessage = view.findViewById(R.id.tv_about_app_message);
         tvMessage.setMovementMethod(LinkMovementMethod.getInstance());
-        listView.setAdapter(createAdapter());
-        listView.addHeaderView(view, "Header", false);
-        listView.setHeaderDividersEnabled(true);
-        listView.setOnItemClickListener(createItemListener());
+        mListView.addHeaderView(view, "Header", false);
+        mListView.setHeaderDividersEnabled(true);
+        mListView.setAdapter(createAdapter());
+        mListView.setOnItemClickListener(createItemListener());
     }
 
     private SimpleAdapter createAdapter() {

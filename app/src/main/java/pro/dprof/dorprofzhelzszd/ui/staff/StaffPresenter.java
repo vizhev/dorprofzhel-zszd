@@ -19,24 +19,34 @@ package pro.dprof.dorprofzhelzszd.ui.staff;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
         implements StaffMvpPresenter<V> {
 
+    private final StaffAdapter mAdapter = new StaffAdapter();
+
     @Override
     public void onSetAdapter() {
+        getMvpView().setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onSetContent() {
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                List<AppContent> contentList = getDataProvider().getStaffList();
-                StaffAdapter adapter = new StaffAdapter(contentList);
+                final List<Staff> contentList = getDataProvider().getStaffList();
+                synchronized (mAdapter) {
+                    mAdapter.setContentList(contentList);
+                }
                 int retry = 0;
                 do {
                     try {
-                        getMvpView().setAdapter(adapter);
+                        getMvpView().showContent();
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();

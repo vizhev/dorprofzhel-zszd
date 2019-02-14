@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.utils.AppContent;
+import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppNetworkClient implements NetworkClient {
@@ -52,8 +53,8 @@ public final class AppNetworkClient implements NetworkClient {
     }
 
     @Override
-    public List<AppContent> loadNewsFeed(boolean isRefresh) {
-        final List<AppContent> contentList = new ArrayList<>();
+    public List<News> loadNewsFeed(boolean isRefresh) {
+        final List<News> feedList = new ArrayList<>();
         if (isRefresh) {
             page = 0;
         }
@@ -69,24 +70,24 @@ public final class AppNetworkClient implements NetworkClient {
                 final Elements imageLinks = feed.getElementsByClass("newsslider_img");
                 Log.d("Feed", "URL = " + pageUrl);
                 for (int i = 0; i < titles.size(); i++) {
-                    final AppContent appContent = new AppContent();
+                    final News news = new News();
                     final String title = titles.get(i).select("a").first().text();
                     final String text = texts.get(i).text();
                     final String date = titles.get(i).select("span").text();
                     final String postLink = "http://dprof.pro" + contentLinks.get(i).select("a").attr("href");
                     final String imageLink = "http://dprof.pro" + imageLinks.get(i).select("img").attr("src");
-                    appContent.setTitle(title);
-                    appContent.setText(text);
-                    appContent.setDate(date);
-                    appContent.setPostLink(postLink);
-                    appContent.setImageLink(imageLink);
-                    contentList.add(appContent);
+                    news.setTitle(title);
+                    news.setText(text);
+                    news.setDate(date);
+                    news.setPostLink(postLink);
+                    news.setImageLink(imageLink);
+                    feedList.add(news);
                 }
                 if (page == 0) {
                     final Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
                     final Elements pages = pageNavigator.select("a");
                     for (int i = 0; i < pages.size(); i++) {
-                        String nextPage = "http://dprof.pro" + pages.get(i).attr("href");
+                        final String nextPage = "http://dprof.pro" + pages.get(i).attr("href");
                         pageSet.add(nextPage);
                     }
                     Log.d("Feed", "pageSet = " + pageSet.size());
@@ -98,19 +99,19 @@ public final class AppNetworkClient implements NetworkClient {
             }
             page++;
         }
-        return contentList;
+        return feedList;
     }
 
     @Override
-    public AppContent loadNewsPost(final String postLink) {
-        final AppContent appData = new AppContent();
+    public News loadNewsPost(final String postLink) {
+        final News newsPost = new News();
         try {
             final Document document = Jsoup.connect(postLink).get();
             try {
                 final Element text = document.getElementsByClass("news-detail").first();
                 final Element date = document.getElementsByClass("news-date-time").first();
-                appData.setText(text.html());
-                appData.setDate(date.text());
+                newsPost.setText(text.html());
+                newsPost.setDate(date.text());
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -119,12 +120,12 @@ public final class AppNetworkClient implements NetworkClient {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        return appData;
+        return newsPost;
     }
 
     @Override
-    public List<AppContent> loadStaff() {
-        final List<AppContent> contentList = new ArrayList<>();
+    public List<Staff> loadStaff() {
+        final List<Staff> staffList = new ArrayList<>();
         Document document;
         try {
             document = Jsoup.connect(URL_PERSONS).get();
@@ -135,18 +136,18 @@ public final class AppNetworkClient implements NetworkClient {
             e.printStackTrace();
             document = Jsoup.parse(mPreferences.getStaffDocument());
         }
-        final Element persons = document.getElementsByClass("razle_podtext").first();
-        final Elements images = persons.select("img");
-        final Elements texts = persons.select("tr").select("td").next();
+        final Element staffElement = document.getElementsByClass("razle_podtext").first();
+        final Elements images = staffElement.select("img");
+        final Elements information = staffElement.select("tr").select("td").next();
         for (int i = 0; i < images.size(); i++) {
-            final AppContent appData = new AppContent();
+            final Staff staff = new Staff();
             final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
-            final String text = texts.get(i).html();
-            appData.setImageLink(imageLink);
-            appData.setText(text);
-            contentList.add(appData);
+            final String info = information.get(i).html();
+            staff.setImageLink(imageLink);
+            staff.setInfo(info);
+            staffList.add(staff);
         }
-        return contentList;
+        return staffList;
     }
 
     @Override
