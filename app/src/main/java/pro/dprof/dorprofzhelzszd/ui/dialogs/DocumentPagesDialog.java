@@ -43,6 +43,10 @@ public final class DocumentPagesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mAllPages = savedInstanceState.getInt("allPages");
+            mCurrentPage = savedInstanceState.getInt("currentPage");
+        }
         final DialogInterface.OnClickListener onClickListener = createDialogClickListener();
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.document_viewer_action_pages)
@@ -76,6 +80,13 @@ public final class DocumentPagesDialog extends DialogFragment {
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("allPages", mAllPages);
+        outState.putInt("currentPage", mCurrentPage);
     }
 
     private DialogInterface.OnClickListener createDialogClickListener() {
