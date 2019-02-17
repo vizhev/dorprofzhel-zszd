@@ -6,6 +6,7 @@
 
     <!--General-->
     <string name="app_name">Дорпрофжел ЗСЖД</string>
+    <string name="connect_error_message">Ошибка загрузки данных</string>
 
     <!--MainActivity-->
     <string name="main_action_close">Закрыть</string>

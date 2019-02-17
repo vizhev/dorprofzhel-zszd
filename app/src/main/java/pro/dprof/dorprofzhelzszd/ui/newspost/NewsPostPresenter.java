@@ -25,22 +25,22 @@ import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
         implements NewsPostMvpPresenter<V> {
 
-    private News appContent;
+    private News news;
 
     @Override
     public void onSetPostContent(final String postTitle, final String postLink, final String imageLink) {
         AsyncUtil.submitRunnable(new Runnable() {
             @Override
             public void run() {
-                if (appContent == null) {
-                    appContent = getDataProvider().getNewsPostText(postLink);
-                    appContent.setTitle(postTitle);
-                    appContent.setImageLink(imageLink);
+                if (news == null) {
+                    news = getDataProvider().getNewsPostText(postLink);
+                    news.setTitle(postTitle);
+                    news.setImageLink(imageLink);
                 }
                 int retry = 0;
                 do {
                     try {
-                        getMvpView().setPostContent(appContent);
+                        getMvpView().setPostContent(news);
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();
@@ -53,7 +53,6 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
                         retry++;
                     }
                 } while (retry < 2);
-
             }
         });
     }
