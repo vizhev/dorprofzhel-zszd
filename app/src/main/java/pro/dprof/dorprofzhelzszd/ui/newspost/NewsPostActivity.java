@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -105,6 +106,7 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
                     mTvPostTitle.setText(postTitle);
                     mTvPostText.setText(Html.fromHtml(postTextHtml));
                     mTvPostText.setMovementMethod(LinkMovementMethod.getInstance());
+                    mCardView.setVisibility(View.VISIBLE);
                     try {
                         Picasso.get()
                                 .load(imageLink)
@@ -117,11 +119,11 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
                     if (actionBar != null) {
                         actionBar.setTitle(postDate);
                     }
-                    mProgressBar.setVisibility(View.GONE);
-                    mCardView.setVisibility(View.VISIBLE);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
+                    Toast.makeText(NewsPostActivity.this, R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                 }
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }

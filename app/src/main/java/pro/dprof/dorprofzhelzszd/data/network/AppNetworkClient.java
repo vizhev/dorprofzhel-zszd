@@ -152,7 +152,7 @@ public final class AppNetworkClient implements NetworkClient {
 
     @Override
     public String loadAboutOrganizationText() {
-        String text = Constants.MESSAGE_CONNECT_ERROR;
+        String text = null;
         Document document;
         try {
             document = Jsoup.connect(URL_ABOUT_ORGANIZATION).get();

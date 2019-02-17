@@ -80,14 +80,14 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (text.equals(Constants.MESSAGE_CONNECT_ERROR)) {
-                        Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
+                    if (text == null) {
+                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                     } else {
                         mTvAbout.setText(Html.fromHtml(text));
                         mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
                         mCardView.setVisibility(View.VISIBLE);
-                        mProgressBar.setVisibility(View.GONE);
                     }
+                    mProgressBar.setVisibility(View.GONE);
                 }
             });
         } catch (NullPointerException e) {

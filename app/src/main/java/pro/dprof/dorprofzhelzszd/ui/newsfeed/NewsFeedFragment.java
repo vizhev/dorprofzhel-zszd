@@ -33,7 +33,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
 
@@ -105,7 +104,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
                     mRecyclerView.getAdapter().notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
                     if (mRecyclerView.getAdapter().getItemCount() == 0) {
-                        Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

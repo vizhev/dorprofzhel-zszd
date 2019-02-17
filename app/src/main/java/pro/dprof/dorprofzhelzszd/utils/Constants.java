@@ -5,8 +5,6 @@ public final class Constants {
     public final static String INTENT_TAG_ASSET_NAME = "asset_name";
     public final static String INTENT_TAG_ACTIVITY_TITLE = "activity_title";
 
-    public final static String MESSAGE_CONNECT_ERROR = "Нет доступа к сети";
-
     //Preferences
     public final static String PREF_APP_STATE = "pref_app_state";
     public final static String PREF_NOTE = "pref_note";
