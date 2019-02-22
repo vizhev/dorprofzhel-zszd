@@ -41,7 +41,7 @@ public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePres
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(200);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }

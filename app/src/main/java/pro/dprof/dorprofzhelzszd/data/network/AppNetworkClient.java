@@ -33,7 +33,6 @@ import java.util.Set;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
 import pro.dprof.dorprofzhelzszd.dataclasses.News;
 import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppNetworkClient implements NetworkClient {
 
@@ -43,13 +42,13 @@ public final class AppNetworkClient implements NetworkClient {
     private static final Set<String> pageSet = new LinkedHashSet<>();
     private static int page = 0;
 
-    private PreferencesHelper mPreferences;
+    private final PreferencesHelper mPreferences;
 
     public AppNetworkClient(PreferencesHelper preferencesHelper) {
+        mPreferences = preferencesHelper;
         if (pageSet.isEmpty()) {
             pageSet.add(URL_NEWS);
         }
-        mPreferences = preferencesHelper;
     }
 
     @Override

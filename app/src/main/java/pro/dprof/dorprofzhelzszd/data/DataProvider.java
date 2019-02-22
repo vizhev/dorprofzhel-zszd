@@ -27,9 +27,9 @@ import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 
 public final class DataProvider {
 
-    private PreferencesHelper mPreferences;
-    private DbHelper mDbHelper;
-    private NetworkClient mNetworkClient;
+    private final PreferencesHelper mPreferences;
+    private final DbHelper mDbHelper;
+    private final NetworkClient mNetworkClient;
 
     public DataProvider(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
         this.mPreferences = preferences;
@@ -37,32 +37,41 @@ public final class DataProvider {
         this.mNetworkClient = networkClient;
     }
 
-    public synchronized List<News> getNewsFeedContent(boolean isRefresh) {
-        return mNetworkClient.loadNewsFeed(isRefresh);
+    public List<News> getNewsFeedContent(boolean isRefresh) {
+        synchronized (mNetworkClient) {
+            return mNetworkClient.loadNewsFeed(isRefresh);
+        }
     }
 
-    public synchronized News getNewsPostText(String postLink) {
-        return mNetworkClient.loadNewsPost(postLink);
+    public News getNewsPostText(String postLink) {
+        synchronized (mNetworkClient) {
+            return mNetworkClient.loadNewsPost(postLink);
+        }
     }
 
-    public synchronized List<Documents> getDocuments() {
-        return mDbHelper.getDocuments();
+    public String getAboutOrganizationText() {
+        synchronized (mNetworkClient) {
+            return mNetworkClient.loadAboutOrganizationText();
+        }
     }
 
-    public synchronized void setNoteState(String noteState) {
+    public List<Staff> getStaffList() {
+        synchronized (mNetworkClient) {
+            return mNetworkClient.loadStaff();
+        }
+    }
+
+    public List<Documents> getDocuments() {
+        synchronized (mDbHelper) {
+            return mDbHelper.getDocuments();
+        }
+    }
+
+    public void setNoteState(String noteState) {
         mPreferences.setNoteState(noteState);
     }
 
-    public synchronized String getNoteState() {
+    public String getNoteState() {
         return mPreferences.getNoteState();
     }
-
-    public synchronized String getAboutOrganizationText() {
-        return mNetworkClient.loadAboutOrganizationText();
-    }
-
-    public synchronized List<Staff> getStaffList() {
-        return mNetworkClient.loadStaff();
-    }
-
 }

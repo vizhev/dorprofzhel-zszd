@@ -47,12 +47,17 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_documents, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        mRecyclerView.setVisibility(savedInstanceState == null ? View.GONE : View.VISIBLE);
-        mProgressBar.setVisibility(savedInstanceState == null ? View.VISIBLE : View.GONE);
         mPresenter = getActivityComponent().getDocumentsPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
-        mPresenter.onSetContent();
+        if (mPresenter.isNeedLoadingContent()) {
+            mRecyclerView.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
+            mPresenter.onSetContent();
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
         return view;
     }
 

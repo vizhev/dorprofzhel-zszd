@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-public final class AsyncUtil {
+public abstract class AsyncUtil {
 
     private static final ExecutorService mExecutorService = Executors.newCachedThreadPool(
             new ThreadFactory() {

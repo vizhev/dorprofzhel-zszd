@@ -42,6 +42,11 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
                 synchronized (mAdapter) {
                     mAdapter.setContentList(contentList);
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 int retry = 0;
                 do {
                     try {
@@ -50,7 +55,7 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(300);
+                            TimeUnit.MILLISECONDS.sleep(200);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }
@@ -60,5 +65,9 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
                 } while (retry < 2);
             }
         });
+    }
+
+    public boolean isNeedLoadingContent() {
+        return mAdapter.getItemCount() == 0;
     }
 }

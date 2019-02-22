@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
+import pro.dprof.dorprofzhelzszd.di.components.MainActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.aboutapp.AboutAppActivity;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
@@ -59,7 +60,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         mDrawerLayout.addDrawerListener(toggle);
         toggle.setDrawerSlideAnimationEnabled(false);
         toggle.syncState();
-        mPresenter = getActivityComponent().getMainPresenter();
+        mPresenter = ((MainActivityComponent)getActivityComponent()).getMainPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             mPresenter.onStartFragmentTransaction(new NewsFeedFragment(), NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);

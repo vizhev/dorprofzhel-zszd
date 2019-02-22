@@ -45,7 +45,7 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(200);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }

@@ -31,6 +31,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
+import pro.dprof.dorprofzhelzszd.di.components.DocumentViewerActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.ui.dialogs.DocumentPagesDialog;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
@@ -40,7 +41,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
     @BindView(R.id.toolbar_pdf) Toolbar mToolbar;
     @BindView(R.id.pdf_document_viewer) PDFView mPdfView;
     @BindView(R.id.cv_document_viewer_html) CardView mCardView;
-    @BindView(R.id.tv_document_viewer) TextView mTextView;
+    @BindView(R.id.tv_document_viewer_html) TextView mTextView;
 
     private DocumentViewerMvpPresenter<DocumentViewerMvpView> mPresenter;
 
@@ -55,7 +56,7 @@ public final class DocumentViewActivity extends BaseActivity implements Document
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mPresenter = getActivityComponent().getPdfViewerPresenter();
+        mPresenter = ((DocumentViewerActivityComponent) getActivityComponent()).getPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             final String assetName = getIntent().getStringExtra(Constants.INTENT_TAG_ASSET_NAME);

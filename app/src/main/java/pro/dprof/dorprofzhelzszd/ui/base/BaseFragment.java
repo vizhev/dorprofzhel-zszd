@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.base;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import pro.dprof.dorprofzhelzszd.di.components.ActivityComponent;
+import pro.dprof.dorprofzhelzszd.di.components.MainActivityComponent;
 
 public class BaseFragment extends Fragment implements MvpView {
 
@@ -33,9 +33,9 @@ public class BaseFragment extends Fragment implements MvpView {
         }
     }
 
-    public ActivityComponent getActivityComponent() {
+    public MainActivityComponent getActivityComponent() {
         if (mActivity != null) {
-            return mActivity.getActivityComponent();
+            return (MainActivityComponent) mActivity.getActivityComponent();
         }
         return null;
     }
