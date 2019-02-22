@@ -41,20 +41,20 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
                 synchronized (mAdapter) {
                     mAdapter.setContentList(contentList, isRefresh);
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 int retry = 0;
                 do {
                     try {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         getMvpView().stopRefreshing();
                         retry = 2;
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(200);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }

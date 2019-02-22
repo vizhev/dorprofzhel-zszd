@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
@@ -51,7 +50,7 @@ public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         try {
-                            TimeUnit.MILLISECONDS.sleep(300);
+                            TimeUnit.MILLISECONDS.sleep(200);
                         } catch (InterruptedException ie) {
                             ie.printStackTrace();
                         }

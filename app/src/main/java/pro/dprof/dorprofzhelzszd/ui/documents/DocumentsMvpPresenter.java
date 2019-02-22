@@ -23,4 +23,6 @@ public interface DocumentsMvpPresenter<V extends DocumentsMvpView> extends MvpPr
     void onSetAdapter();
 
     void onSetContent();
+
+    boolean isNeedLoadingContent();
 }

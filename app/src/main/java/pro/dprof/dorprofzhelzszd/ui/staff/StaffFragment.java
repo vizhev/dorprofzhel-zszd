@@ -50,7 +50,7 @@ public final class StaffFragment extends BaseFragment implements StaffMvpView {
         mUnbinder = ButterKnife.bind(this, view);
         mRecyclerView.setVisibility(savedInstanceState == null ? View.GONE : View.VISIBLE);
         mProgressBar.setVisibility(savedInstanceState == null ? View.VISIBLE : View.GONE);
-        mPresenter = getActivityComponent().getPersonsPresenter();
+        mPresenter = getActivityComponent().getStaffPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
         mPresenter.onSetContent();

@@ -24,20 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
-import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppDbHelper implements DbHelper {
 
-    private OpenDbHelper mOpenDbHelper;
+    private final OpenDbHelper mOpenDbHelper;
     private SQLiteDatabase mDatabase;
 
-    public AppDbHelper(@ApplicationContext Context context) {
+    public AppDbHelper(Context context) {
         mOpenDbHelper = new OpenDbHelper(context);
     }
 
     private void openDb() {
-        mDatabase = mOpenDbHelper.getWritableDatabase();
+        mDatabase = mOpenDbHelper.getReadableDatabase();
     }
 
     private void closeDb() {

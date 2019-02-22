@@ -36,6 +36,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
+import pro.dprof.dorprofzhelzszd.di.components.NewsPostActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.dataclasses.News;
 
@@ -61,7 +62,7 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mPresenter = getActivityComponent().getNewsPostPresenter();
+        mPresenter = ((NewsPostActivityComponent)getActivityComponent()).getPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             final Intent intent = getIntent();

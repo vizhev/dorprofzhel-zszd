@@ -28,7 +28,7 @@
         android:layout_margin="@dimen/card_view_margin">
 
         <TextView
-            android:id="@+id/tv_document_viewer"
+            android:id="@+id/tv_document_viewer_html"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

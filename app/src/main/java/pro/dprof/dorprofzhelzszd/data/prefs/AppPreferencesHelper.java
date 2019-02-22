@@ -23,7 +23,7 @@ import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppPreferencesHelper implements PreferencesHelper {
 
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mSharedPreferences;
 
     public AppPreferencesHelper(Context context) {
         mSharedPreferences = context.getSharedPreferences(
