@@ -34,7 +34,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpView {
 
@@ -76,7 +75,7 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
 
     @Override
     public void setAboutText(final String text) {
-        try {
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -90,8 +89,6 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
                     mProgressBar.setVisibility(View.GONE);
                 }
             });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 }

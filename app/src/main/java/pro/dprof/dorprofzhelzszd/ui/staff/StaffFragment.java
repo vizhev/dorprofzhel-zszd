@@ -80,20 +80,21 @@ public final class StaffFragment extends BaseFragment implements StaffMvpView {
 
     @Override
     public void showContent() {
-        try {
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mProgressBar.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
-                    if (mRecyclerView.getAdapter().getItemCount() == 0) {
-                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-
+                    try {
+                        if (mRecyclerView.getAdapter().getItemCount() == 0) {
+                            Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     }
                 }
             });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 }

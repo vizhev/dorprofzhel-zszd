@@ -38,7 +38,7 @@ public final class AppNetworkClient implements NetworkClient {
 
     private static final String URL_NEWS = "http://dprof.pro/news";
     private static final String URL_ABOUT_ORGANIZATION = "http://dprof.pro/razdel/ob-organizatsii/";
-    private static final String URL_PERSONS = "http://dprof.pro/razdel/apparat-dorprofzhela/";
+    private static final String URL_STAFF = "http://dprof.pro/razdel/apparat-dorprofzhela/";
     private static final Set<String> pageSet = new LinkedHashSet<>();
     private static int page = 0;
 
@@ -127,24 +127,25 @@ public final class AppNetworkClient implements NetworkClient {
         final List<Staff> staffList = new ArrayList<>();
         Document document;
         try {
-            document = Jsoup.connect(URL_PERSONS).get();
+            document = Jsoup.connect(URL_STAFF).get();
             if (!document.html().equals(mPreferences.getStaffDocument())) {
                 mPreferences.setStaffDocument(document.html());
+            } else {
+                document = Jsoup.parse(mPreferences.getStaffDocument());
             }
-        } catch (IOException e) {
+            final Element staffElement = document.getElementsByClass("razle_podtext").first();
+            final Elements images = staffElement.select("img");
+            final Elements information = staffElement.select("tr").select("td").next();
+            for (int i = 0; i < images.size(); i++) {
+                final Staff staff = new Staff();
+                final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
+                final String info = information.get(i).html();
+                staff.setImageLink(imageLink);
+                staff.setInfo(info);
+                staffList.add(staff);
+            }
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            document = Jsoup.parse(mPreferences.getStaffDocument());
-        }
-        final Element staffElement = document.getElementsByClass("razle_podtext").first();
-        final Elements images = staffElement.select("img");
-        final Elements information = staffElement.select("tr").select("td").next();
-        for (int i = 0; i < images.size(); i++) {
-            final Staff staff = new Staff();
-            final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
-            final String info = information.get(i).html();
-            staff.setImageLink(imageLink);
-            staff.setInfo(info);
-            staffList.add(staff);
         }
         return staffList;
     }

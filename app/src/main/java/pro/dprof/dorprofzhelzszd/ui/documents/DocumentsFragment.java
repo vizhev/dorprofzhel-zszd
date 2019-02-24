@@ -83,7 +83,7 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
     }
 
     public void showContent() {
-        try {
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -91,8 +91,6 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
                     mRecyclerView.setVisibility(View.VISIBLE);
                 }
             });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 }

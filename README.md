@@ -4,10 +4,16 @@ Unofficial client for the [site](http://dprof.pro) of the Road territorial
 organization ROSPROFZHEL on the West-Siberian railway. Currently supports only RU locale.
 
 ## Changelog
+
+   ### 1.2
+   - add link of loyalty program
+   - add Public inspectors section with the ability
+    to print the act of public inspector
+   - bug fixes
     
    ### 1.1
    - add dialog of movement on pages in Documents
-   - bugfix
+   - bug fixes
 
 ## License
 ```

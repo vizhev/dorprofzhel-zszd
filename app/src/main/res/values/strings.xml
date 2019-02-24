@@ -42,21 +42,36 @@
     <string name="public_inspectors_toolkit_activity_title">Методическое пособие</string>
 
     <!--About App-->
-    <string name="about_app">
+    <string name="about_app_info">
         <b>Дорпрофжел ЗСЖД</b>\
         Версия 1.2\
         \
         Неофициальный клиент для <a href="http://dprof.pro">сайта</a>
         Дорожной территориальной организация РОСПРОФЖЕЛ на Западно-Сибирской железной дороге.\
     </string>
-    <string name="about_app_author">Автор</string>
+    <string name="about_app_useful_links">
+        Полезные ссылки:\
+        \
+        &#5867; РОСПРОФЖЕЛ <a href="http://rosprofzhel.rzd.ru">официальный сайт</a>\
+        &#5867; РОСПРОФЖЕЛ <a href="https://vk.com/rosprofzhel_main">страница в vk</a>\
+        &#5867; РОСПРОФЖЕЛ <a href="https://www.instagram.com/rosprofgel_1905/">аккаун в instagram</a>\
+        &#5867; РОСПРОФЖЕЛ <a href="https://www.youtube.com/channel/UCM_sZeXdZoasLC80onSDT2Q">канал на YouTube</a>\
+        \
+        &#5867; Дорпрофжел ЗСЖД <a href="https://vk.com/id420313757">группа в vk</a>\
+        &#5867; Дорпрофжел ЗСЖД <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
+        &#5867; Дорпрофжел ЗСЖД <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
+    </string>
+    <string name="about_app_author">Разработчик приложения</string>
     <string name="about_app_author_name">Evgenii Vizhev</string>
     <string name="about_app_author_email">vizhev@gmail.com</string>
+
+    <!--
     <string name="about_app_license">Лицензия</string>
     <string name="about_app_license_name">Apache License 2.0</string>
     <string name="about_app_license_link">https://www.apache.org/licenses/LICENSE-2.0</string>
     <string name="about_app_source">Исходный код</string>
     <string name="about_app_source_name">https://github.com/vizhev/dorprofzhel-zszd</string>
     <string name="about_app_source_link">https://github.com/vizhev/dorprofzhel-zszd</string>
+    -->
 
 </resources>

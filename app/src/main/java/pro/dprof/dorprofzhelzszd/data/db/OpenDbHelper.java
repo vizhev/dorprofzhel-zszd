@@ -60,7 +60,6 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                 db.insert(DB_TABLE_NAME_DOCUMENTS, null, contentValues);
             }
         }
-
     }
 
     @Override

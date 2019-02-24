@@ -30,21 +30,14 @@ import pro.dprof.dorprofzhelzszd.data.network.AppNetworkClient;
 import pro.dprof.dorprofzhelzszd.data.network.NetworkClient;
 import pro.dprof.dorprofzhelzszd.data.prefs.AppPreferencesHelper;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
 
 @Module
 public class ApplicationModule {
 
-    private Context mContext;
+    private final Context mContext;
 
     public ApplicationModule(Application application) {
         mContext = application.getApplicationContext();
-    }
-
-    @Provides
-    @ApplicationContext
-    Context provideApplicationContext() {
-        return mContext;
     }
 
     @Provides
