@@ -209,7 +209,7 @@ public final class Constants {
             "technical_phones.pdf",
             "technical_sout.pdf",
             "technical_appeal.pdf",
-            "technical_about raising.pdf",
+            "technical_about_raising.pdf",
             "technical_list.pdf"
     };
 }

@@ -16,6 +16,7 @@
 
 package pro.dprof.dorprofzhelzszd.ui.documentviewer;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -35,6 +36,7 @@ import pro.dprof.dorprofzhelzszd.di.components.DocumentViewerActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.ui.dialogs.DocumentPagesDialog;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
+import pro.dprof.dorprofzhelzszd.utils.HtmlPrint;
 
 public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView, DocumentPagesDialog.OnDocumentPagesDialogListener {
 
@@ -77,15 +79,13 @@ public final class DocumentViewActivity extends BaseActivity implements Document
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // removed because this document is not for public use
-       /* boolean isNewApi = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        String documentTag = mPresenter.getDocumentTag();
-        if (documentTag.equals("Act") && isNewApi) {
-            getMenuInflater().inflate(R.menu.menu_pdf_action, menu);
-            return true;
-        }*/
-       getMenuInflater().inflate(R.menu.menu_document_viewer, menu);
-       return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_document_viewer, menu);
+        final String documentTag = mPresenter.getDocumentTag();
+        final boolean isAct = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+                documentTag.equals("act.pdf");
+        menu.findItem(R.id.im_document_viewer_action_print).setVisible(isAct);
+        menu.findItem(R.id.im_document_viewer_action_pages).setVisible(!isAct);
+       return true;
     }
 
     @Override
@@ -94,15 +94,14 @@ public final class DocumentViewActivity extends BaseActivity implements Document
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.item_document_viewer_action_pages:
+            case R.id.im_document_viewer_action_pages:
                 new DocumentPagesDialog()
                         .setPages(mPdfView.getPageCount(), mPdfView.getCurrentPage() + 1)
                         .show(getSupportFragmentManager(), DocumentPagesDialog.TAG);
                 return true;
-            /*case R.id.item_pdf_action_print:
-                //this document is not for public use
+            case R.id.im_document_viewer_action_print:
                 new HtmlPrint(this).doWebViewPrint();
-                return true;*/
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

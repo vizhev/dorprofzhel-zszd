@@ -46,11 +46,6 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
 
     private boolean isNeedLoadContent = false;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,10 +96,14 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mRecyclerView.getAdapter().notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    if (mRecyclerView.getAdapter().getItemCount() == 0) {
-                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
+                    try {
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        if (mRecyclerView.getAdapter().getItemCount() == 0) {
+                            Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     }
                 }
             });
