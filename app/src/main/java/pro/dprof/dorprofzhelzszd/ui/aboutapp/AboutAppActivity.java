@@ -24,9 +24,12 @@ import android.support.annotation.Nullable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +54,12 @@ public final class AboutAppActivity extends BaseActivity {
         final View view = getLayoutInflater().inflate(
                 R.layout.element_header_about_app, mListView, false
         );
+        final ImageView ivLogo = view.findViewById(R.id.iv_about_app_logo);
         final TextView tvMessage = view.findViewById(R.id.tv_about_app_message);
+        Picasso.get()
+                .load(R.drawable.ic_logo)
+                .resize(500, 500)
+                .into(ivLogo);
         tvMessage.setMovementMethod(LinkMovementMethod.getInstance());
         mListView.addHeaderView(view, "Header", false);
         mListView.setHeaderDividersEnabled(true);

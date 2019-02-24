@@ -71,4 +71,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MvpView 
     public Object onRetainCustomNonConfigurationInstance() {
         return mActivityComponent;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

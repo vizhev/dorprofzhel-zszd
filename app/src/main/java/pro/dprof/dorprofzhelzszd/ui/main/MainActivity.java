@@ -17,6 +17,7 @@
 package pro.dprof.dorprofzhelzszd.ui.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -38,6 +39,7 @@ import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.documents.DocumentsFragment;
 import pro.dprof.dorprofzhelzszd.ui.newsfeed.NewsFeedFragment;
 import pro.dprof.dorprofzhelzszd.ui.note.NoteFragment;
+import pro.dprof.dorprofzhelzszd.ui.publiсinspectors.PublicInspectorsFragment;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffFragment;
 
 public final class MainActivity extends BaseActivity implements MainMvpView {
@@ -127,6 +129,10 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                 mToolbar.setTitle(getResources().getString(R.string.drawer_documentation));
                 mNavigationView.setCheckedItem(R.id.item_drawer_documentation);
                 break;
+            case PublicInspectorsFragment.TAG:
+                mToolbar.setTitle(R.string.drawer_public_inspectors);
+                mNavigationView.setCheckedItem(R.id.item_drawer_public_inspectors);
+                break;
             case NoteFragment.TAG:
                 mToolbar.setTitle(getResources().getString(R.string.drawer_note));
                 mNavigationView.setCheckedItem(R.id.item_drawer_note);
@@ -154,9 +160,19 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                         fragment = new NewsFeedFragment();
                         fragmentTag = NewsFeedFragment.TAG;
                         break;
+                    case R.id.item_drawer_loyalty_program:
+                        final Intent layoutProgramIntent = new Intent();
+                        layoutProgramIntent.setAction(Intent.ACTION_VIEW);
+                        layoutProgramIntent.setData(Uri.parse(getResources().getString(R.string.drawer_loyalty_program_url)));
+                        startActivity(layoutProgramIntent);
+                        return true;
                     case R.id.item_drawer_documentation:
                         fragment = new DocumentsFragment();
                         fragmentTag = DocumentsFragment.TAG;
+                        break;
+                    case R.id.item_drawer_public_inspectors:
+                        fragment = new PublicInspectorsFragment();
+                        fragmentTag = PublicInspectorsFragment.TAG;
                         break;
                     case R.id.item_drawer_note:
                         fragment = new NoteFragment();
@@ -171,8 +187,8 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                         fragmentTag = AboutOrgFragment.TAG;
                         break;
                     case R.id.item_drawer_about_app:
-                        Intent intent = new Intent(MainActivity.this, AboutAppActivity.class);
-                        startActivity(intent);
+                        final Intent aboutAppIntent = new Intent(MainActivity.this, AboutAppActivity.class);
+                        startActivity(aboutAppIntent);
                         return true;
                 }
                 if (fragment != null) {
