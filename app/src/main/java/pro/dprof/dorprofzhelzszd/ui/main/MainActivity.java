@@ -160,12 +160,6 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                         fragment = new NewsFeedFragment();
                         fragmentTag = NewsFeedFragment.TAG;
                         break;
-                    case R.id.item_drawer_loyalty_program:
-                        final Intent layoutProgramIntent = new Intent();
-                        layoutProgramIntent.setAction(Intent.ACTION_VIEW);
-                        layoutProgramIntent.setData(Uri.parse(getResources().getString(R.string.drawer_loyalty_program_url)));
-                        startActivity(layoutProgramIntent);
-                        return true;
                     case R.id.item_drawer_documentation:
                         fragment = new DocumentsFragment();
                         fragmentTag = DocumentsFragment.TAG;
@@ -178,6 +172,12 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                         fragment = new NoteFragment();
                         fragmentTag = NoteFragment.TAG;
                         break;
+                    case R.id.item_drawer_loyalty_program:
+                        final Intent layoutProgramIntent = new Intent();
+                        layoutProgramIntent.setAction(Intent.ACTION_VIEW);
+                        layoutProgramIntent.setData(Uri.parse(getResources().getString(R.string.drawer_loyalty_program_url)));
+                        startActivity(layoutProgramIntent);
+                        return true;
                     case R.id.item_drawer_staff:
                         fragment = new StaffFragment();
                         fragmentTag = StaffFragment.TAG;
