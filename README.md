@@ -1,6 +1,6 @@
 # Dorprofzhel ZSZD
 
-Unofficial client for the [site](http://dprof.pro) of the Road territorial 
+Android-client for the [site](http://dprof.pro) of the Road territorial 
 organization ROSPROFZHEL on the West-Siberian railway. Currently supports only RU locale.
 
 ## Changelog

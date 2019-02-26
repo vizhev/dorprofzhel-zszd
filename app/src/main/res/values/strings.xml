@@ -46,20 +46,22 @@
         <b>Дорпрофжел ЗСЖД</b>\
         Версия 1.2\
         \
-        Неофициальный клиент для <a href="http://dprof.pro">сайта</a>
+        Android-клиент для <a href="http://dprof.pro">сайта</a>
         Дорожной территориальной организация РОСПРОФЖЕЛ на Западно-Сибирской железной дороге.\
     </string>
     <string name="about_app_useful_links">
         Полезные ссылки:\
         \
-        &#5867; РОСПРОФЖЕЛ <a href="http://rosprofzhel.rzd.ru">официальный сайт</a>\
-        &#5867; РОСПРОФЖЕЛ <a href="https://vk.com/rosprofzhel_main">страница в vk</a>\
-        &#5867; РОСПРОФЖЕЛ <a href="https://www.instagram.com/rosprofgel_1905/">аккаун в instagram</a>\
-        &#5867; РОСПРОФЖЕЛ <a href="https://www.youtube.com/channel/UCM_sZeXdZoasLC80onSDT2Q">канал на YouTube</a>\
+        РОСПРОФЖЕЛ\
+        <a href="http://rosprofzhel.rzd.ru">официальный сайт</a>\
+        <a href="https://vk.com/rosprofzhel_main">страница в vk</a>\
+        <a href="https://www.instagram.com/rosprofgel_1905/">аккаун в instagram</a>\
+        <a href="https://www.youtube.com/channel/UCM_sZeXdZoasLC80onSDT2Q">канал на YouTube</a>\
         \
-        &#5867; Дорпрофжел ЗСЖД <a href="https://vk.com/id420313757">группа в vk</a>\
-        &#5867; Дорпрофжел ЗСЖД <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
-        &#5867; Дорпрофжел ЗСЖД <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
+        Дорпрофжел ЗСЖД\
+        <a href="https://vk.com/id420313757">страница в vk</a>\
+        <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
+        <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
     </string>
     <string name="about_app_author">Разработчик приложения</string>
     <string name="about_app_author_name">Evgenii Vizhev</string>
