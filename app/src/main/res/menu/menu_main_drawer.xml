@@ -10,10 +10,6 @@
             android:title="@string/drawer_news" />
 
         <item
-            android:id="@+id/item_drawer_loyalty_program"
-            android:title="@string/drawer_loyalty_program" />
-
-        <item
             android:id="@+id/item_drawer_documentation"
             android:title="@string/drawer_documentation" />
 
@@ -27,8 +23,16 @@
 
     </group>
 
+    <group android:id="@+id/second_drawer_group">
+
+        <item
+            android:id="@+id/item_drawer_loyalty_program"
+            android:title="@string/drawer_loyalty_program" />
+
+    </group>
+
     <group
-        android:id="@+id/second_drawer_group"
+        android:id="@+id/third_drawer_group"
         android:checkableBehavior="single">
 
         <item
@@ -41,7 +45,7 @@
 
     </group>
 
-    <group android:id="@+id/third_drawer_group">
+    <group android:id="@+id/fourth_drawer_group">
 
         <item
             android:id="@+id/item_drawer_about_app"
