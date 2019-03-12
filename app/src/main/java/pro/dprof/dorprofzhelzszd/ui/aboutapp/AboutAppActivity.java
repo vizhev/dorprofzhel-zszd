@@ -71,23 +71,20 @@ public final class AboutAppActivity extends BaseActivity {
     private SimpleAdapter createAdapter() {
         final List<Map<String, String>> dataList = new ArrayList<>();
 
+        final Map<String, String> authorIdea = new HashMap<>(2);
+        authorIdea.put("First Line", getResources().getString(R.string.about_app_author_idea));
+        authorIdea.put("Second Line", getResources().getString(R.string.about_app_author_idea_name) +
+                " | " + getResources().getString(R.string.about_app_author_idea_contact)
+        );
+
         final Map<String, String> author = new HashMap<>(2);
         author.put("First Line", getResources().getString(R.string.about_app_author));
         author.put("Second Line", getResources().getString(R.string.about_app_author_name) +
-                " | " + getResources().getString(R.string.about_app_author_email)
+                " | " + getResources().getString(R.string.about_app_author_contact)
         );
 
-        /*final Map<String, String> license = new HashMap<>(2);
-        license.put("First Line", getResources().getString(R.string.about_app_license));
-        license.put("Second Line", getResources().getString(R.string.about_app_license_name));
-
-        final Map<String, String> source = new HashMap<>(2);
-        source.put("First Line", getResources().getString(R.string.about_app_source));
-        source.put("Second Line", getResources().getString(R.string.about_app_source_name));*/
-
+        dataList.add(authorIdea);
         dataList.add(author);
-        //dataList.add(license);
-        //dataList.add(source);
         return new SimpleAdapter(
                 this,
                 dataList,
@@ -104,17 +101,13 @@ public final class AboutAppActivity extends BaseActivity {
                 final Intent intent = new Intent();
                 switch (position) {
                     case 1:
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_author_idea_contact)));
+                        break;
+                    case 2:
                         intent.setAction(Intent.ACTION_SENDTO);
-                        intent.setData(Uri.parse("mailto:" + getResources().getString(R.string.about_app_author_email)));
+                        intent.setData(Uri.parse("mailto:" + getResources().getString(R.string.about_app_author_contact)));
                         break;
-                    /*case 2:
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_license_link)));
-                        break;
-                    case 3:
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_source_link)));
-                        break;*/
                 }
                 try {
                     startActivity(intent);

@@ -63,9 +63,13 @@
         <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
         <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
     </string>
+    <string name="about_app_author_idea">Автор идеи</string>
+    <string name="about_app_author_idea_name">Виталий Бузырев</string>
+    <string name="about_app_author_idea_contact">https://vk.com/id178840035</string>
+
     <string name="about_app_author">Разработчик приложения</string>
-    <string name="about_app_author_name">Evgenii Vizhev</string>
-    <string name="about_app_author_email">vizhev@gmail.com</string>
+    <string name="about_app_author_name">Евгений Вижев</string>
+    <string name="about_app_author_contact">vizhev@gmail.com</string>
 
     <!--
     <string name="about_app_license">Лицензия</string>

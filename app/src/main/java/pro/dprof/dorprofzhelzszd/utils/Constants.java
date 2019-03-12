@@ -1,6 +1,6 @@
 package pro.dprof.dorprofzhelzszd.utils;
 
-public final class Constants {
+public abstract class Constants {
 
     public final static String INTENT_TAG_ASSET_NAME = "asset_name";
     public final static String INTENT_TAG_ACTIVITY_TITLE = "activity_title";
