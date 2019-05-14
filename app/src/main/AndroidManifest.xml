@@ -45,6 +45,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
+
         <activity android:name=".ui.aboutapp.AboutAppActivity" />
 
     </application>

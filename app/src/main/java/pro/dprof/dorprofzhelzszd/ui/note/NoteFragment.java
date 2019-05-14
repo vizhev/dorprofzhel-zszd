@@ -39,15 +39,19 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
     private Unbinder mUnbinder;
     private NoteMvpPresenter<NoteMvpView> mPresenter;
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mPresenter = getActivityComponent().getNotePresenter();
         mPresenter.onAttach(this);
         mPresenter.onLoadNote();
-        return view;
     }
 
     @Override

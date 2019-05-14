@@ -36,7 +36,7 @@ import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
 
 public final class AppNetworkClient implements NetworkClient {
 
-    private static final String URL_NEWS = "http://dprof.pro/news";
+    private static final String URL_NEWS = "http://dprof.pro/news/?PAGEN_1=1";
     private static final String URL_ABOUT_ORGANIZATION = "http://dprof.pro/razdel/ob-organizatsii/";
     private static final String URL_STAFF = "http://dprof.pro/razdel/apparat-dorprofzhela/";
     private static final Set<String> pageSet = new LinkedHashSet<>();
@@ -85,8 +85,8 @@ public final class AppNetworkClient implements NetworkClient {
                 if (page == 0) {
                     final Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
                     final Elements pages = pageNavigator.select("a");
-                    for (int i = 0; i < pages.size(); i++) {
-                        final String nextPage = "http://dprof.pro" + pages.get(i).attr("href");
+                    for (int i = 1; i < pages.size() + 1; i++) {
+                        final String nextPage = "http://dprof.pro/news/?PAGEN_1=" + i;
                         pageSet.add(nextPage);
                     }
                     Log.d("Feed", "pageSet = " + pageSet.size());

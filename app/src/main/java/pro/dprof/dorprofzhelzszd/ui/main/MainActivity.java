@@ -41,6 +41,7 @@ import pro.dprof.dorprofzhelzszd.ui.newsfeed.NewsFeedFragment;
 import pro.dprof.dorprofzhelzszd.ui.note.NoteFragment;
 import pro.dprof.dorprofzhelzszd.ui.publiсinspectors.PublicInspectorsFragment;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffFragment;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksFragment;
 
 public final class MainActivity extends BaseActivity implements MainMvpView {
 
@@ -122,11 +123,11 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     public void selectDrawerItemAndSetTitle(String tag) {
         switch (tag) {
             case NewsFeedFragment.TAG:
-                mToolbar.setTitle(getResources().getString(R.string.drawer_news));
+                mToolbar.setTitle(R.string.drawer_news);
                 mNavigationView.setCheckedItem(R.id.item_drawer_news);
                 break;
             case DocumentsFragment.TAG:
-                mToolbar.setTitle(getResources().getString(R.string.drawer_documentation));
+                mToolbar.setTitle(R.string.drawer_documentation);
                 mNavigationView.setCheckedItem(R.id.item_drawer_documentation);
                 break;
             case PublicInspectorsFragment.TAG:
@@ -134,15 +135,19 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                 mNavigationView.setCheckedItem(R.id.item_drawer_public_inspectors);
                 break;
             case NoteFragment.TAG:
-                mToolbar.setTitle(getResources().getString(R.string.drawer_note));
+                mToolbar.setTitle(R.string.drawer_note);
                 mNavigationView.setCheckedItem(R.id.item_drawer_note);
                 break;
+            case UsefulLinksFragment.TAG:
+                mToolbar.setTitle(R.string.drawer_useful_links);
+                mNavigationView.setCheckedItem(R.id.item_drawer_useful_links);
+                break;
             case StaffFragment.TAG:
-                mToolbar.setTitle(getResources().getString(R.string.drawer_staff));
+                mToolbar.setTitle(R.string.drawer_staff);
                 mNavigationView.setCheckedItem(R.id.item_drawer_staff);
                 break;
             case AboutOrgFragment.TAG:
-                mToolbar.setTitle(getResources().getString(R.string.drawer_about_org));
+                mToolbar.setTitle(R.string.drawer_about_org);
                 mNavigationView.setCheckedItem(R.id.item_drawer_about_org);
                 break;
         }
@@ -171,6 +176,10 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
                     case R.id.item_drawer_note:
                         fragment = new NoteFragment();
                         fragmentTag = NoteFragment.TAG;
+                        break;
+                    case R.id.item_drawer_useful_links:
+                        fragment = new UsefulLinksFragment();
+                        fragmentTag = UsefulLinksFragment.TAG;
                         break;
                     case R.id.item_drawer_loyalty_program:
                         final Intent layoutProgramIntent = new Intent();

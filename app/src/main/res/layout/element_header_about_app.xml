@@ -38,28 +38,4 @@
         android:layout_marginEnd="16dp"
         android:background="?android:colorForeground" />
 
-    <TextView
-        android:id="@+id/tv_about_useful_links"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/about_app_useful_links"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="18sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="?android:colorForeground" />
-
 </LinearLayout>
