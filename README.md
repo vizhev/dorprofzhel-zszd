@@ -5,6 +5,10 @@ organization ROSPROFZHEL on the West-Siberian railway. Currently supports only R
 
 ## Changelog
 
+   ### 1.3
+   - add useful links
+   - change drawer header image
+   
    ### 1.2
    - add link of loyalty program
    - add Public inspectors section with the ability
