@@ -21,9 +21,9 @@ import java.util.List;
 import pro.dprof.dorprofzhelzszd.data.db.DbHelper;
 import pro.dprof.dorprofzhelzszd.data.network.NetworkClient;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
+import pro.dprof.dorprofzhelzszd.models.Documents;
+import pro.dprof.dorprofzhelzszd.models.News;
+import pro.dprof.dorprofzhelzszd.models.Staff;
 
 public final class DataProvider {
 

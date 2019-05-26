@@ -1,4 +1,4 @@
-package pro.dprof.dorprofzhelzszd.dataclasses;
+package pro.dprof.dorprofzhelzszd.models;
 
 public final class Staff {
 

@@ -54,10 +54,10 @@ public final class AboutAppActivity extends BaseActivity {
                 R.layout.element_header_about_app, mListView, false
         );
         final TextView tvInfo = view.findViewById(R.id.tv_about_app_info);
-        final TextView tvUsefulLinks = view.findViewById(R.id.tv_about_useful_links);
+        //final TextView tvUsefulLinks = view.findViewById(R.id.tv_about_useful_links);
         final ImageView ivLogo = view.findViewById(R.id.iv_about_app_logo);
         tvInfo.setMovementMethod(LinkMovementMethod.getInstance());
-        tvUsefulLinks.setMovementMethod(LinkMovementMethod.getInstance());
+        //tvUsefulLinks.setMovementMethod(LinkMovementMethod.getInstance());
         Picasso.get()
                 .load(R.drawable.ic_logo)
                 .resize(500, 500)

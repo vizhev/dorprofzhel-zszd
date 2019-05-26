@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
+import pro.dprof.dorprofzhelzszd.models.Documents;
 import pro.dprof.dorprofzhelzszd.ui.documentviewer.DocumentViewActivity;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 

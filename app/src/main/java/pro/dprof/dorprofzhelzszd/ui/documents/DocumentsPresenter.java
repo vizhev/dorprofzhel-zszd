@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.documents;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
+import pro.dprof.dorprofzhelzszd.models.Documents;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 

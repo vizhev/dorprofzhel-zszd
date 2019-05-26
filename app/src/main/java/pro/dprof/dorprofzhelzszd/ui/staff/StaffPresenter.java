@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.staff;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
+import pro.dprof.dorprofzhelzszd.models.Staff;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 

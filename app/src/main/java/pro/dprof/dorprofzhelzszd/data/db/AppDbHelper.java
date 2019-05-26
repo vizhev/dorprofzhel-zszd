@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
+import pro.dprof.dorprofzhelzszd.models.Documents;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class AppDbHelper implements DbHelper {

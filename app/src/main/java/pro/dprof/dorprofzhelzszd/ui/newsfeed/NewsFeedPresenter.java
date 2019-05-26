@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.models.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {

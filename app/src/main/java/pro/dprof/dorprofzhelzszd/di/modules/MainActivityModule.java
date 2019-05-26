@@ -38,6 +38,9 @@ import pro.dprof.dorprofzhelzszd.ui.note.NotePresenter;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffMvpPresenter;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffMvpView;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffPresenter;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksMvpPresenter;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksMvpView;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksPresenter;
 
 @Module
 public class MainActivityModule {
@@ -88,5 +91,13 @@ public class MainActivityModule {
         final StaffPresenter<StaffMvpView> staffPresenter = new StaffPresenter<>();
         staffPresenter.setDataProvider(dataProvider);
         return staffPresenter;
+    }
+
+    @Provides
+    @MainActivityScope
+    UsefulLinksMvpPresenter<UsefulLinksMvpView> provideUsefulLinksPresenter(DataProvider dataProvider) {
+        final UsefulLinksPresenter<UsefulLinksMvpView> usefulLinksPresenter = new UsefulLinksPresenter<>();
+        usefulLinksPresenter.setDataProvider(dataProvider);
+        return usefulLinksPresenter;
     }
 }

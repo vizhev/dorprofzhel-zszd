@@ -1,8 +1,7 @@
 <resources>
 
-    <!--DO NOT TRANSLATE-->
-    <string name="open">open</string>
-    <string name="close">close</string>
+    <string name="open" translatable="false">open</string>
+    <string name="close" translatable="false">close</string>
 
     <!--General-->
     <string name="app_name">Дорпрофжел ЗСЖД</string>
@@ -15,6 +14,7 @@
     <string name="drawer_news">Новости</string>
     <string name="drawer_documentation">Документация профсоюза</string>
     <string name="drawer_public_inspectors">Общественным инспекторам</string>
+    <string name="drawer_useful_links">Полезные ссылки</string>
     <string name="drawer_loyalty_program">Программа лояльности</string>
     <string name="drawer_loyalty_program_url">https://www.instagram.com/epb_nsk/</string>
     <string name="drawer_note">Заметки</string>
@@ -41,27 +41,25 @@
     <string name="public_inspectors_provision_activity_title">Положение</string>
     <string name="public_inspectors_toolkit_activity_title">Методическое пособие</string>
 
+    <!--UsefulLinksFragment-->
+    <string name="useful_links_dorprofzhel_title">ДОРПРОФЖЕЛ ЗСЖД</string>
+    <string name="useful_links_rosprofzhel_title">РОСПРОФЖЕЛ</string>
+    <string name="useful_links_site">официальный сайт</string>
+    <string name="useful_links_vk">страница в vk</string>
+    <string name="useful_links_instagram">аккаун в instagram</string>
+    <string name="useful_links_youtube">канал на YouTube</string>
+
+    <string name="useful_links_rosprofzhel_vk">страница в vk</string>
+    <string name="useful_links_rosprofzhel_instagram">аккаун в instagram</string>
+    <string name="useful_links_rosprofzhel_youtube">канал на YouTube</string>
+
     <!--About App-->
     <string name="about_app_info">
         <b>Дорпрофжел ЗСЖД</b>\
-        Версия 1.2\
+        Версия 1.3\
         \
         Android-клиент для <a href="http://dprof.pro">сайта</a>
         Дорожной территориальной организация РОСПРОФЖЕЛ на Западно-Сибирской железной дороге.\
-    </string>
-    <string name="about_app_useful_links">
-        Полезные ссылки:\
-        \
-        РОСПРОФЖЕЛ\
-        <a href="http://rosprofzhel.rzd.ru">официальный сайт</a>\
-        <a href="https://vk.com/rosprofzhel_main">страница в vk</a>\
-        <a href="https://www.instagram.com/rosprofgel_1905/">аккаун в instagram</a>\
-        <a href="https://www.youtube.com/channel/UCM_sZeXdZoasLC80onSDT2Q">канал на YouTube</a>\
-        \
-        Дорпрофжел ЗСЖД\
-        <a href="https://vk.com/id420313757">страница в vk</a>\
-        <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
-        <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
     </string>
     <string name="about_app_author_idea">Автор идеи</string>
     <string name="about_app_author_idea_name">Виталий Бузырев</string>
@@ -79,5 +77,20 @@
     <string name="about_app_source_name">https://github.com/vizhev/dorprofzhel-zszd</string>
     <string name="about_app_source_link">https://github.com/vizhev/dorprofzhel-zszd</string>
     -->
+
+    <string name="about_app_useful_links">
+        Полезные ссылки:\
+        \
+        РОСПРОФЖЕЛ\
+        <a href="http://rosprofzhel.rzd.ru">официальный сайт</a>\
+        <a href="https://vk.com/rosprofzhel_main">страница в vk</a>\
+        <a href="https://www.instagram.com/rosprofgel_1905/">аккаун в instagram</a>\
+        <a href="https://www.youtube.com/channel/UCM_sZeXdZoasLC80onSDT2Q">канал на YouTube</a>\
+        \
+        Дорпрофжел ЗСЖД\
+        <a href="https://vk.com/id420313757">страница в vk</a>\
+        <a href="https://www.instagram.com/dorprofzhel_zszd/">аккаун в instagram</a>\
+        <a href="https://www.youtube.com/channel/UC4qxrnCR0JFUu7gby1L6PgQ/featured">канал на YouTube</a>\
+    </string>
 
 </resources>

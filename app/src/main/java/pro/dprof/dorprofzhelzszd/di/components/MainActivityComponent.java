@@ -31,6 +31,8 @@ import pro.dprof.dorprofzhelzszd.ui.note.NoteMvpPresenter;
 import pro.dprof.dorprofzhelzszd.ui.note.NoteMvpView;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffMvpPresenter;
 import pro.dprof.dorprofzhelzszd.ui.staff.StaffMvpView;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksMvpPresenter;
+import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksMvpView;
 
 @MainActivityScope
 @Component(dependencies = ApplicationComponent.class, modules = MainActivityModule.class)
@@ -47,5 +49,7 @@ public interface MainActivityComponent {
     StaffMvpPresenter<StaffMvpView> getStaffPresenter();
 
     AboutOrgMvpPresenter<AboutOrgMvpView> getAboutOrgPresenter();
+
+    UsefulLinksMvpPresenter<UsefulLinksMvpView> getUsefulLinksPresenter();
 
 }

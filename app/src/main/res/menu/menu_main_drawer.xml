@@ -23,7 +23,13 @@
 
     </group>
 
-    <group android:id="@+id/second_drawer_group">
+    <group
+        android:id="@+id/second_drawer_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_drawer_useful_links"
+            android:title="@string/drawer_useful_links" />
 
         <item
             android:id="@+id/item_drawer_loyalty_program"
