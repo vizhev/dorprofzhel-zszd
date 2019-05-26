@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
+import pro.dprof.dorprofzhelzszd.models.Staff;
 
 final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 

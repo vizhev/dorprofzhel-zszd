@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.newspost;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.models.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>

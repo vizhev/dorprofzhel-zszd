@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
+import pro.dprof.dorprofzhelzszd.models.News;
+import pro.dprof.dorprofzhelzszd.models.Staff;
 
 public final class AppNetworkClient implements NetworkClient {
 
@@ -91,9 +91,7 @@ public final class AppNetworkClient implements NetworkClient {
                     }
                     Log.d("Feed", "pageSet = " + pageSet.size());
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
             page++;
@@ -114,9 +112,7 @@ public final class AppNetworkClient implements NetworkClient {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         return newsPost;

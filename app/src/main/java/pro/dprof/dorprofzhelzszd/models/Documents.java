@@ -1,4 +1,4 @@
-package pro.dprof.dorprofzhelzszd.dataclasses;
+package pro.dprof.dorprofzhelzszd.models;
 
 import java.util.List;
 

@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.di.components.NewsPostActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.models.News;
 
 public final class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
 
