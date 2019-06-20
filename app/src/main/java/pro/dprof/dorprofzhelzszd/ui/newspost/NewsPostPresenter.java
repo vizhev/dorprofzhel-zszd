@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.newspost;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
@@ -29,31 +29,28 @@ public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePres
 
     @Override
     public void onSetPostContent(final String postTitle, final String postLink, final String imageLink) {
-        AsyncUtil.submitRunnable(new Runnable() {
-            @Override
-            public void run() {
-                if (news == null) {
-                    news = getDataProvider().getNewsPostText(postLink);
-                    news.setTitle(postTitle);
-                    news.setImageLink(imageLink);
-                }
-                int retry = 0;
-                do {
-                    try {
-                        getMvpView().setPostContent(news);
-                        retry = 2;
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(200);
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
-                        }
-                    } finally {
-                        retry++;
-                    }
-                } while (retry < 2);
+        AsyncUtil.submitRunnable(() -> {
+            if (news == null) {
+                news = getRepository().getNewsPostText(postLink);
+                news.setTitle(postTitle);
+                news.setImageLink(imageLink);
             }
+            int retry = 0;
+            do {
+                try {
+                    getMvpView().setPostContent(news);
+                    retry = 2;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(200);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                } finally {
+                    retry++;
+                }
+            } while (retry < 2);
         });
     }
 }

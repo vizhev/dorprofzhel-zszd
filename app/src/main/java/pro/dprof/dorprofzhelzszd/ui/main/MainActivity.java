@@ -19,15 +19,15 @@ package pro.dprof.dorprofzhelzszd.ui.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
@@ -45,9 +45,12 @@ import pro.dprof.dorprofzhelzszd.ui.usefullinks.UsefulLinksFragment;
 
 public final class MainActivity extends BaseActivity implements MainMvpView {
 
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigation_view) NavigationView mNavigationView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation_view)
+    NavigationView mNavigationView;
 
     private MainMvpPresenter<MainMvpView> mPresenter;
 
@@ -63,7 +66,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         mDrawerLayout.addDrawerListener(toggle);
         toggle.setDrawerSlideAnimationEnabled(false);
         toggle.syncState();
-        mPresenter = ((MainActivityComponent)getActivityComponent()).getMainPresenter();
+        mPresenter = ((MainActivityComponent) getActivityComponent()).getMainPresenter();
         mPresenter.onAttach(this);
         if (savedInstanceState == null) {
             mPresenter.onStartFragmentTransaction(new NewsFeedFragment(), NewsFeedFragment.TAG, MainPresenter.ADD_FRAGMENT);
@@ -84,8 +87,8 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-            mDrawerLayout.closeDrawer(Gravity.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
         if (mPresenter.getBackStackCount() > 1) {
@@ -154,58 +157,55 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     private NavigationView.OnNavigationItemSelectedListener createNavigationListener() {
-        return new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                mDrawerLayout.closeDrawer(Gravity.START);
-                BaseFragment fragment = null;
-                String fragmentTag = null;
-                switch (item.getItemId()) {
-                    case R.id.item_drawer_news:
-                        fragment = new NewsFeedFragment();
-                        fragmentTag = NewsFeedFragment.TAG;
-                        break;
-                    case R.id.item_drawer_documentation:
-                        fragment = new DocumentsFragment();
-                        fragmentTag = DocumentsFragment.TAG;
-                        break;
-                    case R.id.item_drawer_public_inspectors:
-                        fragment = new PublicInspectorsFragment();
-                        fragmentTag = PublicInspectorsFragment.TAG;
-                        break;
-                    case R.id.item_drawer_note:
-                        fragment = new NoteFragment();
-                        fragmentTag = NoteFragment.TAG;
-                        break;
-                    case R.id.item_drawer_useful_links:
-                        fragment = new UsefulLinksFragment();
-                        fragmentTag = UsefulLinksFragment.TAG;
-                        break;
-                    case R.id.item_drawer_loyalty_program:
-                        final Intent layoutProgramIntent = new Intent();
-                        layoutProgramIntent.setAction(Intent.ACTION_VIEW);
-                        layoutProgramIntent.setData(Uri.parse(getResources().getString(R.string.drawer_loyalty_program_url)));
-                        startActivity(layoutProgramIntent);
-                        return true;
-                    case R.id.item_drawer_staff:
-                        fragment = new StaffFragment();
-                        fragmentTag = StaffFragment.TAG;
-                        break;
-                    case R.id.item_drawer_about_org:
-                        fragment = new AboutOrgFragment();
-                        fragmentTag = AboutOrgFragment.TAG;
-                        break;
-                    case R.id.item_drawer_about_app:
-                        final Intent aboutAppIntent = new Intent(MainActivity.this, AboutAppActivity.class);
-                        startActivity(aboutAppIntent);
-                        return true;
-                }
-                if (fragment != null) {
-                    mPresenter.onStartFragmentTransaction(fragment, fragmentTag, MainPresenter.REPLACE_FRAGMENT);
+        return item -> {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            BaseFragment fragment = null;
+            String fragmentTag = null;
+            switch (item.getItemId()) {
+                case R.id.item_drawer_news:
+                    fragment = new NewsFeedFragment();
+                    fragmentTag = NewsFeedFragment.TAG;
+                    break;
+                case R.id.item_drawer_documentation:
+                    fragment = new DocumentsFragment();
+                    fragmentTag = DocumentsFragment.TAG;
+                    break;
+                case R.id.item_drawer_public_inspectors:
+                    fragment = new PublicInspectorsFragment();
+                    fragmentTag = PublicInspectorsFragment.TAG;
+                    break;
+                case R.id.item_drawer_note:
+                    fragment = new NoteFragment();
+                    fragmentTag = NoteFragment.TAG;
+                    break;
+                case R.id.item_drawer_useful_links:
+                    fragment = new UsefulLinksFragment();
+                    fragmentTag = UsefulLinksFragment.TAG;
+                    break;
+                case R.id.item_drawer_loyalty_program:
+                    final Intent layoutProgramIntent = new Intent();
+                    layoutProgramIntent.setAction(Intent.ACTION_VIEW);
+                    layoutProgramIntent.setData(Uri.parse(getResources().getString(R.string.drawer_loyalty_program_url)));
+                    startActivity(layoutProgramIntent);
                     return true;
-                }
-                return false;
+                case R.id.item_drawer_staff:
+                    fragment = new StaffFragment();
+                    fragmentTag = StaffFragment.TAG;
+                    break;
+                case R.id.item_drawer_about_org:
+                    fragment = new AboutOrgFragment();
+                    fragmentTag = AboutOrgFragment.TAG;
+                    break;
+                case R.id.item_drawer_about_app:
+                    final Intent aboutAppIntent = new Intent(MainActivity.this, AboutAppActivity.class);
+                    startActivity(aboutAppIntent);
+                    return true;
             }
+            if (fragment != null) {
+                mPresenter.onStartFragmentTransaction(fragment, fragmentTag, MainPresenter.REPLACE_FRAGMENT);
+                return true;
+            }
+            return false;
         };
     }
 }

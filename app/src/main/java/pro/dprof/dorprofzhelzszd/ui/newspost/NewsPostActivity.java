@@ -18,10 +18,10 @@ package pro.dprof.dorprofzhelzszd.ui.newspost;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.di.components.NewsPostActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
-import pro.dprof.dorprofzhelzszd.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
 
 public final class NewsPostActivity extends BaseActivity implements NewsPostMvpView {
 
@@ -96,36 +96,33 @@ public final class NewsPostActivity extends BaseActivity implements NewsPostMvpV
 
     @Override
     public void setPostContent(final News postContent) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        runOnUiThread(() -> {
+            try {
+                final String postDate = postContent.getDate();
+                final String postTitle = postContent.getTitle();
+                final String postTextHtml = postContent.getText();
+                final String imageLink = postContent.getImageLink();
+                mTvPostTitle.setText(postTitle);
+                mTvPostText.setText(Html.fromHtml(postTextHtml));
+                mTvPostText.setMovementMethod(LinkMovementMethod.getInstance());
+                mCardView.setVisibility(View.VISIBLE);
                 try {
-                    final String postDate = postContent.getDate();
-                    final String postTitle = postContent.getTitle();
-                    final String postTextHtml = postContent.getText();
-                    final String imageLink = postContent.getImageLink();
-                    mTvPostTitle.setText(postTitle);
-                    mTvPostText.setText(Html.fromHtml(postTextHtml));
-                    mTvPostText.setMovementMethod(LinkMovementMethod.getInstance());
-                    mCardView.setVisibility(View.VISIBLE);
-                    try {
-                        Picasso.get()
-                                .load(imageLink)
-                                .resize(420, 290)
-                                .into(mIvPicture);
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    }
-                    final ActionBar actionBar = getSupportActionBar();
-                    if (actionBar != null) {
-                        actionBar.setTitle(postDate);
-                    }
-                } catch (NullPointerException e) {
+                    Picasso.get()
+                            .load(imageLink)
+                            .resize(420, 290)
+                            .into(mIvPicture);
+                } catch (IllegalArgumentException e) {
                     e.printStackTrace();
-                    Toast.makeText(NewsPostActivity.this, R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                 }
-                mProgressBar.setVisibility(View.GONE);
+                final ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setTitle(postDate);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                Toast.makeText(NewsPostActivity.this, R.string.connect_error_message, Toast.LENGTH_SHORT).show();
             }
+            mProgressBar.setVisibility(View.GONE);
         });
     }
 }

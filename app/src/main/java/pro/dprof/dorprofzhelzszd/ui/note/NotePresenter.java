@@ -22,13 +22,13 @@ public final class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
 
     @Override
     public void onLoadNote() {
-        final String noteState = getDataProvider().getNoteState();
+        final String noteState = getRepository().getNoteState();
         getMvpView().setNoteState(noteState);
     }
 
     @Override
     public void onSaveNote() {
         final String noteState = getMvpView().getNoteState();
-        getDataProvider().setNoteState(noteState);
+        getRepository().setNoteState(noteState);
     }
 }

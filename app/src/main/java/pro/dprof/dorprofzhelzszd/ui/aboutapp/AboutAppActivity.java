@@ -20,7 +20,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
@@ -95,25 +95,22 @@ public final class AboutAppActivity extends BaseActivity {
     }
 
     private AdapterView.OnItemClickListener createItemListener() {
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Intent intent = new Intent();
-                switch (position) {
-                    case 1:
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getResources().getString(R.string.about_app_author_idea_contact)));
-                        break;
-                    case 2:
-                        intent.setAction(Intent.ACTION_SENDTO);
-                        intent.setData(Uri.parse("mailto:" + getResources().getString(R.string.about_app_author_contact)));
-                        break;
-                }
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                }
+        return (parent, view, position, id) -> {
+            final Intent intent = new Intent();
+            switch (position) {
+                case 1:
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(getResources().getString(R.string.about_app_author_idea_contact)));
+                    break;
+                case 2:
+                    intent.setAction(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:" + getResources().getString(R.string.about_app_author_contact)));
+                    break;
+            }
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
             }
         };
     }

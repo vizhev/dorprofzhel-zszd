@@ -21,56 +21,64 @@ import java.util.List;
 import pro.dprof.dorprofzhelzszd.data.db.DbHelper;
 import pro.dprof.dorprofzhelzszd.data.network.NetworkClient;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.models.Documents;
-import pro.dprof.dorprofzhelzszd.models.News;
-import pro.dprof.dorprofzhelzszd.models.Staff;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
+import pro.dprof.dorprofzhelzszd.domain.models.Documents;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 
-public final class DataProvider {
+public final class DataSource implements Repository {
 
     private final PreferencesHelper mPreferences;
     private final DbHelper mDbHelper;
     private final NetworkClient mNetworkClient;
 
-    public DataProvider(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
+    public DataSource(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
         this.mPreferences = preferences;
         this.mDbHelper = dbHelper;
         this.mNetworkClient = networkClient;
     }
 
+    @Override
     public List<News> getNewsFeedContent(boolean isRefresh) {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadNewsFeed(isRefresh);
         }
     }
 
+    @Override
     public News getNewsPostText(String postLink) {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadNewsPost(postLink);
         }
     }
 
+    @Override
     public String getAboutOrganizationText() {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadAboutOrganizationText();
         }
     }
 
+    @Override
     public List<Staff> getStaffList() {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadStaff();
         }
     }
 
+    @Override
     public List<Documents> getDocuments() {
         synchronized (mDbHelper) {
             return mDbHelper.getDocuments();
         }
     }
 
+    @Override
     public void setNoteState(String noteState) {
         mPreferences.setNoteState(noteState);
     }
 
+    @Override
     public String getNoteState() {
         return mPreferences.getNoteState();
     }

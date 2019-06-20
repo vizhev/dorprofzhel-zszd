@@ -19,8 +19,8 @@ package pro.dprof.dorprofzhelzszd.data.network;
 
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.models.News;
-import pro.dprof.dorprofzhelzszd.models.Staff;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 
 public interface NetworkClient {
 

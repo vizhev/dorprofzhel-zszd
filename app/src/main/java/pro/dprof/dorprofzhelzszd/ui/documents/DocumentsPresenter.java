@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.ui.documents;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import pro.dprof.dorprofzhelzszd.models.Documents;
+import pro.dprof.dorprofzhelzszd.domain.models.Documents;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
@@ -35,35 +35,32 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
 
     @Override
     public void onSetContent() {
-        AsyncUtil.submitRunnable(new Runnable() {
-            @Override
-            public void run() {
-                final List<Documents> contentList = getDataProvider().getDocuments();
-                synchronized (mAdapter) {
-                    mAdapter.setContentList(contentList);
-                }
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                int retry = 0;
-                do {
-                    try {
-                        getMvpView().showContent();
-                        retry = 2;
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(200);
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
-                        }
-                    } finally {
-                        retry++;
-                    }
-                } while (retry < 2);
+        AsyncUtil.submitRunnable(() -> {
+            final List<Documents> contentList = getRepository().getDocuments();
+            synchronized (mAdapter) {
+                mAdapter.setContentList(contentList);
             }
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int retry = 0;
+            do {
+                try {
+                    getMvpView().showContent();
+                    retry = 2;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(200);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                } finally {
+                    retry++;
+                }
+            } while (retry < 2);
         });
     }
 

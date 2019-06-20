@@ -16,12 +16,12 @@
 
 package pro.dprof.dorprofzhelzszd.ui.base;
 
-import pro.dprof.dorprofzhelzszd.data.DataProvider;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
 
 public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V mMvpView;
-    private volatile DataProvider mDataProvider;
+    private volatile Repository mRepository;
 
     @Override
     public void onAttach(V mvpView) {
@@ -37,12 +37,12 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         return mMvpView;
     }
 
-    // Must be set before use getDataProvider(), for example in ActivityModule, in di.
-    public void setDataProvider(DataProvider dataProvider) {
-        mDataProvider = dataProvider;
+    // Must be set before use getRepository(), for example in ActivityModule, in di.
+    public void setRepository(Repository dataProvider) {
+        mRepository = dataProvider;
     }
 
-    protected DataProvider getDataProvider() {
-        return mDataProvider;
+    protected Repository getRepository() {
+        return mRepository;
     }
 }

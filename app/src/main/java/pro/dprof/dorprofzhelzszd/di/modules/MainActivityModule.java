@@ -18,8 +18,8 @@ package pro.dprof.dorprofzhelzszd.di.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import pro.dprof.dorprofzhelzszd.data.DataProvider;
 import pro.dprof.dorprofzhelzszd.di.scopes.MainActivityScope;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgMvpPresenter;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgMvpView;
 import pro.dprof.dorprofzhelzszd.ui.aboutorg.AboutOrgPresenter;
@@ -47,57 +47,57 @@ public class MainActivityModule {
 
     @Provides
     @MainActivityScope
-    MainMvpPresenter<MainMvpView> provideMainPresenter(DataProvider dataProvider) {
+    MainMvpPresenter<MainMvpView> provideMainPresenter(Repository repository) {
         final MainPresenter<MainMvpView> mainPresenter = new MainPresenter<>();
-        mainPresenter.setDataProvider(dataProvider);
+        mainPresenter.setRepository(repository);
         return mainPresenter;
     }
 
     @Provides
     @MainActivityScope
-    NewsFeedMvpPresenter<NewsFeedMvpView> provideNewsPresenter(DataProvider dataProvider) {
+    NewsFeedMvpPresenter<NewsFeedMvpView> provideNewsPresenter(Repository repository) {
         final NewsFeedPresenter<NewsFeedMvpView> newsFeedPresenter = new NewsFeedPresenter<>();
-        newsFeedPresenter.setDataProvider(dataProvider);
+        newsFeedPresenter.setRepository(repository);
         return newsFeedPresenter;
     }
 
     @Provides
     @MainActivityScope
-    DocumentsMvpPresenter<DocumentsMvpView> provideDocumentsPresenter(DataProvider dataProvider) {
+    DocumentsMvpPresenter<DocumentsMvpView> provideDocumentsPresenter(Repository repository) {
         final DocumentsPresenter<DocumentsMvpView> documentsPresenter = new DocumentsPresenter<>();
-        documentsPresenter.setDataProvider(dataProvider);
+        documentsPresenter.setRepository(repository);
         return documentsPresenter;
     }
 
     @Provides
     @MainActivityScope
-    NoteMvpPresenter<NoteMvpView> provideNotePresenter(DataProvider dataProvider) {
+    NoteMvpPresenter<NoteMvpView> provideNotePresenter(Repository repository) {
         final NotePresenter<NoteMvpView> notePresenter = new NotePresenter<>();
-        notePresenter.setDataProvider(dataProvider);
+        notePresenter.setRepository(repository);
         return notePresenter;
     }
 
     @Provides
     @MainActivityScope
-    AboutOrgMvpPresenter<AboutOrgMvpView> provideAboutOrgPresenter(DataProvider dataProvider) {
+    AboutOrgMvpPresenter<AboutOrgMvpView> provideAboutOrgPresenter(Repository repository) {
         final AboutOrgPresenter<AboutOrgMvpView> aboutOrgPresenter = new AboutOrgPresenter<>();
-        aboutOrgPresenter.setDataProvider(dataProvider);
+        aboutOrgPresenter.setRepository(repository);
         return aboutOrgPresenter;
     }
 
     @Provides
     @MainActivityScope
-    StaffMvpPresenter<StaffMvpView> providePersonsPresenter(DataProvider dataProvider) {
+    StaffMvpPresenter<StaffMvpView> providePersonsPresenter(Repository repository) {
         final StaffPresenter<StaffMvpView> staffPresenter = new StaffPresenter<>();
-        staffPresenter.setDataProvider(dataProvider);
+        staffPresenter.setRepository(repository);
         return staffPresenter;
     }
 
     @Provides
     @MainActivityScope
-    UsefulLinksMvpPresenter<UsefulLinksMvpView> provideUsefulLinksPresenter(DataProvider dataProvider) {
+    UsefulLinksMvpPresenter<UsefulLinksMvpView> provideUsefulLinksPresenter(Repository repository) {
         final UsefulLinksPresenter<UsefulLinksMvpView> usefulLinksPresenter = new UsefulLinksPresenter<>();
-        usefulLinksPresenter.setDataProvider(dataProvider);
+        usefulLinksPresenter.setRepository(repository);
         return usefulLinksPresenter;
     }
 }

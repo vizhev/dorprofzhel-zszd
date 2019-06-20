@@ -17,7 +17,7 @@
 package pro.dprof.dorprofzhelzszd.ui.newspost;
 
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;
-import pro.dprof.dorprofzhelzszd.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
 
 public interface NewsPostMvpView extends MvpView {
 

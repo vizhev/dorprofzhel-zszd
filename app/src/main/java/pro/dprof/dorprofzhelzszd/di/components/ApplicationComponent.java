@@ -19,12 +19,12 @@ package pro.dprof.dorprofzhelzszd.di.components;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import pro.dprof.dorprofzhelzszd.data.DataProvider;
 import pro.dprof.dorprofzhelzszd.di.modules.ApplicationModule;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    DataProvider getDataProvider();
+    Repository getRepository();
 }

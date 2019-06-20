@@ -17,14 +17,16 @@
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,17 +81,14 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(documentsAdapter);
-        ((DocumentsAdapter) mRecyclerView.getAdapter()).setLayoutManager(layoutManager);
+        ((DocumentsAdapter) Objects.requireNonNull(mRecyclerView.getAdapter())).setLayoutManager(layoutManager);
     }
 
     public void showContent() {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                }
+            getActivity().runOnUiThread(() -> {
+                mProgressBar.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
             });
         }
     }

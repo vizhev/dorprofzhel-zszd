@@ -18,9 +18,9 @@ package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.models.Documents;
+import pro.dprof.dorprofzhelzszd.domain.models.Documents;
 import pro.dprof.dorprofzhelzszd.ui.documentviewer.DocumentViewActivity;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
@@ -75,14 +75,11 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
         final Documents documents = mContentList.get(position);
         holder.mLlContent.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.mTvTitle.setText(documents.getSectionTitle());
-        holder.mTvTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1 : position;
-                notifyItemChanged(mPreviousExpandedPosition);
-                notifyItemChanged(position);
-                mLayoutManager.scrollToPositionWithOffset(position, 0);
-            }
+        holder.mTvTitle.setOnClickListener(v -> {
+            mExpandedPosition = isExpanded ? -1 : position;
+            notifyItemChanged(mPreviousExpandedPosition);
+            notifyItemChanged(position);
+            mLayoutManager.scrollToPositionWithOffset(position, 0);
         });
         if (holder.mLlContent.getVisibility() == View.VISIBLE) {
             holder.mLlContent.removeAllViewsInLayout();
@@ -97,14 +94,11 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
                         .from(mContext)
                         .inflate(R.layout.item_documents_button, null);
                 button.setText(buttonText);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Intent intent = new Intent(mContext, DocumentViewActivity.class);
-                        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, assetName);
-                        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, activityTitle);
-                        mContext.startActivity(intent);
-                    }
+                button.setOnClickListener(v -> {
+                    final Intent intent = new Intent(mContext, DocumentViewActivity.class);
+                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, assetName);
+                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, activityTitle);
+                    mContext.startActivity(intent);
                 });
                 holder.mLlContent.addView(button, i);
             }

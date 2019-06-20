@@ -17,8 +17,8 @@
 package pro.dprof.dorprofzhelzszd.ui.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import pro.dprof.dorprofzhelzszd.App;
 import pro.dprof.dorprofzhelzszd.R;

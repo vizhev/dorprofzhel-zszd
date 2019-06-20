@@ -17,9 +17,9 @@
 package pro.dprof.dorprofzhelzszd.ui.aboutorg;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -76,18 +76,15 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
     @Override
     public void setAboutText(final String text) {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (text == null) {
-                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-                    } else {
-                        mTvAbout.setText(Html.fromHtml(text));
-                        mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
-                        mCardView.setVisibility(View.VISIBLE);
-                    }
-                    mProgressBar.setVisibility(View.GONE);
+            getActivity().runOnUiThread(() -> {
+                if (text == null) {
+                    Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
+                } else {
+                    mTvAbout.setText(Html.fromHtml(text));
+                    mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+                    mCardView.setVisibility(View.VISIBLE);
                 }
+                mProgressBar.setVisibility(View.GONE);
             });
         }
     }

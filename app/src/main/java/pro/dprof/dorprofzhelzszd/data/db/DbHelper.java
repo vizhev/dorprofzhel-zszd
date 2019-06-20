@@ -19,7 +19,7 @@ package pro.dprof.dorprofzhelzszd.data.db;
 
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.models.Documents;
+import pro.dprof.dorprofzhelzszd.domain.models.Documents;
 
 public interface DbHelper {
 

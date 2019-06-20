@@ -2,8 +2,8 @@ package pro.dprof.dorprofzhelzszd.ui.publiсinspectors;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,35 +55,32 @@ public final class PublicInspectorsFragment extends BaseFragment {
     }
 
     private View.OnClickListener createListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = null;
-                switch (v.getId()) {
-                    case R.id.btn_driving_safety_act:
-                        intent = new Intent(getActivity(), DocumentViewActivity.class);
-                        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "act.pdf");
-                        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_act_activity_title));
-                        break;
-                    case R.id.btn_driving_safety_checklist:
-                        intent = new Intent(getActivity(), DocumentViewActivity.class);
-                        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "checklist.pdf");
-                        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_checklist_activity_title));
-                        break;
-                    case R.id.btn_driving_safety_provision:
-                        intent = new Intent(getActivity(), DocumentViewActivity.class);
-                        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "provision.pdf");
-                        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_provision_activity_title));
-                        break;
-                    case R.id.btn_driving_safety_toolkit:
-                        intent = new Intent(getActivity(), DocumentViewActivity.class);
-                        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "toolkit.pdf");
-                        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_toolkit_activity_title));
-                        break;
-                }
-                if (intent != null) {
-                    startActivity(intent);
-                }
+        return v -> {
+            Intent intent = null;
+            switch (v.getId()) {
+                case R.id.btn_driving_safety_act:
+                    intent = new Intent(getActivity(), DocumentViewActivity.class);
+                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "act.pdf");
+                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_act_activity_title));
+                    break;
+                case R.id.btn_driving_safety_checklist:
+                    intent = new Intent(getActivity(), DocumentViewActivity.class);
+                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "checklist.pdf");
+                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_checklist_activity_title));
+                    break;
+                case R.id.btn_driving_safety_provision:
+                    intent = new Intent(getActivity(), DocumentViewActivity.class);
+                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "provision.pdf");
+                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_provision_activity_title));
+                    break;
+                case R.id.btn_driving_safety_toolkit:
+                    intent = new Intent(getActivity(), DocumentViewActivity.class);
+                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, "toolkit.pdf");
+                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, getResources().getString(R.string.public_inspectors_toolkit_activity_title));
+                    break;
+            }
+            if (intent != null) {
+                startActivity(intent);
             }
         };
     }

@@ -16,10 +16,11 @@
 
 package pro.dprof.dorprofzhelzszd.ui.main;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
@@ -41,19 +42,23 @@ public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
             fragment = mBackStackMap.get(fragmentTag);
             mBackStackMap.remove(fragmentTag);
         }
-        mBackStackMap.put(fragmentTag, fragment);
-        getMvpView().startFragmentTransaction(fragment, action);
-        getMvpView().selectDrawerItemAndSetTitle(fragmentTag);
+        if (fragment != null) {
+            mBackStackMap.put(fragmentTag, fragment);
+            getMvpView().startFragmentTransaction(fragment, action);
+            getMvpView().selectDrawerItemAndSetTitle(fragmentTag);
+        }
     }
 
     @Override
     public void onRemoveFragment(String fragmentTag) {
         mBackStackMap.remove(fragmentTag);
         final int index = mBackStackMap.size() - 1;
-        mCurrentFragmentTag = (String) mBackStackMap.keySet().toArray()[index];
+        mCurrentFragmentTag = (String) Objects.requireNonNull(mBackStackMap.keySet().toArray())[index];
         final BaseFragment fragment = mBackStackMap.get(mCurrentFragmentTag);
-        getMvpView().startFragmentTransaction(fragment, REMOVE_FRAGMENT);
-        getMvpView().selectDrawerItemAndSetTitle(mCurrentFragmentTag);
+        if (fragment != null) {
+            getMvpView().startFragmentTransaction(fragment, REMOVE_FRAGMENT);
+            getMvpView().selectDrawerItemAndSetTitle(mCurrentFragmentTag);
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pro.dprof.dorprofzhelzszd.models;
+package pro.dprof.dorprofzhelzszd.domain.models;
 
 public final class News {
 

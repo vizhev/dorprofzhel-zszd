@@ -27,29 +27,26 @@ public final class AboutOrgPresenter<V extends AboutOrgMvpView> extends BasePres
 
     @Override
     public void onLoadAboutText() {
-        AsyncUtil.submitRunnable(new Runnable() {
-            @Override
-            public void run() {
-                if (mAboutOrgText == null) {
-                    mAboutOrgText = getDataProvider().getAboutOrganizationText();
-                }
-                int retry = 0;
-                do {
-                    try {
-                        getMvpView().setAboutText(mAboutOrgText);
-                        retry = 2;
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(200);
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
-                        }
-                    } finally {
-                        retry++;
-                    }
-                } while (retry < 2);
+        AsyncUtil.submitRunnable(() -> {
+            if (mAboutOrgText == null) {
+                mAboutOrgText = getRepository().getAboutOrganizationText();
             }
+            int retry = 0;
+            do {
+                try {
+                    getMvpView().setAboutText(mAboutOrgText);
+                    retry = 2;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(200);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                } finally {
+                    retry++;
+                }
+            } while (retry < 2);
         });
     }
 }

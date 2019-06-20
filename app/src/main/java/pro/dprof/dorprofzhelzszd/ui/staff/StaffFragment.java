@@ -17,15 +17,17 @@
 package pro.dprof.dorprofzhelzszd.ui.staff;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,18 +83,15 @@ public final class StaffFragment extends BaseFragment implements StaffMvpView {
     @Override
     public void showContent() {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    try {
-                        if (mRecyclerView.getAdapter().getItemCount() == 0) {
-                            Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
+            getActivity().runOnUiThread(() -> {
+                mProgressBar.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                try {
+                    if (Objects.requireNonNull(mRecyclerView.getAdapter()).getItemCount() == 0) {
+                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                     }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             });
         }

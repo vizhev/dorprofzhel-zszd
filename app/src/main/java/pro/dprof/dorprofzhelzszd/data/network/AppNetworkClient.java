@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package pro.dprof.dorprofzhelzszd.data.network;
 
 import android.util.Log;
@@ -28,11 +27,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.models.News;
-import pro.dprof.dorprofzhelzszd.models.Staff;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 
 public final class AppNetworkClient implements NetworkClient {
 
@@ -58,7 +58,7 @@ public final class AppNetworkClient implements NetworkClient {
             page = 0;
         }
         if (page < pageSet.size()) {
-            final String pageUrl = (String) pageSet.toArray()[page];
+            final String pageUrl = (String) Objects.requireNonNull(pageSet.toArray())[page];
             Log.d("Feed", "Start load feed task. Page = " + page + " pageSet = " + pageSet.size());
             try {
                 final Document document = Jsoup.connect(pageUrl).get();
