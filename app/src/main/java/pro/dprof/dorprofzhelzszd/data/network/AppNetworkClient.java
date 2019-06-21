@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package pro.dprof.dorprofzhelzszd.data.network;
 
 import android.util.Log;
@@ -28,28 +27,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
+import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 
 public final class AppNetworkClient implements NetworkClient {
 
-    private static final String URL_NEWS = "http://dprof.pro/news";
+    private static final String URL_NEWS = "http://dprof.pro/news/?PAGEN_1=1";
     private static final String URL_ABOUT_ORGANIZATION = "http://dprof.pro/razdel/ob-organizatsii/";
-    private static final String URL_PERSONS = "http://dprof.pro/razdel/apparat-dorprofzhela/";
+    private static final String URL_STAFF = "http://dprof.pro/razdel/apparat-dorprofzhela/";
     private static final Set<String> pageSet = new LinkedHashSet<>();
     private static int page = 0;
 
-    private PreferencesHelper mPreferences;
+    private final PreferencesHelper mPreferences;
 
     public AppNetworkClient(PreferencesHelper preferencesHelper) {
+        mPreferences = preferencesHelper;
         if (pageSet.isEmpty()) {
             pageSet.add(URL_NEWS);
         }
-        mPreferences = preferencesHelper;
     }
 
     @Override
@@ -59,7 +58,7 @@ public final class AppNetworkClient implements NetworkClient {
             page = 0;
         }
         if (page < pageSet.size()) {
-            final String pageUrl = (String) pageSet.toArray()[page];
+            final String pageUrl = (String) Objects.requireNonNull(pageSet.toArray())[page];
             Log.d("Feed", "Start load feed task. Page = " + page + " pageSet = " + pageSet.size());
             try {
                 final Document document = Jsoup.connect(pageUrl).get();
@@ -86,15 +85,13 @@ public final class AppNetworkClient implements NetworkClient {
                 if (page == 0) {
                     final Element pageNavigator = document.getElementsByClass("modern-page-navigation").first();
                     final Elements pages = pageNavigator.select("a");
-                    for (int i = 0; i < pages.size(); i++) {
-                        final String nextPage = "http://dprof.pro" + pages.get(i).attr("href");
+                    for (int i = 1; i < pages.size() + 1; i++) {
+                        final String nextPage = "http://dprof.pro/news/?PAGEN_1=" + i;
                         pageSet.add(nextPage);
                     }
                     Log.d("Feed", "pageSet = " + pageSet.size());
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
             page++;
@@ -115,9 +112,7 @@ public final class AppNetworkClient implements NetworkClient {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         return newsPost;
@@ -128,31 +123,32 @@ public final class AppNetworkClient implements NetworkClient {
         final List<Staff> staffList = new ArrayList<>();
         Document document;
         try {
-            document = Jsoup.connect(URL_PERSONS).get();
+            document = Jsoup.connect(URL_STAFF).get();
             if (!document.html().equals(mPreferences.getStaffDocument())) {
                 mPreferences.setStaffDocument(document.html());
+            } else {
+                document = Jsoup.parse(mPreferences.getStaffDocument());
             }
-        } catch (IOException e) {
+            final Element staffElement = document.getElementsByClass("razle_podtext").first();
+            final Elements images = staffElement.select("img");
+            final Elements information = staffElement.select("tr").select("td").next();
+            for (int i = 0; i < images.size(); i++) {
+                final Staff staff = new Staff();
+                final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
+                final String info = information.get(i).html();
+                staff.setImageLink(imageLink);
+                staff.setInfo(info);
+                staffList.add(staff);
+            }
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            document = Jsoup.parse(mPreferences.getStaffDocument());
-        }
-        final Element staffElement = document.getElementsByClass("razle_podtext").first();
-        final Elements images = staffElement.select("img");
-        final Elements information = staffElement.select("tr").select("td").next();
-        for (int i = 0; i < images.size(); i++) {
-            final Staff staff = new Staff();
-            final String imageLink = "http://dprof.pro" + images.get(i).attr("src");
-            final String info = information.get(i).html();
-            staff.setImageLink(imageLink);
-            staff.setInfo(info);
-            staffList.add(staff);
         }
         return staffList;
     }
 
     @Override
     public String loadAboutOrganizationText() {
-        String text = Constants.MESSAGE_CONNECT_ERROR;
+        String text = null;
         Document document;
         try {
             document = Jsoup.connect(URL_ABOUT_ORGANIZATION).get();

@@ -14,6 +14,10 @@
             android:title="@string/drawer_documentation" />
 
         <item
+            android:id="@+id/item_drawer_public_inspectors"
+            android:title="@string/drawer_public_inspectors" />
+
+        <item
             android:id="@+id/item_drawer_note"
             android:title="@string/drawer_note" />
 
@@ -21,6 +25,20 @@
 
     <group
         android:id="@+id/second_drawer_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_drawer_useful_links"
+            android:title="@string/drawer_useful_links" />
+
+        <item
+            android:id="@+id/item_drawer_loyalty_program"
+            android:title="@string/drawer_loyalty_program" />
+
+    </group>
+
+    <group
+        android:id="@+id/third_drawer_group"
         android:checkableBehavior="single">
 
         <item
@@ -33,11 +51,11 @@
 
     </group>
 
-    <group
-        android:id="@+id/third_drawer_group">
+    <group android:id="@+id/fourth_drawer_group">
 
-        <item android:id="@+id/item_drawer_about_app"
-            android:title="@string/drawer_about_app"/>
+        <item
+            android:id="@+id/item_drawer_about_app"
+            android:title="@string/drawer_about_app" />
 
     </group>
 

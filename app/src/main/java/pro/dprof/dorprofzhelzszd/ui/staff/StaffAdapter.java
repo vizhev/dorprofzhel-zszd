@@ -16,8 +16,8 @@
 
 package pro.dprof.dorprofzhelzszd.ui.staff;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.dataclasses.Staff;
+import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 
 final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 

@@ -17,23 +17,24 @@
 package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
 
@@ -46,11 +47,6 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     private NewsFeedMvpPresenter<NewsFeedMvpView> mPresenter;
 
     private boolean isNeedLoadContent = false;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @NonNull
     @Override
@@ -66,7 +62,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
         mPresenter = getActivityComponent().getNewsFeedPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
-        if (mRecyclerView.getAdapter().getItemCount() == 0) {
+        if (Objects.requireNonNull(mRecyclerView.getAdapter()).getItemCount() == 0) {
             mSwipeRefreshLayout.setRefreshing(true);
             mPresenter.onSetContent(true);
         }
@@ -99,14 +95,15 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     @Override
     public void stopRefreshing() {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mRecyclerView.getAdapter().notifyDataSetChanged();
+            getActivity().runOnUiThread(() -> {
+                try {
+                    Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
-                    if (mRecyclerView.getAdapter().getItemCount() == 0) {
-                        Toast.makeText(getActivity(), Constants.MESSAGE_CONNECT_ERROR, Toast.LENGTH_SHORT).show();
+                    if (0 == mRecyclerView.getAdapter().getItemCount()) {
+                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                     }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             });
         }
@@ -115,7 +112,7 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     private RecyclerView.OnScrollListener createScrollListener(final LinearLayoutManager linearLayoutManager) {
         return new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 Log.d("ScrollListener", "Last visible position: " + linearLayoutManager.findLastVisibleItemPosition());
@@ -140,11 +137,6 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     }
 
     private SwipeRefreshLayout.OnRefreshListener createRefreshListener() {
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.onSetContent(true);
-            }
-        };
+        return () -> mPresenter.onSetContent(true);
     }
 }

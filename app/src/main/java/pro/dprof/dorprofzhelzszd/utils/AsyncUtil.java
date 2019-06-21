@@ -2,18 +2,14 @@ package pro.dprof.dorprofzhelzszd.utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
-public final class AsyncUtil {
+public abstract class AsyncUtil {
 
     private static final ExecutorService mExecutorService = Executors.newCachedThreadPool(
-            new ThreadFactory() {
-                @Override
-                public Thread newThread(Runnable runnable) {
-                    final Thread thread = new Thread(runnable);
-                    thread.setDaemon(true);
-                    return thread;
-                }
+            runnable -> {
+                final Thread thread = new Thread(runnable);
+                thread.setDaemon(true);
+                return thread;
             }
     );
 

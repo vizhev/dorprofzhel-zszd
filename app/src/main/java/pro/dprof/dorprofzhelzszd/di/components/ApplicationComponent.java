@@ -16,21 +16,15 @@
 
 package pro.dprof.dorprofzhelzszd.di.components;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
-import pro.dprof.dorprofzhelzszd.data.DataProvider;
-import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
 import pro.dprof.dorprofzhelzszd.di.modules.ApplicationModule;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    @ApplicationContext
-    Context getContext();
-
-    DataProvider getDataProvider();
+    Repository getRepository();
 }

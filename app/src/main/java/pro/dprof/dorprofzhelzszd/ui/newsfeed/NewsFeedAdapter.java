@@ -18,9 +18,9 @@ package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.newspost.NewsPostActivity;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
 
 final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
@@ -53,7 +53,9 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        if (mContext == null) {
+            mContext = parent.getContext();
+        }
         final View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.item_news, parent, false);
@@ -62,24 +64,21 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final News appData = mContentList.get(position);
-        holder.mTvTitle.setText(appData.getTitle());
-        holder.mTvText.setText(appData.getText());
-        holder.mTvTDate.setText(appData.getDate());
-        holder.mCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(mContext, NewsPostActivity.class);
-                intent.putExtra("PostTitle", appData.getTitle());
-                intent.putExtra("PostLink", appData.getPostLink());
-                intent.putExtra("ImageLink", appData.getImageLink());
-                mContext.startActivity(intent);
-            }
+        final News news = mContentList.get(position);
+        holder.mTvTitle.setText(news.getTitle());
+        holder.mTvText.setText(news.getText());
+        holder.mTvTDate.setText(news.getDate());
+        holder.mCardView.setOnClickListener(v -> {
+            final Intent intent = new Intent(mContext, NewsPostActivity.class);
+            intent.putExtra("PostTitle", news.getTitle());
+            intent.putExtra("PostLink", news.getPostLink());
+            intent.putExtra("ImageLink", news.getImageLink());
+            mContext.startActivity(intent);
         });
         try {
             Picasso.get()
-                    .load(appData.getImageLink())
-                    .placeholder(android.R.drawable.ic_menu_report_image)
+                    .load(news.getImageLink())
+                    .placeholder(android.R.drawable.screen_background_light_transparent)
                     .error(android.R.drawable.stat_notify_error)
                     .into(holder.mIvPicture);
         } catch (IllegalArgumentException e) {

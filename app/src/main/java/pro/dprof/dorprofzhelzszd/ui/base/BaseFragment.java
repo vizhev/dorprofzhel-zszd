@@ -17,25 +17,27 @@
 package pro.dprof.dorprofzhelzszd.ui.base;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
-import pro.dprof.dorprofzhelzszd.di.components.ActivityComponent;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import pro.dprof.dorprofzhelzszd.di.components.MainActivityComponent;
 
 public class BaseFragment extends Fragment implements MvpView {
 
     private BaseActivity mActivity;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof BaseActivity) {
             mActivity = (BaseActivity) context;
         }
     }
 
-    public ActivityComponent getActivityComponent() {
+    public MainActivityComponent getActivityComponent() {
         if (mActivity != null) {
-            return mActivity.getActivityComponent();
+            return (MainActivityComponent) mActivity.getActivityComponent();
         }
         return null;
     }

@@ -1,11 +1,9 @@
 package pro.dprof.dorprofzhelzszd.utils;
 
-public final class Constants {
+public abstract class Constants {
 
     public final static String INTENT_TAG_ASSET_NAME = "asset_name";
     public final static String INTENT_TAG_ACTIVITY_TITLE = "activity_title";
-
-    public final static String MESSAGE_CONNECT_ERROR = "Нет доступа к сети";
 
     //Preferences
     public final static String PREF_APP_STATE = "pref_app_state";
@@ -211,7 +209,7 @@ public final class Constants {
             "technical_phones.pdf",
             "technical_sout.pdf",
             "technical_appeal.pdf",
-            "technical_about raising.pdf",
+            "technical_about_raising.pdf",
             "technical_list.pdf"
     };
 }

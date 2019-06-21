@@ -1,16 +1,18 @@
 package pro.dprof.dorprofzhelzszd.ui.dialogs;
 
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.AppCompatSeekBar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,8 +45,12 @@ public final class DocumentPagesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mAllPages = savedInstanceState.getInt("allPages");
+            mCurrentPage = savedInstanceState.getInt("currentPage");
+        }
         final DialogInterface.OnClickListener onClickListener = createDialogClickListener();
-        return new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setTitle(R.string.document_viewer_action_pages)
                 .setView(R.layout.element_document_pages)
                 .setNegativeButton(R.string.document_viewer_dialog_btn_negative, onClickListener)
@@ -55,7 +61,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        ButterKnife.bind(this, getDialog());
+        ButterKnife.bind(this, Objects.requireNonNull(getDialog()));
         mStringBuffer
                 .append(mCurrentPage)
                 .append(" ")
@@ -69,7 +75,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mOnDocumentPagesDialogListener = (OnDocumentPagesDialogListener) context;
@@ -78,18 +84,22 @@ public final class DocumentPagesDialog extends DialogFragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("allPages", mAllPages);
+        outState.putInt("currentPage", mCurrentPage);
+    }
+
     private DialogInterface.OnClickListener createDialogClickListener() {
-        return new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case AlertDialog.BUTTON_NEGATIVE:
-                        getDialog().cancel();
-                        break;
-                    case AlertDialog.BUTTON_POSITIVE:
-                        mOnDocumentPagesDialogListener.onSetPage(mCurrentPage);
-                        break;
-                }
+        return (dialogInterface, i) -> {
+            switch (i) {
+                case AlertDialog.BUTTON_NEGATIVE:
+                    Objects.requireNonNull(getDialog()).cancel();
+                    break;
+                case AlertDialog.BUTTON_POSITIVE:
+                    mOnDocumentPagesDialogListener.onSetPage(mCurrentPage);
+                    break;
             }
         };
     }

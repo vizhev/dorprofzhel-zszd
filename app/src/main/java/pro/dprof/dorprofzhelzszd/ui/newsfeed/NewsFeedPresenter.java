@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.dataclasses.News;
+import pro.dprof.dorprofzhelzszd.domain.models.News;
 import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
@@ -34,35 +34,32 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
 
     @Override
     public void onSetContent(final boolean isRefresh) {
-        AsyncUtil.submitRunnable(new Runnable() {
-            @Override
-            public void run() {
-                final List<News> contentList = getDataProvider().getNewsFeedContent(isRefresh);
-                synchronized (mAdapter) {
-                    mAdapter.setContentList(contentList, isRefresh);
-                }
-                int retry = 0;
-                do {
-                    try {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        getMvpView().stopRefreshing();
-                        retry = 2;
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(100);
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
-                        }
-                    } finally {
-                        retry++;
-                    }
-                } while (retry < 2);
+        AsyncUtil.submitRunnable(() -> {
+            final List<News> contentList = getRepository().getNewsFeedContent(isRefresh);
+            synchronized (mAdapter) {
+                mAdapter.setContentList(contentList, isRefresh);
             }
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int retry = 0;
+            do {
+                try {
+                    getMvpView().stopRefreshing();
+                    retry = 2;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(200);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                } finally {
+                    retry++;
+                }
+            } while (retry < 2);
         });
     }
 }

@@ -23,28 +23,22 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import pro.dprof.dorprofzhelzszd.data.DataProvider;
+import pro.dprof.dorprofzhelzszd.data.DataSource;
 import pro.dprof.dorprofzhelzszd.data.db.AppDbHelper;
 import pro.dprof.dorprofzhelzszd.data.db.DbHelper;
 import pro.dprof.dorprofzhelzszd.data.network.AppNetworkClient;
 import pro.dprof.dorprofzhelzszd.data.network.NetworkClient;
 import pro.dprof.dorprofzhelzszd.data.prefs.AppPreferencesHelper;
 import pro.dprof.dorprofzhelzszd.data.prefs.PreferencesHelper;
-import pro.dprof.dorprofzhelzszd.di.ApplicationContext;
+import pro.dprof.dorprofzhelzszd.domain.Repository;
 
 @Module
 public class ApplicationModule {
 
-    private Context mContext;
+    private final Context mContext;
 
     public ApplicationModule(Application application) {
         mContext = application.getApplicationContext();
-    }
-
-    @Provides
-    @ApplicationContext
-    Context provideApplicationContext() {
-        return mContext;
     }
 
     @Provides
@@ -64,7 +58,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    DataProvider provideDataProvider(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
-        return new DataProvider(preferences, dbHelper, networkClient);
+    Repository provideRepository(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
+        return new DataSource(preferences, dbHelper, networkClient);
     }
 }

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.dprof.dorprofzhelzszd.dataclasses.Documents;
+import pro.dprof.dorprofzhelzszd.domain.models.Documents;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 final class OpenDbHelper extends SQLiteOpenHelper {
@@ -60,7 +60,6 @@ final class OpenDbHelper extends SQLiteOpenHelper {
                 db.insert(DB_TABLE_NAME_DOCUMENTS, null, contentValues);
             }
         }
-
     }
 
     @Override

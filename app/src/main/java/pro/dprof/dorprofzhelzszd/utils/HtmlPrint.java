@@ -10,48 +10,32 @@ import android.webkit.WebViewClient;
 
 public final class HtmlPrint {
 
-    private Context mContext;
-    private WebView mWebView;
+    private final Context mContext;
 
     public HtmlPrint(Context context) {
         mContext = context;
     }
 
     public void doWebViewPrint() {
-        // Create a WebView object specifically for printing
-        WebView webView = new WebView(mContext);
+        final WebView webView = new WebView(mContext);
         webView.setWebViewClient(new WebViewClient() {
-
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
-
             @Override
             public void onPageFinished(WebView view, String url) {
                 createWebPrintJob(view);
-                mWebView = null;
             }
         });
-
         webView.loadUrl("file:///android_asset/act_print.html");
         //webView.loadDataWithBaseURL(null, htmlDocument, "text/HTML", "UTF-8", null);
-
-        // Keep a reference to WebView object until you pass the PrintDocumentAdapter
-        // to the PrintManager
-        mWebView = webView;
     }
 
     @SuppressLint("NewApi")
     private void createWebPrintJob(WebView webView) {
-
-        // Get a PrintManager instance
-        PrintManager printManager = (PrintManager)mContext.getSystemService(Context.PRINT_SERVICE);
-
-        // Get a print adapter instance
-        PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
-
-        // Create a print job with name and adapter instance
-        String jobName = "Act Document";
+        final PrintManager printManager = (PrintManager)mContext.getSystemService(Context.PRINT_SERVICE);
+        final PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
+        final String jobName = "Act Document";
         try {
             printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
         } catch (NullPointerException e) {

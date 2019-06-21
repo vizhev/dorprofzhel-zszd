@@ -17,14 +17,16 @@
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,12 +49,17 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_documents, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        mRecyclerView.setVisibility(savedInstanceState == null ? View.GONE : View.VISIBLE);
-        mProgressBar.setVisibility(savedInstanceState == null ? View.VISIBLE : View.GONE);
         mPresenter = getActivityComponent().getDocumentsPresenter();
         mPresenter.onAttach(this);
         mPresenter.onSetAdapter();
-        mPresenter.onSetContent();
+        if (mPresenter.isNeedLoadingContent()) {
+            mRecyclerView.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
+            mPresenter.onSetContent();
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -74,20 +81,15 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(documentsAdapter);
-        ((DocumentsAdapter) mRecyclerView.getAdapter()).setLayoutManager(layoutManager);
+        ((DocumentsAdapter) Objects.requireNonNull(mRecyclerView.getAdapter())).setLayoutManager(layoutManager);
     }
 
     public void showContent() {
-        try {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressBar.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                }
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                mProgressBar.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
             });
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 }
