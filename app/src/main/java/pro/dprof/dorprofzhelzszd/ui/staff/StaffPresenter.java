@@ -17,11 +17,10 @@
 package pro.dprof.dorprofzhelzszd.ui.staff;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
+import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 import pro.dprof.dorprofzhelzszd.domain.models.Staff;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
 
 public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<V>
         implements StaffMvpPresenter<V> {
@@ -35,27 +34,12 @@ public final class StaffPresenter<V extends StaffMvpView> extends BasePresenter<
 
     @Override
     public void onSetContent() {
-        AsyncUtil.submitRunnable(() -> {
+        TaskExecutor.submitRunnable(() -> {
             final List<Staff> contentList = getRepository().getStaffList();
             synchronized (mAdapter) {
                 mAdapter.setContentList(contentList);
             }
-            int retry = 0;
-            do {
-                try {
-                    getMvpView().showContent();
-                    retry = 2;
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(200);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                } finally {
-                    retry++;
-                }
-            } while (retry < 2);
+            TaskExecutor.handleCallback(() -> getMvpView().showContent());
         });
     }
 }

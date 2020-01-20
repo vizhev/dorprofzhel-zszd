@@ -50,7 +50,7 @@ public final class MainPresenter<V extends MainMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void onRemoveFragment(String fragmentTag) {
+    public void onRemoveFragment(final String fragmentTag) {
         mBackStackMap.remove(fragmentTag);
         final int index = mBackStackMap.size() - 1;
         mCurrentFragmentTag = (String) Objects.requireNonNull(mBackStackMap.keySet().toArray())[index];

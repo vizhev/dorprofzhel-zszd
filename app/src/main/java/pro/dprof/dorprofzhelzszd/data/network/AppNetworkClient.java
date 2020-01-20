@@ -44,7 +44,7 @@ public final class AppNetworkClient implements NetworkClient {
 
     private final PreferencesHelper mPreferences;
 
-    public AppNetworkClient(PreferencesHelper preferencesHelper) {
+    public AppNetworkClient(final PreferencesHelper preferencesHelper) {
         mPreferences = preferencesHelper;
         if (pageSet.isEmpty()) {
             pageSet.add(URL_NEWS);
@@ -52,7 +52,7 @@ public final class AppNetworkClient implements NetworkClient {
     }
 
     @Override
-    public List<News> loadNewsFeed(boolean isRefresh) {
+    public List<News> loadNewsFeed(final boolean isRefresh) {
         final List<News> feedList = new ArrayList<>();
         if (isRefresh) {
             page = 0;

@@ -34,12 +34,12 @@ final class OpenDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "database";
     static final String DB_TABLE_NAME_DOCUMENTS = "documents";
 
-    OpenDbHelper(Context context) {
+    OpenDbHelper(final Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
         db.execSQL("create table " + DB_TABLE_NAME_DOCUMENTS + "(" +
                 "_id integer primary key autoincrement, " +
                 "section text not null, " +
@@ -63,7 +63,7 @@ final class OpenDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
 
     }
 
