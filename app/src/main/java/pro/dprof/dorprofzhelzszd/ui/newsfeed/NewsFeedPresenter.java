@@ -21,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 import pro.dprof.dorprofzhelzszd.domain.models.News;
-import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
+import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
-    private final NewsFeedAdapter mAdapter = new NewsFeedAdapter();
+    private final NewsFeedAdapter mAdapter = new NewsFeedAdapter(this::onShowPost);
 
     @Override
     public void onSetAdapter() {
@@ -34,7 +34,7 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
 
     @Override
     public void onSetContent(final boolean isRefresh) {
-        AsyncUtil.submitRunnable(() -> {
+        TaskExecutor.submitRunnable(() -> {
             final List<News> contentList = getRepository().getNewsFeedContent(isRefresh);
             synchronized (mAdapter) {
                 mAdapter.setContentList(contentList, isRefresh);
@@ -44,22 +44,11 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            int retry = 0;
-            do {
-                try {
-                    getMvpView().stopRefreshing();
-                    retry = 2;
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(200);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                } finally {
-                    retry++;
-                }
-            } while (retry < 2);
+            TaskExecutor.handleCallback(() -> getMvpView().stopRefreshing());
         });
+    }
+
+    private void onShowPost(final String title, final String postLick, final String imageLink) {
+        getMvpView().showPost(title, postLick, imageLink);
     }
 }

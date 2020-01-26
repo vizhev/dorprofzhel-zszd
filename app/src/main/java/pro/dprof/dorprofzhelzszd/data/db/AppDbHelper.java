@@ -31,7 +31,7 @@ public final class AppDbHelper implements DbHelper {
     private final OpenDbHelper mOpenDbHelper;
     private SQLiteDatabase mDatabase;
 
-    public AppDbHelper(Context context) {
+    public AppDbHelper(final Context context) {
         mOpenDbHelper = new OpenDbHelper(context);
     }
 

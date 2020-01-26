@@ -73,7 +73,7 @@ public final class NoteFragment extends BaseFragment implements NoteMvpView {
     }
 
     @Override
-    public void setNoteState(String note) {
+    public void setNoteState(final String note) {
         mEtNote.setText(note);
         mEtNote.setSelection(note.length());
     }

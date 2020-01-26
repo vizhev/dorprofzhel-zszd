@@ -72,28 +72,26 @@ public final class StaffFragment extends BaseFragment implements StaffMvpView {
         mPresenter = null;
     }
 
-
     @Override
     public void setAdapter(final StaffAdapter adapter) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void showContent() {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                mProgressBar.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-                try {
-                    if (Objects.requireNonNull(mRecyclerView.getAdapter()).getItemCount() == 0) {
-                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
+        runOnUiThread(() -> {
+            mProgressBar.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            try {
+                if (Objects.requireNonNull(mRecyclerView.getAdapter()).getItemCount() == 0) {
+                    Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

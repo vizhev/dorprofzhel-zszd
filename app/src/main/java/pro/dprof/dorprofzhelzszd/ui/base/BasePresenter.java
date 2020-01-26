@@ -18,10 +18,10 @@ package pro.dprof.dorprofzhelzszd.ui.base;
 
 import pro.dprof.dorprofzhelzszd.domain.Repository;
 
-public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
+public abstract class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V mMvpView;
-    private volatile Repository mRepository;
+    private Repository mRepository;
 
     @Override
     public void onAttach(V mvpView) {
@@ -38,7 +38,7 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     }
 
     // Must be set before use getRepository(), for example in ActivityModule, in di.
-    public void setRepository(Repository dataProvider) {
+    public void setRepository(final Repository dataProvider) {
         mRepository = dataProvider;
     }
 

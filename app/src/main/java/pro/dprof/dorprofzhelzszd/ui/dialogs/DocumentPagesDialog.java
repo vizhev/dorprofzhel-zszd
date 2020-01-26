@@ -25,7 +25,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     @BindView(R.id.tv_document_pages_page) TextView mTvPage;
     @BindView(R.id.sb_document_pages) AppCompatSeekBar mSeekBar;
 
-    private int mAllPages = 0;
+    private int mTotalPages = 0;
     private int mCurrentPage = 0;
     private final StringBuilder mStringBuffer = new StringBuilder();
     private OnDocumentPagesDialogListener mOnDocumentPagesDialogListener;
@@ -36,8 +36,8 @@ public final class DocumentPagesDialog extends DialogFragment {
 
     }
 
-    public DocumentPagesDialog setPages(int allPages, int currentPage) {
-        mAllPages = allPages;
+    public DocumentPagesDialog setPages(final int allPages, final int currentPage) {
+        mTotalPages = allPages;
         mCurrentPage = currentPage;
         return this;
     }
@@ -46,7 +46,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mAllPages = savedInstanceState.getInt("allPages");
+            mTotalPages = savedInstanceState.getInt("allPages");
             mCurrentPage = savedInstanceState.getInt("currentPage");
         }
         final DialogInterface.OnClickListener onClickListener = createDialogClickListener();
@@ -67,9 +67,9 @@ public final class DocumentPagesDialog extends DialogFragment {
                 .append(" ")
                 .append(getResources().getString(R.string.document_viewer_dialog_page_of_pages))
                 .append(" ")
-                .append(mAllPages);
+                .append(mTotalPages);
         mTvPage.setText(mStringBuffer);
-        mSeekBar.setMax(mAllPages - 1);
+        mSeekBar.setMax(mTotalPages - 1);
         mSeekBar.setProgress(mCurrentPage - 1);
         mSeekBar.setOnSeekBarChangeListener(createSeekBarListener());
     }
@@ -87,7 +87,7 @@ public final class DocumentPagesDialog extends DialogFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("allPages", mAllPages);
+        outState.putInt("allPages", mTotalPages);
         outState.putInt("currentPage", mCurrentPage);
     }
 
@@ -115,7 +115,7 @@ public final class DocumentPagesDialog extends DialogFragment {
                         .append(" ")
                         .append(getResources().getString(R.string.document_viewer_dialog_page_of_pages))
                         .append(" ")
-                        .append(mAllPages);
+                        .append(mTotalPages);
                 mTvPage.setText(mStringBuffer);
             }
 

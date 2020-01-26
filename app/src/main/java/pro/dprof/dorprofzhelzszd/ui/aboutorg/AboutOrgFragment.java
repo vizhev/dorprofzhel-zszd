@@ -75,17 +75,15 @@ public final class AboutOrgFragment extends BaseFragment implements AboutOrgMvpV
 
     @Override
     public void setAboutText(final String text) {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                if (text == null) {
-                    Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-                } else {
-                    mTvAbout.setText(Html.fromHtml(text));
-                    mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
-                    mCardView.setVisibility(View.VISIBLE);
-                }
-                mProgressBar.setVisibility(View.GONE);
-            });
-        }
+        runOnUiThread(() -> {
+            if (text == null) {
+                Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
+            } else {
+                mTvAbout.setText(Html.fromHtml(text));
+                mTvAbout.setMovementMethod(LinkMovementMethod.getInstance());
+                mCardView.setVisibility(View.VISIBLE);
+            }
+            mProgressBar.setVisibility(View.GONE);
+        });
     }
 }

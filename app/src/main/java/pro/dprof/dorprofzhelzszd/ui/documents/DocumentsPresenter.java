@@ -21,12 +21,12 @@ import java.util.concurrent.TimeUnit;
 
 import pro.dprof.dorprofzhelzszd.domain.models.Documents;
 import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
-import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
+import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 
 public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
         implements DocumentsMvpPresenter<V> {
 
-    private final DocumentsAdapter mAdapter = new DocumentsAdapter();
+    private final DocumentsAdapter mAdapter = new DocumentsAdapter(this::onShowDocument);
 
     @Override
     public void onSetAdapter() {
@@ -35,7 +35,7 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
 
     @Override
     public void onSetContent() {
-        AsyncUtil.submitRunnable(() -> {
+        TaskExecutor.submitRunnable(() -> {
             final List<Documents> contentList = getRepository().getDocuments();
             synchronized (mAdapter) {
                 mAdapter.setContentList(contentList);
@@ -45,26 +45,15 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            int retry = 0;
-            do {
-                try {
-                    getMvpView().showContent();
-                    retry = 2;
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(200);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                } finally {
-                    retry++;
-                }
-            } while (retry < 2);
+            TaskExecutor.handleCallback(() -> getMvpView().showContent());
         });
     }
 
     public boolean isNeedLoadingContent() {
         return mAdapter.getItemCount() == 0;
+    }
+
+    private void onShowDocument(final String assetName, final String title) {
+        getMvpView().showDocument(assetName, title);
     }
 }

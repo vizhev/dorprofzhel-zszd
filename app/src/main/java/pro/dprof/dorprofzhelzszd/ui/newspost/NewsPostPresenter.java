@@ -16,41 +16,24 @@
 
 package pro.dprof.dorprofzhelzszd.ui.newspost;
 
-import java.util.concurrent.TimeUnit;
-
-import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
+import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 import pro.dprof.dorprofzhelzszd.domain.models.News;
-import pro.dprof.dorprofzhelzszd.utils.AsyncUtil;
+import pro.dprof.dorprofzhelzszd.ui.base.BasePresenter;
 
 public final class NewsPostPresenter<V extends NewsPostMvpView> extends BasePresenter<V>
         implements NewsPostMvpPresenter<V> {
 
-    private News news;
+    private News mNews;
 
     @Override
     public void onSetPostContent(final String postTitle, final String postLink, final String imageLink) {
-        AsyncUtil.submitRunnable(() -> {
-            if (news == null) {
-                news = getRepository().getNewsPostText(postLink);
-                news.setTitle(postTitle);
-                news.setImageLink(imageLink);
+        TaskExecutor.submitRunnable(() -> {
+            if (mNews == null) {
+                mNews = getRepository().getNewsPostText(postLink);
+                mNews.setTitle(postTitle);
+                mNews.setImageLink(imageLink);
             }
-            int retry = 0;
-            do {
-                try {
-                    getMvpView().setPostContent(news);
-                    retry = 2;
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(200);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                } finally {
-                    retry++;
-                }
-            } while (retry < 2);
+            TaskExecutor.handleCallback(() -> getMvpView().setPostContent(mNews));
         });
     }
 }

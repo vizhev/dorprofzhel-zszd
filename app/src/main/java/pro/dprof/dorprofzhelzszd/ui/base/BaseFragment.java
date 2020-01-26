@@ -16,29 +16,24 @@
 
 package pro.dprof.dorprofzhelzszd.ui.base;
 
-import android.content.Context;
+import android.app.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import pro.dprof.dorprofzhelzszd.di.components.MainActivityComponent;
 
-public class BaseFragment extends Fragment implements MvpView {
+public abstract class BaseFragment extends Fragment implements MvpView {
 
-    private BaseActivity mActivity;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof BaseActivity) {
-            mActivity = (BaseActivity) context;
-        }
-    }
-
-    public MainActivityComponent getActivityComponent() {
-        if (mActivity != null) {
-            return (MainActivityComponent) mActivity.getActivityComponent();
+    protected MainActivityComponent getActivityComponent() {
+        final Activity activity = requireActivity();
+        if (activity instanceof BaseActivity) {
+            return (MainActivityComponent) ((BaseActivity) activity).getActivityComponent();
         }
         return null;
     }
+
+    protected void runOnUiThread(final Runnable runnable) {
+        requireActivity().runOnUiThread(runnable);
+    }
+
+    //public abstract String getFragmentTag();
 }

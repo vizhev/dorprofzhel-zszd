@@ -16,6 +16,7 @@
 
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
+import pro.dprof.dorprofzhelzszd.ui.documentviewer.DocumentViewActivity;
+import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 public final class DocumentsFragment extends BaseFragment implements DocumentsMvpView {
 
@@ -79,17 +82,25 @@ public final class DocumentsFragment extends BaseFragment implements DocumentsMv
     @Override
     public void setAdapter(final DocumentsAdapter documentsAdapter) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(documentsAdapter);
         ((DocumentsAdapter) Objects.requireNonNull(mRecyclerView.getAdapter())).setLayoutManager(layoutManager);
     }
 
+    @Override
     public void showContent() {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                mProgressBar.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-            });
-        }
+        runOnUiThread(() -> {
+            mProgressBar.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void showDocument(final String assetName, final String title) {
+        final Intent intent = new Intent(requireContext(), DocumentViewActivity.class);
+        intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, assetName);
+        intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, title);
+        startActivity(intent);
     }
 }
