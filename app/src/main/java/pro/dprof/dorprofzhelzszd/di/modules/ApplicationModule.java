@@ -37,7 +37,7 @@ public class ApplicationModule {
 
     private final Context mContext;
 
-    public ApplicationModule(Application application) {
+    public ApplicationModule(final Application application) {
         mContext = application.getApplicationContext();
     }
 
@@ -58,7 +58,9 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    Repository provideRepository(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
+    Repository provideRepository(final PreferencesHelper preferences,
+                                 final DbHelper dbHelper,
+                                 final NetworkClient networkClient) {
         return new DataSource(preferences, dbHelper, networkClient);
     }
 }

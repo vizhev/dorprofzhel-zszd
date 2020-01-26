@@ -26,7 +26,7 @@ import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePresenter<V>
         implements DocumentsMvpPresenter<V> {
 
-    private final DocumentsAdapter mAdapter = new DocumentsAdapter();
+    private final DocumentsAdapter mAdapter = new DocumentsAdapter(this::onShowDocument);
 
     @Override
     public void onSetAdapter() {
@@ -51,5 +51,9 @@ public final class DocumentsPresenter<V extends DocumentsMvpView> extends BasePr
 
     public boolean isNeedLoadingContent() {
         return mAdapter.getItemCount() == 0;
+    }
+
+    private void onShowDocument(final String assetName, final String title) {
+        getMvpView().showDocument(assetName, title);
     }
 }

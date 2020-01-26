@@ -36,7 +36,7 @@ public final class DocumentPagesDialog extends DialogFragment {
 
     }
 
-    public DocumentPagesDialog setPages(int allPages, int currentPage) {
+    public DocumentPagesDialog setPages(final int allPages, final int currentPage) {
         mTotalPages = allPages;
         mCurrentPage = currentPage;
         return this;

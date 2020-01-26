@@ -16,11 +16,6 @@
 
 package pro.dprof.dorprofzhelzszd.ui.documents;
 
-import android.content.Context;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,35 +26,44 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.domain.models.Documents;
-import pro.dprof.dorprofzhelzszd.ui.documentviewer.DocumentViewActivity;
-import pro.dprof.dorprofzhelzszd.utils.Constants;
 
 final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewHolder> {
 
-    private Context mContext;
     private LinearLayoutManager mLayoutManager;
+    private final OnItemClick mOnItemClick;
     private final List<Documents> mContentList = new ArrayList<>();
     private int mExpandedPosition = -1;
     private int mPreviousExpandedPosition = -1;
 
-    void setContentList(List<Documents> contentList) {
+    public interface OnItemClick {
+
+        void onClick(String assetName, String title);
+    }
+
+    DocumentsAdapter(final OnItemClick onItemClick) {
+        mOnItemClick = onItemClick;
+    }
+
+    void setContentList(final List<Documents> contentList) {
         if (mContentList.isEmpty()) {
             mContentList.addAll(contentList);
         }
     }
 
-    void setLayoutManager(LinearLayoutManager layoutManager) {
+    void setLayoutManager(final LinearLayoutManager layoutManager) {
         mLayoutManager = layoutManager;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
         final View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.item_documents, parent, false);
@@ -89,17 +93,12 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
             for (int i = 0; i < buttonsText.size(); i++) {
                 final String buttonText = buttonsText.get(i);
                 final String assetName = assetNames.get(i);
-                final String activityTitle = activityTitles.get(i);
+                final String title = activityTitles.get(i);
                 final Button button = (Button) LayoutInflater
-                        .from(mContext)
+                        .from(holder.mLlContent.getContext())
                         .inflate(R.layout.item_documents_button, null);
                 button.setText(buttonText);
-                button.setOnClickListener(v -> {
-                    final Intent intent = new Intent(mContext, DocumentViewActivity.class);
-                    intent.putExtra(Constants.INTENT_TAG_ASSET_NAME, assetName);
-                    intent.putExtra(Constants.INTENT_TAG_ACTIVITY_TITLE, activityTitle);
-                    mContext.startActivity(intent);
-                });
+                button.setOnClickListener(v -> mOnItemClick.onClick(assetName, title));
                 holder.mLlContent.addView(button, i);
             }
         }
@@ -112,10 +111,12 @@ final class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.ViewH
 
     final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_item_documents_title) TextView mTvTitle;
-        @BindView(R.id.ll_item_documents_list) LinearLayout mLlContent;
+        @BindView(R.id.tv_item_documents_title)
+        TextView mTvTitle;
+        @BindView(R.id.ll_item_documents_list)
+        LinearLayout mLlContent;
 
-        ViewHolder(View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

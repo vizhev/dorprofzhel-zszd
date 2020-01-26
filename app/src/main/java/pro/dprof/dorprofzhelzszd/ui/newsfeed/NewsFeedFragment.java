@@ -16,12 +16,14 @@
 
 package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,11 +32,13 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pro.dprof.dorprofzhelzszd.R;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
+import pro.dprof.dorprofzhelzszd.ui.newspost.NewsPostActivity;
 
 public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpView {
 
@@ -84,9 +88,10 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
     }
 
     @Override
-    public void setAdapter(NewsFeedAdapter adapter) {
+    public void setAdapter(final NewsFeedAdapter adapter) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         final RecyclerView.OnScrollListener scrollListener = createScrollListener(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnScrollListener(scrollListener);
@@ -94,19 +99,26 @@ public final class NewsFeedFragment extends BaseFragment implements NewsFeedMvpV
 
     @Override
     public void stopRefreshing() {
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                try {
-                    Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    if (0 == mRecyclerView.getAdapter().getItemCount()) {
-                        Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
+        runOnUiThread(() -> {
+            try {
+                Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (0 == mRecyclerView.getAdapter().getItemCount()) {
+                    Toast.makeText(getActivity(), R.string.connect_error_message, Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void showPost(final String title, final String postLick, final String imageLink) {
+        final Intent intent = new Intent(requireContext(), NewsPostActivity.class);
+        intent.putExtra("PostTitle", title);
+        intent.putExtra("PostLink", postLick);
+        intent.putExtra("ImageLink", imageLink);
+        startActivity(intent);
     }
 
     private RecyclerView.OnScrollListener createScrollListener(final LinearLayoutManager linearLayoutManager) {

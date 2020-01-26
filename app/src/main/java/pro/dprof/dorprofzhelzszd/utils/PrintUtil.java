@@ -1,31 +1,35 @@
 package pro.dprof.dorprofzhelzszd.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public final class HtmlPrint {
+import androidx.annotation.RequiresApi;
 
-    private final Context mContext;
+public abstract class PrintUtil {
 
-    public HtmlPrint(final Context context) {
-        mContext = context;
-    }
-
-    public void doWebViewPrint() {
-        final WebView webView = new WebView(mContext);
+    public static void doWebViewPrint(final Context context) {
+        final WebView webView = new WebView(context);
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(final WebView view, String url) {
                 return false;
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onPageFinished(final WebView view, final String url) {
-                createWebPrintJob(view);
+                final PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
+                final PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
+                final String jobName = "Act Document";
+                try {
+                    printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         });
         webView.loadUrl("file:///android_asset/act_print.html");
@@ -41,17 +45,5 @@ public final class HtmlPrint {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-    }
-
-    @SuppressLint("NewApi")
-    private void createWebPrintJob(final WebView webView) {
-        final PrintManager printManager = (PrintManager) mContext.getSystemService(Context.PRINT_SERVICE);
-        final PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
-        final String jobName = "Act Document";
-        try {
-            printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -1,5 +1,6 @@
 package pro.dprof.dorprofzhelzszd.domain;
 
+import java.util.concurrent.Exchanger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +11,8 @@ public abstract class TaskExecutor {
 
         void callback();
     }
+
+    private static final Exchanger<String> sExchanger = new Exchanger<>();
 
     private static final ExecutorService mExecutorService = Executors.newCachedThreadPool();
 

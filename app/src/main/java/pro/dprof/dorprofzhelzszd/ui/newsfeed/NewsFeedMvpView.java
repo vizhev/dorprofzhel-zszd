@@ -23,4 +23,6 @@ public interface NewsFeedMvpView extends MvpView {
     void setAdapter(NewsFeedAdapter adapter);
 
     void stopRefreshing();
+
+    void showPost(String title, String postLick, String imageLink);
 }

@@ -23,4 +23,6 @@ public interface DocumentsMvpView extends MvpView {
     void setAdapter(DocumentsAdapter documentsAdapter);
 
     void showContent();
+
+    void showDocument(final String assetName, final String title);
 }

@@ -62,7 +62,8 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         setSupportActionBar(mToolbar);
         mNavigationView.setNavigationItemSelectedListener(createNavigationListener());
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+                this, mDrawerLayout, mToolbar, R.string.open, R.string.close
+        );
         mDrawerLayout.addDrawerListener(toggle);
         toggle.setDrawerSlideAnimationEnabled(false);
         toggle.syncState();
@@ -103,7 +104,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (action) {
             case MainPresenter.ADD_FRAGMENT:
-                transaction.add(R.id.fl_main, fragment, fragment.getTag());
+                transaction.add(R.id.fl_main, fragment, fragment.getClass().getName());
                 break;
             case MainPresenter.REPLACE_FRAGMENT:
                 final String resumedFragmentTag = getSupportFragmentManager().getFragments().get(0).getTag();
@@ -123,7 +124,7 @@ public final class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    public void selectDrawerItemAndSetTitle(String tag) {
+    public void selectDrawerItemAndSetTitle(final String tag) {
         switch (tag) {
             case NewsFeedFragment.TAG:
                 mToolbar.setTitle(R.string.drawer_news);

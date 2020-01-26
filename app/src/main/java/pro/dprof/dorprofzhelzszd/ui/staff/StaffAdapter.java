@@ -39,7 +39,7 @@ final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 
     private final List<Staff> mContentList = new ArrayList<>();
 
-    void setContentList(List<Staff> contentList) {
+    void setContentList(final List<Staff> contentList) {
         if (mContentList.isEmpty()) {
             mContentList.addAll(contentList);
         }
@@ -79,7 +79,7 @@ final class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
         @BindView(R.id.iv_item_persons) ImageView mIvPersonsPicture;
         @BindView(R.id.tv_item_persons) TextView mTvPersonsText;
 
-        ViewHolder(View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

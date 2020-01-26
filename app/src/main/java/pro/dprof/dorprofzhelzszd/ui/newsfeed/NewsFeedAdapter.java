@@ -16,11 +16,6 @@
 
 package pro.dprof.dorprofzhelzszd.ui.newsfeed;
 
-import android.content.Context;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,18 +27,29 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.dprof.dorprofzhelzszd.R;
-import pro.dprof.dorprofzhelzszd.ui.newspost.NewsPostActivity;
 import pro.dprof.dorprofzhelzszd.domain.models.News;
 
 final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private Context mContext;
+    private final OnItemClick mOnItemClick;
     private final List<News> mContentList = new ArrayList<>();
 
-    void setContentList(List<News> contentList, boolean isRefresh) {
+    interface OnItemClick {
+
+        void onClick(String title, String postLick, String imageLink);
+    }
+
+    NewsFeedAdapter(final OnItemClick onItemClick) {
+        mOnItemClick = onItemClick;
+    }
+
+    void setContentList(final List<News> contentList, final boolean isRefresh) {
         if (isRefresh) {
             mContentList.clear();
         }
@@ -53,9 +59,6 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mContext == null) {
-            mContext = parent.getContext();
-        }
         final View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.item_news, parent, false);
@@ -68,13 +71,9 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
         holder.mTvTitle.setText(news.getTitle());
         holder.mTvText.setText(news.getText());
         holder.mTvTDate.setText(news.getDate());
-        holder.mCardView.setOnClickListener(v -> {
-            final Intent intent = new Intent(mContext, NewsPostActivity.class);
-            intent.putExtra("PostTitle", news.getTitle());
-            intent.putExtra("PostLink", news.getPostLink());
-            intent.putExtra("ImageLink", news.getImageLink());
-            mContext.startActivity(intent);
-        });
+        holder.mCardView.setOnClickListener(v ->
+                mOnItemClick.onClick(news.getTitle(), news.getPostLink(), news.getImageLink())
+        );
         try {
             Picasso.get()
                     .load(news.getImageLink())
@@ -93,13 +92,18 @@ final class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHol
 
     final static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_item_news_title) TextView mTvTitle;
-        @BindView(R.id.tv_item_news_text) TextView mTvText;
-        @BindView(R.id.tv_item_news_date) TextView mTvTDate;
-        @BindView(R.id.iv_item_news_picture) ImageView mIvPicture;
-        @BindView(R.id.cv_news_item) CardView mCardView;
+        @BindView(R.id.tv_item_news_title)
+        TextView mTvTitle;
+        @BindView(R.id.tv_item_news_text)
+        TextView mTvText;
+        @BindView(R.id.tv_item_news_date)
+        TextView mTvTDate;
+        @BindView(R.id.iv_item_news_picture)
+        ImageView mIvPicture;
+        @BindView(R.id.cv_news_item)
+        CardView mCardView;
 
-        ViewHolder(View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

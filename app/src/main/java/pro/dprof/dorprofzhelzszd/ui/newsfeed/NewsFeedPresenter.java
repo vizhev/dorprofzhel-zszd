@@ -25,7 +25,7 @@ import pro.dprof.dorprofzhelzszd.domain.TaskExecutor;
 
 public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePresenter<V> implements NewsFeedMvpPresenter<V> {
 
-    private final NewsFeedAdapter mAdapter = new NewsFeedAdapter();
+    private final NewsFeedAdapter mAdapter = new NewsFeedAdapter(this::onShowPost);
 
     @Override
     public void onSetAdapter() {
@@ -46,5 +46,9 @@ public final class NewsFeedPresenter<V extends NewsFeedMvpView> extends BasePres
             }
             TaskExecutor.handleCallback(() -> getMvpView().stopRefreshing());
         });
+    }
+
+    private void onShowPost(final String title, final String postLick, final String imageLink) {
+        getMvpView().showPost(title, postLick, imageLink);
     }
 }

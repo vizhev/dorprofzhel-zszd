@@ -5,6 +5,9 @@ organization ROSPROFZHEL on the West-Siberian railway. Currently supports only R
 
 ## Changelog
 
+   ### 1.3.3
+   - update dependencies and optimizations
+
    ### 1.3.2
    - fix Cleartext HTTP traffic not permitted
 

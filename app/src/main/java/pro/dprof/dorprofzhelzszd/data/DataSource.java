@@ -32,21 +32,24 @@ public final class DataSource implements Repository {
     private final DbHelper mDbHelper;
     private final NetworkClient mNetworkClient;
 
-    public DataSource(PreferencesHelper preferences, DbHelper dbHelper, NetworkClient networkClient) {
+    public DataSource(
+            final PreferencesHelper preferences,
+            final DbHelper dbHelper,
+            final NetworkClient networkClient) {
         this.mPreferences = preferences;
         this.mDbHelper = dbHelper;
         this.mNetworkClient = networkClient;
     }
 
     @Override
-    public List<News> getNewsFeedContent(boolean isRefresh) {
+    public List<News> getNewsFeedContent(final boolean isRefresh) {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadNewsFeed(isRefresh);
         }
     }
 
     @Override
-    public News getNewsPostText(String postLink) {
+    public News getNewsPostText(final String postLink) {
         synchronized (mNetworkClient) {
             return mNetworkClient.loadNewsPost(postLink);
         }
@@ -74,7 +77,7 @@ public final class DataSource implements Repository {
     }
 
     @Override
-    public void setNoteState(String noteState) {
+    public void setNoteState(final String noteState) {
         mPreferences.setNoteState(noteState);
     }
 

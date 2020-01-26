@@ -17,7 +17,6 @@
 package pro.dprof.dorprofzhelzszd.ui.main;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import pro.dprof.dorprofzhelzszd.ui.base.BaseFragment;
 import pro.dprof.dorprofzhelzszd.ui.base.MvpView;

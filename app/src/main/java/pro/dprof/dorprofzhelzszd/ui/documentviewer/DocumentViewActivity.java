@@ -36,7 +36,7 @@ import pro.dprof.dorprofzhelzszd.di.components.DocumentViewerActivityComponent;
 import pro.dprof.dorprofzhelzszd.ui.base.BaseActivity;
 import pro.dprof.dorprofzhelzszd.ui.dialogs.DocumentPagesDialog;
 import pro.dprof.dorprofzhelzszd.utils.Constants;
-import pro.dprof.dorprofzhelzszd.utils.HtmlPrint;
+import pro.dprof.dorprofzhelzszd.utils.PrintUtil;
 
 public final class DocumentViewActivity extends BaseActivity implements DocumentViewerMvpView, DocumentPagesDialog.OnDocumentPagesDialogListener {
 
@@ -100,14 +100,14 @@ public final class DocumentViewActivity extends BaseActivity implements Document
                         .show(getSupportFragmentManager(), DocumentPagesDialog.TAG);
                 return true;
             case R.id.im_document_viewer_action_print:
-                new HtmlPrint(this).doWebViewPrint();
+                PrintUtil.doWebViewPrint(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void setDocument(String title, String assetName, int page) {
+    public void setDocument(final String title, final String assetName, final int page) {
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);
